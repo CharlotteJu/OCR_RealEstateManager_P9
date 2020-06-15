@@ -2,6 +2,8 @@ package com.openclassrooms.realestatemanager.views.activities
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -13,43 +15,74 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.views.fragments.DetailFragment
 import com.openclassrooms.realestatemanager.views.fragments.ListFragmentDirections
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-
-    private lateinit var detailFragment: DetailFragment
+    private lateinit var toolbar: Toolbar
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var navigationController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val toolbar: Toolbar = findViewById(R.id.main_activity_toolbar)
-        setSupportActionBar(toolbar)
+        this.configureToolbar()
+        this.configureNavigationView()
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.main_activity_drawer_layout)
-        val navView: NavigationView = findViewById(R.id.main_activity_navigation_view)
-        val navController = findNavController(R.id.main_activity_navHost)
-
+        navigationController = findNavController(R.id.main_activity_navHost)
         val fab: FloatingActionButton = findViewById(R.id.main_activity_test_fab)
-        fab.setOnClickListener { view ->
-            val action = ListFragmentDirections.actionListFragmentToDetailFragment()
-            navController.navigate(action)
+        fab.setOnClickListener {
+            val action = ListFragmentDirections.actionListFragmentToAddHousingFragment()
+            navigationController.navigate(action)
         }
+    }
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-       // appBarConfiguration = AppBarConfiguration(setOf( R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
+    private fun configureToolbar()
+    {
+        toolbar = findViewById(R.id.main_activity_toolbar)
+        setSupportActionBar(toolbar)
+    }
 
-        navView.setupWithNavController(navController)
+    private fun configureNavigationView()
+    {
+        drawerLayout = findViewById(R.id.main_activity_drawer_layout)
+        val actionBarToogle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.nav_app_bar_open_drawer_description, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(actionBarToogle)
+        actionBarToogle.syncState()
+        navigationView = findViewById(R.id.main_activity_navigation_view)
+        navigationView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean
+    {
+        var itemId = item.itemId
+        when (itemId)
+        {
+            R.id.menu_drawer_parameters -> this.navigationController.navigate(ListFragmentDirections.actionListFragmentToParameterFragment())
+        }
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.navigation_drawer_menu, menu)
+        //menuInflater.inflate(R.menu.navigation_drawer_menu, menu)
         return true
     }
 
-
+    override fun onBackPressed() {
+        if(this.drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            this.drawerLayout.closeDrawer(GravityCompat.START)
+        }
+        else
+        {
+            super.onBackPressed()
+        }
+    }
 }

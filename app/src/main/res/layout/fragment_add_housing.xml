@@ -3,11 +3,207 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.fragments.AddHousingFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/add_housing_fragment_type_title"
+                style="@style/add_housing_title"
+                android:text="TYPE : "
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_type_spinner"
+                style="@style/add_housing_spinner_big"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_type_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_price_title"
+                style="@style/add_housing_title"
+                android:text="PRICE : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_type_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_price_currency_spinner"
+                style="@style/add_housing_spinner_little"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_price_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="numberDecimal"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toStartOf="@id/add_housing_fragment_price_currency_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_area_title"
+                style="@style/add_housing_title"
+                android:text="AREA : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_price_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_area_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="numberDecimal"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_area_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_area_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_number_rooms_title"
+                style="@style/add_housing_title"
+                android:text="ROOMS : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_area_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_number_rooms_spinner"
+                style="@style/add_housing_spinner_big"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_number_rooms_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_number_rooms_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_number_bedrooms_title"
+                style="@style/add_housing_title"
+                android:text="BEDROOMS : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_number_rooms_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_number_bedrooms_spinner"
+                style="@style/add_housing_spinner_big"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_number_bedrooms_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_number_bedrooms_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_number_bathrooms_title"
+                style="@style/add_housing_title"
+                android:text="BATHROOMS : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_number_bedrooms_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_number_bathrooms_spinner"
+                style="@style/add_housing_spinner_big"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_number_bathrooms_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_number_bathrooms_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_address_title"
+                style="@style/add_housing_title"
+                android:text="ADDRESS : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_number_bathrooms_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_address_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_address_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_address_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_zipCode_title"
+                style="@style/add_housing_title"
+                android:text="ZIP CODE : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_address_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_zipCode_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="number"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_zipCode_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_zipCode_title" />
+
+            <TextView
+                android:id="@+id/add_housing_fragment_city_title"
+                style="@style/add_housing_title"
+                android:text="CITY : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_zipCode_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_city_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_city_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_city_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_country_title"
+                style="@style/add_housing_title"
+                android:text="COUNTRY : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_city_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_country_spinner"
+                style="@style/add_housing_spinner_big"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_country_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_country_title"/>
+
+            <TextView
+                android:id="@+id/add_housing_fragment_description_title"
+                style="@style/add_housing_title"
+                android:text="DESCRIPTION : "
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_country_title"/>
+
+            <EditText
+                android:id="@+id/add_housing_fragment_description_editTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_description_title"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_description_title"/>
+
+        <!-- TODO : POI + AGENT + PHOTOS -->
+
+            <!-- TODO : EDIT TEXT TROP PETITS : ON NE VOIT PAS TOUT  -->
 
 
 
@@ -17,6 +213,14 @@
 
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

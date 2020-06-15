@@ -8,9 +8,9 @@
         android:checkableBehavior="single">
 
     <item
-        android:id="@+id/menu_drawer_lunch"
+        android:id="@+id/menu_drawer_parameters"
         android:icon="@drawable/ic_baseline_add_circle_24"
-        android:title="ITEM"/>
+        android:title="PARAMETERS"/>
 
     </group>
 
