@@ -54,13 +54,25 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="addEstateAgentFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="191" />
+                            <option name="y" value="524" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="addHousingFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="472" />
-                            <option name="y" value="251" />
+                            <option name="x" value="473" />
+                            <option name="y" value="83" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -71,8 +83,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="470" />
-                            <option name="y" value="-73" />
+                            <option name="x" value="468" />
+                            <option name="y" value="-219" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -92,8 +104,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="742" />
-                            <option name="y" value="-75" />
+                            <option name="x" value="850" />
+                            <option name="y" value="-218" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -110,6 +122,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_listFragment_to_addEstateAgentFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_listFragment_to_addHousingFragment">
                               <value>
                                 <LayoutPositions />
@@ -125,7 +142,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_listFragment_to_parameterFragment">
+                            <entry key="action_listFragment_to_settingsFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -147,13 +164,13 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="parameterFragment">
+                  <entry key="settingsFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="182" />
-                            <option name="y" value="520" />
+                            <option name="x" value="475" />
+                            <option name="y" value="385" />
                           </Point>
                         </option>
                       </LayoutPositions>

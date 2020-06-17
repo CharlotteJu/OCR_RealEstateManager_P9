@@ -15,21 +15,21 @@
 
         <ImageView
             android:id="@+id/item_housing_image"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/item_housing_image_width_size"
+            android:layout_height="@dimen/item_housing_image_height_size"
             android:src="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/item_housing_type_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
             android:text="TYPE"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
+            android:textSize="@dimen/item_housing_text_type_size"
+            android:layout_marginTop="@dimen/item_housing_marginTop"
+            android:layout_marginStart="@dimen/item_housing_marginStart"
             android:textColor="@color/colorDark"
             app:layout_constraintStart_toEndOf="@id/item_housing_image"
             app:layout_constraintTop_toTopOf="@id/item_housing_image"
@@ -37,29 +37,29 @@
 
         <TextView
             android:id="@+id/item_housing_district_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
             android:text="DISTRICT"
-            android:textSize="16sp"
+            android:textSize="@dimen/item_housing_text_district_size"
             app:layout_constraintTop_toTopOf="@id/item_housing_image"
             app:layout_constraintBottom_toBottomOf="@id/item_housing_image"
             app:layout_constraintStart_toStartOf="@id/item_housing_type_txt"/>
 
         <TextView
             android:id="@+id/item_housing_price_txt"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
             android:text="PRICE"
-            android:textSize="24dp"
-            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/item_housing_text_price_size"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toBottomOf="@id/item_housing_district_txt"
             app:layout_constraintBottom_toBottomOf="@id/item_housing_image"
             app:layout_constraintStart_toStartOf="@id/item_housing_type_txt"/>
 
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_width="@dimen/view_separator_width"
+            android:layout_height="@dimen/view_separator_height"
             android:background="@color/colorGrey"
             app:layout_constraintStart_toEndOf="@id/item_housing_image"
             app:layout_constraintEnd_toEndOf="parent"

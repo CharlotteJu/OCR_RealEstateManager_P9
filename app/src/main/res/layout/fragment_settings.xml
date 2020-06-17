@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".views.fragments.SettingsFragment">
+
+
+    <!-- NOTIFICATIONS -->
+
+    <TextView
+        android:id="@+id/settings_fragment_notifications_txt"
+        style="@style/settings_fragment_txt"
+        android:text="NOTIFICATIONS "
+        android:layout_marginStart="@dimen/settings_fragment_margin_Start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Switch
+        android:id="@+id/settings_fragment_notifications_switch"
+        android:layout_width="@dimen/constraint_width_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_fragment_margin_Start"
+        app:layout_constraintTop_toTopOf="@id/settings_fragment_notifications_txt"
+        app:layout_constraintBottom_toBottomOf="@id/settings_fragment_notifications_txt"
+        app:layout_constraintStart_toEndOf="@id/settings_fragment_notifications_txt"/>
+
+
+    <!-- CURRENCY -->
+
+    <TextView
+        android:id="@+id/settings_fragment_currency_txt"
+        style="@style/settings_fragment_txt"
+        android:text="CURRENCY "
+        app:layout_constraintTop_toBottomOf="@id/settings_fragment_notifications_txt"
+        app:layout_constraintStart_toStartOf="@id/settings_fragment_notifications_txt"/>
+
+    <RadioGroup
+        android:id="@+id/settings_fragment_radio_group"
+        android:layout_width="@dimen/constraint_width_0"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="@id/settings_fragment_currency_txt"
+        app:layout_constraintBottom_toBottomOf="@id/settings_fragment_currency_txt"
+        app:layout_constraintStart_toStartOf="@id/settings_fragment_notifications_switch">
+
+        <RadioButton
+            android:id="@+id/settings_fragment_dollar_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DOLLAR" />
+
+        <RadioButton
+            android:id="@+id/settings_fragment_euro_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_fragment_margin_Start"
+            android:text="EURO" />
+
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
