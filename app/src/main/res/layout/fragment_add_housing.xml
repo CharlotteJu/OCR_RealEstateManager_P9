@@ -180,8 +180,6 @@
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_city_title"/>
 
-            <!-- DESCRIPTION -->
-
             <Spinner
                 android:id="@+id/add_housing_fragment_country_spinner"
                 style="@style/add_housing_spinner_big"
@@ -189,6 +187,8 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_country_title"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <!-- DESCRIPTION -->
 
             <TextView
                 android:id="@+id/add_housing_fragment_description_title"
@@ -208,61 +208,6 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_description_title" />
 
-            <!-- POI -->
-
-            <TextView
-                android:id="@+id/add_housing_fragment_poi_title"
-                style="@style/add_housing_title"
-                android:text="POINTS OF INTEREST : "
-                android:textAlignment="center"
-                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_description_editTxt"/>
-
-            <Spinner
-                android:id="@+id/add_housing_fragment_poi_spinner"
-                android:layout_width="@dimen/add_housing_fragment_spinner_width_little"
-                android:layout_height="@dimen/add_housing_fragment_spinner_alone_height"
-                style="@style/add_housing_spinner"
-                android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
-                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_poi_title"
-                />
-
-            <!-- TODO : Distance ou pas ? -->
-            <EditText
-                android:id="@+id/add_housing_fragment_poi_editTxt"
-                style="@style/add_housing_editText"
-                android:inputType="text"
-                android:layout_marginStart="@dimen/add_housing_fragment_text_margin"
-                android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
-                app:layout_constraintStart_toEndOf="@id/add_housing_fragment_poi_spinner"
-                app:layout_constraintEnd_toStartOf="@id/add_housing_fragment_poi_button"
-                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_poi_spinner"
-                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_poi_spinner"/>
-
-            <ImageButton
-                android:id="@+id/add_housing_fragment_poi_button"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_add_circle_24"
-                android:tint="@color/colorGreen"
-                android:background="@android:color/transparent"
-                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_poi_editTxt"
-                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_poi_editTxt"
-                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"/>
-
-            <!-- TODO : CHANGER HEIGHT -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/add_housing_fragment_poi_rcv"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="80dp"
-                tools:listitem="@layout/item_poi"
-                android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
-                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_poi_spinner"/>
-
 
             <!-- ESTATE AGENT -->
 
@@ -273,7 +218,7 @@
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_poi_rcv"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_description_editTxt"/>
 
             <!-- TODO : Liste d'agent, ou editText ? LISTE - ROOM  -->
             <Spinner
@@ -311,7 +256,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/add_housing_fragment_estate_agent_rcv"
                 android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="80dp"
+                android:layout_height="120dp"
                 tools:listitem="@layout/item_estate_agent"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
@@ -336,8 +281,10 @@
                 android:layout_height="132dp"
                 android:background="@color/colorPrimary"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
+                android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_title"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_title"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
             <EditText

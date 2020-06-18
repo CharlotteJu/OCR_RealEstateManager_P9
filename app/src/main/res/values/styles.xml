@@ -19,7 +19,6 @@
 
 
     <!-- ADD HOUSING FRAGMENT -->
-
     <style name="add_housing_spinner">
         <item name="android:background">@drawable/test_spinner</item>
         <item name="android:spinnerMode">dropdown</item>
@@ -40,7 +39,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/add_housing_fragment_text_margin</item>
         <item name="android:textSize">@dimen/add_housing_fragment_text_size</item>
-        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:textColor">@color/colorDark</item>
     </style>
 
     <style name="add_housing_editText">
@@ -55,6 +54,37 @@
         <item name="android:textSize">@dimen/settings_fragment_text_size</item>
         <item name="android:textColor">@color/colorDark</item>
         <item name="android:layout_marginTop">@dimen/settings_fragment_margin_Top</item>
+    </style>
+
+    <!-- FILTER DIALOG -->
+    <style name="filter_dialog_txt">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/filter_dialog_margin_txt</item>
+        <item name="android:textSize">@dimen/filter_dialog_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
+    <style name="filter_dialog_spinner">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">@dimen/filter_dialog_spinner_height</item>
+        <item name="android:layout_marginEnd">@dimen/filter_dialog_margin_txt</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:background">@drawable/test_spinner</item>
+    </style>
+
+    <style name="filter_dialog_spinner_big" parent="filter_dialog_spinner">
+        <item name="android:layout_width">@dimen/filter_dialog_spinner_width_big</item>
+    </style>
+
+    <style name="filter_dialog_spinner_little" parent="filter_dialog_spinner">
+        <item name="android:layout_width">@dimen/filter_dialog_spinner_width_little</item>
+    </style>
+
+
+    <style name="filter_dialog_editText">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 
