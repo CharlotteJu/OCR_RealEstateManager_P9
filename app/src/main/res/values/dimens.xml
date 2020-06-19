@@ -59,7 +59,7 @@
     <dimen name="filter_dialog_spinner_height">0dp</dimen>
     <dimen name="filter_dialog_margin_txt">16dp</dimen>
     <dimen name="filter_dialog_spinner_width_big">200dp</dimen>
-    <dimen name="filter_dialog_spinner_width_little">64dp</dimen>
+    <dimen name="filter_dialog_spinner_width_little">80dp</dimen>
 
 
 </resources>

@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/dialog_filter_type_txt"
             style="@style/filter_dialog_txt"
-            android:text="TYPE"
+            android:text="TYPE : "
             android:layout_marginStart="@dimen/filter_dialog_margin_txt"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -20,6 +20,7 @@
         <Spinner
             android:id="@+id/dialog_filter_type_spinner"
             style="@style/filter_dialog_spinner_big"
+            android:layout_marginEnd="@dimen/filter_dialog_margin_txt"
             app:layout_constraintTop_toTopOf="@id/dialog_filter_type_txt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/dialog_filter_type_txt"/>
@@ -27,7 +28,7 @@
         <TextView
             android:id="@+id/dialog_filter_price_txt"
             style="@style/filter_dialog_txt"
-            android:text="PRICE"
+            android:text="PRICE : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_type_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
@@ -38,7 +39,7 @@
         <TextView
             android:id="@+id/dialog_filter_area_txt"
             style="@style/filter_dialog_txt"
-            android:text="AREA"
+            android:text="AREA : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_price_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
@@ -47,7 +48,7 @@
         <TextView
             android:id="@+id/dialog_filter_nb_rooms_txt"
             style="@style/filter_dialog_txt"
-            android:text="ROOMS"
+            android:text="ROOMS : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_area_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
@@ -56,7 +57,7 @@
         <TextView
             android:id="@+id/dialog_filter_bedrooms_txt"
             style="@style/filter_dialog_txt"
-            android:text="BEDROOMS"
+            android:text="BEDROOMS : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_nb_rooms_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
@@ -65,7 +66,7 @@
         <TextView
             android:id="@+id/dialog_filter_bathrooms_txt"
             style="@style/filter_dialog_txt"
-            android:text="BATHROOMS"
+            android:text="BATHROOMS : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_bedrooms_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
@@ -76,13 +77,13 @@
         <TextView
             android:id="@+id/dialog_filter_reference_txt"
             style="@style/filter_dialog_txt"
-            android:text="REF"
+            android:text="REF : "
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_bathrooms_txt"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"/>
 
         <EditText
             android:id="@+id/dialog_filter_reference_editText"
-            style="@style/add_housing_editText"
+            style="@style/filter_dialog_editText"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
@@ -92,13 +93,13 @@
         <TextView
             android:id="@+id/dialog_filter_state_txt"
             style="@style/filter_dialog_txt"
-            android:text="STATE "
+            android:text="STATE : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_reference_txt"/>
 
         <Spinner
             android:id="@+id/dialog_filter_state_spinner"
-            style="@style/add_housing_spinner_big"
+            style="@style/filter_dialog_spinner_big"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
             app:layout_constraintTop_toTopOf="@id/dialog_filter_state_txt"
@@ -107,7 +108,7 @@
         <TextView
             android:id="@+id/dialog_filter_date_entry_txt"
             style="@style/filter_dialog_txt"
-            android:text="DATE ENTRY "
+            android:text="DATE ENTRY : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_state_txt"/>
 
@@ -116,7 +117,7 @@
         <TextView
             android:id="@+id/dialog_filter_date_sale_txt"
             style="@style/filter_dialog_txt"
-            android:text="DATE SALE "
+            android:text="DATE SALE : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_date_entry_txt"/>
 
@@ -127,13 +128,13 @@
         <TextView
             android:id="@+id/dialog_filter_address_txt"
             style="@style/filter_dialog_txt"
-            android:text="ADDRESS "
+            android:text="ADDRESS : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_date_sale_txt"/>
 
         <EditText
             android:id="@+id/dialog_filter_address_editText"
-            style="@style/add_housing_editText"
+            style="@style/filter_dialog_editText"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
@@ -142,14 +143,14 @@
 
         <TextView
             android:id="@+id/dialog_filter_zip_code_txt"
-            style="@style/add_housing_title"
+            style="@style/filter_dialog_txt"
             android:text="ZIP CODE : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_address_txt"/>
 
         <EditText
             android:id="@+id/add_housing_fragment_zipCode_editTxt"
-            style="@style/add_housing_editText"
+            style="@style/filter_dialog_editText"
             android:inputType="number"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
@@ -158,14 +159,14 @@
 
         <TextView
             android:id="@+id/dialog_filter_city_txt"
-            style="@style/add_housing_title"
+            style="@style/filter_dialog_txt"
             android:text="CITY : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_zip_code_txt"/>
 
         <EditText
             android:id="@+id/dialog_filter_city_editTxt"
-            style="@style/add_housing_editText"
+            style="@style/filter_dialog_editText"
             android:inputType="text"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
@@ -174,18 +175,64 @@
 
         <TextView
             android:id="@+id/dialog_filter_country_txt"
-            style="@style/add_housing_title"
+            style="@style/filter_dialog_txt"
             android:text="COUNTRY : "
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
             app:layout_constraintTop_toBottomOf="@id/dialog_filter_city_txt"/>
 
         <Spinner
             android:id="@+id/dialog_filter_country_spinner"
-            style="@style/add_housing_spinner_big"
+            style="@style/filter_dialog_spinner_big"
             app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
             app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
             app:layout_constraintTop_toTopOf="@id/dialog_filter_country_txt"
             app:layout_constraintBottom_toBottomOf="@id/dialog_filter_country_txt" />
+
+        <TextView
+            android:id="@+id/dialog_filter_poi_txt"
+            style="@style/filter_dialog_txt"
+            android:text="AROUND : "
+            app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
+            app:layout_constraintTop_toBottomOf="@id/dialog_filter_country_txt"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_poi_type_spinner"
+            style="@style/filter_dialog_spinner_little"
+            app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
+            app:layout_constraintTop_toTopOf="@id/dialog_filter_poi_txt"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_filter_poi_txt"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_poi_number_spinner"
+            style="@style/filter_dialog_spinner_little"
+            app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
+            app:layout_constraintTop_toTopOf="@id/dialog_filter_poi_txt"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_filter_poi_txt"/>
+
+        <TextView
+            android:id="@+id/dialog_filter_estate_agent_txt"
+            style="@style/filter_dialog_txt"
+            android:text="ESTATE AGENT : "
+            app:layout_constraintStart_toStartOf="@id/dialog_filter_type_txt"
+            app:layout_constraintTop_toBottomOf="@id/dialog_filter_poi_txt"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_poi_estate_agent_name_spinner"
+            style="@style/filter_dialog_spinner_little"
+            app:layout_constraintStart_toStartOf="@id/dialog_filter_type_spinner"
+            app:layout_constraintTop_toTopOf="@id/dialog_filter_estate_agent_txt"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_filter_estate_agent_txt"/>
+
+        <Spinner
+            android:id="@+id/dialog_filter_poi_estate_agent_function_spinner"
+            style="@style/filter_dialog_spinner_little"
+            app:layout_constraintEnd_toEndOf="@id/dialog_filter_type_spinner"
+            app:layout_constraintTop_toTopOf="@id/dialog_filter_estate_agent_txt"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_filter_estate_agent_txt"/>
+
+
+
+
 
 
 

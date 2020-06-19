@@ -68,7 +68,7 @@
     <style name="filter_dialog_spinner">
         <item name="android:layout_width">@dimen/constraint_width_0</item>
         <item name="android:layout_height">@dimen/filter_dialog_spinner_height</item>
-        <item name="android:layout_marginEnd">@dimen/filter_dialog_margin_txt</item>
+
         <item name="android:spinnerMode">dropdown</item>
         <item name="android:background">@drawable/test_spinner</item>
     </style>

@@ -77,9 +77,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId)
+        {
+            R.id.menu_toolbar_filter -> this.mNavigationController.navigate(R.id.filterDialogFragment)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //menuInflater.inflate(R.menu.navigation_drawer_menu, menu)
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
         return true
     }
 

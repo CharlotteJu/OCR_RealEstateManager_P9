@@ -20,11 +20,14 @@
             android:id="@+id/action_listFragment_to_mapFragment"
             app:destination="@id/mapFragment" />
         <action
+            android:id="@+id/action_listFragment_to_addEstateAgentFragment"
+            app:destination="@id/addEstateAgentFragment" />
+        <action
             android:id="@+id/action_listFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
         <action
-            android:id="@+id/action_listFragment_to_addEstateAgentFragment"
-            app:destination="@id/addEstateAgentFragment" />
+            android:id="@+id/action_listFragment_to_filterDialogFragment"
+            app:destination="@id/filterDialogFragment" />
     </fragment>
 
 
@@ -41,7 +44,14 @@
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_filterDialogFragment"
+            app:destination="@id/filterDialogFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addHousingFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.AddHousingFragment"
@@ -62,4 +72,8 @@
         android:name="com.openclassrooms.realestatemanager.views.fragments.AddEstateAgentFragment"
         android:label="fragment_add_estate_agent"
         tools:layout="@layout/fragment_add_estate_agent" />
+    <dialog
+        android:id="@+id/filterDialogFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.FilterDialogFragment"
+        android:label="FilterDialogFragment" />
 </navigation>
