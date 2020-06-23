@@ -19,7 +19,7 @@ import com.openclassrooms.realestatemanager.models.*
             version = 1,
             exportSchema = false)
 
-abstract class AppDatabase : RoomDatabase()
+public abstract class AppDatabase : RoomDatabase()
 {
     abstract fun housingDao() : HousingDAO
     abstract fun addressDao() : AddressDAO
@@ -29,8 +29,6 @@ abstract class AppDatabase : RoomDatabase()
     abstract fun housingEstateAgentDao() : HousingEstateAgentDAO
     abstract fun housingPoi() : HousingPoiDAO
 
-
-
     companion object
     {
         @Volatile
@@ -38,8 +36,8 @@ abstract class AppDatabase : RoomDatabase()
 
         fun getDatabase(context:Context) : AppDatabase
         {
-            val temp = this.INSTANCE
-           
+            var temp = this.INSTANCE
+
             if (temp != null)
             {
                return temp
@@ -47,8 +45,11 @@ abstract class AppDatabase : RoomDatabase()
 
             synchronized(AppDatabase::class)
             {
+                this.INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE")
+                        .build()
                 return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build()
             }
         }
     }
 }
+
