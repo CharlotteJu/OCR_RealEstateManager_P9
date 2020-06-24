@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity (tableName = "housing_poi",
+        primaryKeys = ["housing_reference", "poi_type"],
         foreignKeys = [ForeignKey(entity = Housing::class,
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"]),
@@ -14,8 +15,8 @@ import androidx.room.PrimaryKey
                                         parentColumns = ["type"],
                                         childColumns = ["poi_type"])])
 
-class HousingPoi (@PrimaryKey @ColumnInfo (name = "housing_reference") val housingReference : String,
-                  @PrimaryKey @ColumnInfo (name = "poi_type") val poiType : String,
+data class HousingPoi (@ColumnInfo (name = "housing_reference", index = true) val housingReference : String,
+                  @ColumnInfo (name = "poi_type", index = true) val poiType : String,
                   @ColumnInfo (name = "number_of_poi") var numberOfPoi : Int)
 
 {}

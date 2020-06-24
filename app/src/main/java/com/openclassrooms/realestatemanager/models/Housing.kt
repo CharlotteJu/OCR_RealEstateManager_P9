@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import java.util.Date
 import java.sql.Timestamp
 
 @Entity (tableName = "housing")
@@ -14,7 +16,7 @@ data class Housing (@PrimaryKey @ColumnInfo(name = "reference") val ref : String
                     @ColumnInfo (name = "bedrooms") var bedrooms : Int?,
                     @ColumnInfo (name = "bathrooms") var bathrooms : Int?,
                     @ColumnInfo (name = "state") var state : String,
-                    @ColumnInfo (name = "dateEntry") var dateEntry : Timestamp,
-                    @ColumnInfo (name = "dateSale") var dateSale : Timestamp?,
+                    @ColumnInfo (name = "dateEntry") var dateEntry : String,
+                    @ColumnInfo (name = "dateSale")  var dateSale : String?,
                     @ColumnInfo (name = "description") var description : String?)
 {}

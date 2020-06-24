@@ -12,7 +12,10 @@ interface AddressDAO
     fun getAllAddress() : LiveData<List<Address>>
 
     @Query("SELECT * FROM address WHERE housing_reference =:reference")
-    fun getAddress(reference : String) : LiveData<Address>
+    fun getAddressFromHousing(reference : String) : LiveData<Address>
+
+    @Query("SELECT * FROM address WHERE id =:id")
+    fun getAddressFromId(id : Int) : LiveData<Address>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun createAddress (address: Address) : Long

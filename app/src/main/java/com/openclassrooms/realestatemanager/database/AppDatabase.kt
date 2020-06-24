@@ -27,7 +27,7 @@ public abstract class AppDatabase : RoomDatabase()
     abstract fun photoDao() : PhotoDAO
     abstract fun poiDao() : PoiDAO
     abstract fun housingEstateAgentDao() : HousingEstateAgentDAO
-    abstract fun housingPoi() : HousingPoiDAO
+    abstract fun housingPoiDao() : HousingPoiDAO
 
     companion object
     {

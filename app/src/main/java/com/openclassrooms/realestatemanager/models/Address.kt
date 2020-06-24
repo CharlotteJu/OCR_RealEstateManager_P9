@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey
         foreignKeys = [ForeignKey (entity = Housing::class,
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"])])
-class Address (@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id : Int,
+data class Address (@PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id : Int,
                @ColumnInfo (name = "street") var street : String,
                @ColumnInfo (name = "zip_code") var zipCode : Int?,
                @ColumnInfo (name = "city") var city : String,
                @ColumnInfo (name = "country") var country : String,
-               @ColumnInfo (name = "housing_reference") val housingReference : String)
+               @ColumnInfo (name = "housing_reference", index = true) val housingReference : String)
 
 {}

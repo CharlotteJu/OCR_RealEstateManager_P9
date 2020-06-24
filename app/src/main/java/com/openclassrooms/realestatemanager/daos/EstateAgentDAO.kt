@@ -12,7 +12,7 @@ interface EstateAgentDAO
     fun getAllEstateAgent() : LiveData<List<EstateAgent>>
 
     @Query("SELECT * FROM estate_agent WHERE last_name =:name")
-    fun getEstateAgent(name : String) : LiveData<Housing>
+    fun getEstateAgent(name : String) : LiveData<EstateAgent>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun createEstateAgent (estateAgent: EstateAgent) : Long
