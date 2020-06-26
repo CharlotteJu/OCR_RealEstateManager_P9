@@ -11,12 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.R
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ListFragment : Fragment() {
 
 

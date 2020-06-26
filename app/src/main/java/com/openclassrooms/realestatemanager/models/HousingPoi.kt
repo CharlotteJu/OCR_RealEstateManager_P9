@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
                                         parentColumns = ["type"],
                                         childColumns = ["poi_type"])])
 
-data class HousingPoi (@ColumnInfo (name = "housing_reference", index = true) val housingReference : String,
+data class HousingPoi @JvmOverloads constructor (@ColumnInfo (name = "housing_reference", index = true) val housingReference : String,
                   @ColumnInfo (name = "poi_type", index = true) val poiType : String,
                   @ColumnInfo (name = "number_of_poi") var numberOfPoi : Int)
 

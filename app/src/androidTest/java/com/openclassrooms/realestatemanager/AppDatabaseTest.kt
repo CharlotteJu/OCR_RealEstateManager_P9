@@ -50,7 +50,7 @@ class AppDatabaseTest
     private var estateAgent = EstateAgent(name, "Jean", null, null)
     private var photo = Photo("URI", null, reference)
     private var poi = Poi(typePoi, "IC")
-    private var housingEstateAgent = HousingEstateAgent(reference, name, null)
+    private var housingEstateAgent = HousingEstateAgent(reference, name, "ENTRY")
     private var housingPoi = HousingPoi(reference, typePoi, 2)
 
     @get:Rule var rule  = InstantTaskExecutorRule()

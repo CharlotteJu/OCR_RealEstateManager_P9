@@ -15,5 +15,4 @@ class PoiRepository (private val poiDAO: PoiDAO)
 
     fun updatePoi(poi: Poi) = this.poiDAO.updatePoi(poi)
 
-
 }
