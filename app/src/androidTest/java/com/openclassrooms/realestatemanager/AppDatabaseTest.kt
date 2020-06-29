@@ -5,22 +5,22 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.filters.LargeTest
 import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil
 import junit.framework.TestCase.*
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.lang.Exception
 import org.junit.*
-import org.junit.runners.MethodSorters
-import java.util.concurrent.Executors
+import org.junit.runners.JUnit4
+
 
 @RunWith(AndroidJUnit4::class)
+@LargeTest
 class AppDatabaseTest
 {
 
@@ -65,7 +65,7 @@ class AppDatabaseTest
 
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-                .setTransactionExecutor(Executors.newSingleThreadExecutor())
+                .allowMainThreadQueries()
                 .build()
         housingDAO = database.housingDao()
         addressDAO = database.addressDao()
@@ -84,6 +84,7 @@ class AppDatabaseTest
     {
         database.close()
     }
+    
 
     @Test
     @Throws(Exception::class)
@@ -112,7 +113,7 @@ class AppDatabaseTest
 
     @Test
     @Throws(Exception::class)
-    fun test2_createAddressAndGetIt()= runBlocking {
+    fun test2_createAddressAndGetIt() = runBlocking {
 
         //ADD housing to have the link with the FK
         housingDAO.createHousing(housing)
@@ -143,7 +144,7 @@ class AppDatabaseTest
 
     @Test
     @Throws(Exception::class)
-    suspend fun test3_createEstateAgentAndGetIt() = runBlocking {
+    fun test3_createEstateAgentAndGetIt() = runBlocking  {
 
         //ADD variable estateAgent in  database
         estateAgentDAO.createEstateAgent(estateAgent)
@@ -167,7 +168,7 @@ class AppDatabaseTest
 
     @Test
     @Throws(Exception::class)
-    suspend fun test4_createPhotoAndGetIt() = runBlocking {
+    fun test4_createPhotoAndGetIt() = runBlocking {
 
         //ADD housing to have the link with the FK
         housingDAO.createHousing(housing)

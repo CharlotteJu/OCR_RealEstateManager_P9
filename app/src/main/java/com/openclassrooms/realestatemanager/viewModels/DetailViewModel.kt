@@ -9,7 +9,7 @@ import com.openclassrooms.realestatemanager.models.Housing
 import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
 
-class DetailViewModel @JvmOverloads constructor(private val housingRepository: HousingRepository,
+class DetailViewModel constructor(private val housingRepository: HousingRepository,
                                                 private val addressRepository: AddressRepository,
                                                 private val estateAgentRepository: EstateAgentRepository,
                                                 private val photoRepository: PhotoRepository,
@@ -24,8 +24,8 @@ class DetailViewModel @JvmOverloads constructor(private val housingRepository: H
         //var function : Function = setOf(Function)
 
         //var test = Transformations.map(housing, function )
-        var address = this.addressRepository.getAddressFromHousing(reference)
-        var photoList = this.photoRepository.getPhotoListFromHousing(reference)
+        //var address = this.addressRepository.getAddressFromHousing(reference)
+        //var photoList = this.photoRepository.getPhotoListFromHousing(reference)
 
 
         return housing

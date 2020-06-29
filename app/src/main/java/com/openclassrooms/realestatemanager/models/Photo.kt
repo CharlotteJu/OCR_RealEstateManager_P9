@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"])])
 
-data class Photo @JvmOverloads constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : String,
+data class Photo constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : String,
              @ColumnInfo (name = "description") var description : String? = null,
              @ColumnInfo (name = "housing_reference", index = true) val housingReference : String)
 {}

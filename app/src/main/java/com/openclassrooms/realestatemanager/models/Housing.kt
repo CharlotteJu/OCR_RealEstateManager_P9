@@ -5,7 +5,7 @@ import java.util.Date
 import java.sql.Timestamp
 
 @Entity (tableName = "housing")
-data class Housing @JvmOverloads constructor (@PrimaryKey @ColumnInfo(name = "reference") val ref : String,
+data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") val ref : String,
                                               @ColumnInfo (name = "type") var type : String,
                                               @ColumnInfo (name = "price") var price : Double,
                                               @ColumnInfo (name = "area") var area : Double? = null,
