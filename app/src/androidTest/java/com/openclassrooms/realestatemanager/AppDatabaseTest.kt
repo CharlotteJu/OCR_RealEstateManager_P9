@@ -10,15 +10,17 @@ import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil
 import junit.framework.TestCase.*
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
 import java.io.IOException
 import java.lang.Exception
 import org.junit.*
 import org.junit.runners.MethodSorters
+import java.util.concurrent.Executors
 
 @RunWith(AndroidJUnit4::class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class AppDatabaseTest
 {
 
@@ -60,9 +62,10 @@ class AppDatabaseTest
     @Throws(Exception::class)
     fun initDatabase() = runBlocking {
 
+
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-                .allowMainThreadQueries()
+                .setTransactionExecutor(Executors.newSingleThreadExecutor())
                 .build()
         housingDAO = database.housingDao()
         addressDAO = database.addressDao()
@@ -73,6 +76,7 @@ class AppDatabaseTest
         housingPoiDAO = database.housingPoiDao()
 
     }
+
 
     @After
     @Throws(IOException::class)
