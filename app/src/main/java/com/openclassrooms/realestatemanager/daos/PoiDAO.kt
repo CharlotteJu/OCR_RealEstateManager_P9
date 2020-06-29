@@ -16,8 +16,8 @@ interface PoiDAO
     fun getPoi(type : String) : LiveData<Poi>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun createPoi(poi: Poi) : Long
+    suspend fun createPoi(poi: Poi) : Long
 
     @Update
-    fun updatePoi(poi: Poi) : Int
+    suspend fun updatePoi(poi: Poi) : Int
 }

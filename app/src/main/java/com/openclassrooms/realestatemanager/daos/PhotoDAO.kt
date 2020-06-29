@@ -12,14 +12,14 @@ interface PhotoDAO
     fun getAllPhoto() : LiveData<List<Photo>>
 
     @Query("SELECT * FROM photo WHERE housing_reference =:reference")
-    fun getPhotoFromHousing(reference : String) : LiveData<Photo>
+    fun getPhotoListFromHousing(reference : String) : LiveData<List<Photo>>
 
     @Query("SELECT * FROM photo WHERE uri =:uri")
     fun getPhotoFromUri(uri : String) : LiveData<Photo>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun createPhoto (photo: Photo) : Long
+    suspend fun createPhoto (photo: Photo) : Long
 
     @Update
-    fun updatePhoto (photo: Photo) : Int
+    suspend fun updatePhoto (photo: Photo) : Int
 }

@@ -18,8 +18,8 @@ interface AddressDAO
     fun getAddressFromId(id : Int) : LiveData<Address>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun createAddress (address: Address) : Long
+    suspend fun createAddress (address: Address) : Long
 
     @Update
-    fun updateAddress (address: Address) : Int
+    suspend fun updateAddress (address: Address) : Int
 }

@@ -10,12 +10,12 @@ class HousingEstateAgentRepository (private val housingEstateAgentDAO: HousingEs
 
     fun getHousingEstateAgent(reference : String, name : String) : LiveData<HousingEstateAgent> = this.housingEstateAgentDAO.getHousingEstateAgent(reference, name)
 
-    fun getHousingEstateAgentFromHousing(reference: String) : LiveData<HousingEstateAgent> = this.housingEstateAgentDAO.getHousingEstateAgentFromHousing(reference)
+    fun getHousingEstateAgentFromHousing(reference: String) : LiveData<List<HousingEstateAgent>> = this.housingEstateAgentDAO.getHousingEstateAgentListFromHousing(reference)
 
-    fun getHousingEstateAgentFromAgent(name: String) : LiveData<HousingEstateAgent> = this.housingEstateAgentDAO.getHousingEstateAgentFromAgent(name)
+    fun getHousingEstateAgentFromAgent(name: String) : LiveData<List<HousingEstateAgent>> = this.housingEstateAgentDAO.getHousingEstateAgentListFromAgent(name)
 
-    fun createHousingEstateAgent (housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.createHousingEstateAgent(housingEstateAgent)
+    suspend fun createHousingEstateAgent (housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.createHousingEstateAgent(housingEstateAgent)
 
-    fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.updateHousingEstateAgent(housingEstateAgent)
+    suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.updateHousingEstateAgent(housingEstateAgent)
 
 }

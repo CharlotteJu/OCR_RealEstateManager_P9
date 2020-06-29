@@ -8,12 +8,12 @@ class PhotoRepository (private val photoDAO: PhotoDAO)
 {
     fun getAllPhoto() : LiveData<List<Photo>> = this.photoDAO.getAllPhoto()
 
-    fun getPhotoFromHousing(reference : String) : LiveData<Photo> = this.photoDAO.getPhotoFromHousing(reference)
+    fun getPhotoListFromHousing(reference : String): LiveData<List<Photo>> = this.photoDAO.getPhotoListFromHousing(reference)
 
     fun getPhotoFromUri(uri : String) : LiveData<Photo> = this.photoDAO.getPhotoFromUri(uri)
 
-    fun createPhoto(photo: Photo) = this.photoDAO.createPhoto(photo)
+    suspend fun createPhoto(photo: Photo) = this.photoDAO.createPhoto(photo)
 
-    fun updatePhoto (photo: Photo) = this.photoDAO.updatePhoto(photo)
+    suspend fun updatePhoto (photo: Photo) = this.photoDAO.updatePhoto(photo)
 
 }

@@ -14,16 +14,16 @@ interface HousingEstateAgentDAO
     fun getHousingEstateAgent(reference: String, name: String) : LiveData<HousingEstateAgent>
 
     @Query ("SELECT * FROM housing_estate_agent WHERE housing_reference =:reference")
-    fun getHousingEstateAgentFromHousing (reference : String) : LiveData<HousingEstateAgent>
+    fun getHousingEstateAgentListFromHousing (reference : String) : LiveData<List<HousingEstateAgent>>
 
     @Query ("SELECT * FROM housing_estate_agent WHERE estate_agent_name =:name")
-    fun getHousingEstateAgentFromAgent (name : String) : LiveData<HousingEstateAgent>
+    fun getHousingEstateAgentListFromAgent (name : String) : LiveData<List<HousingEstateAgent>>
 
     @Insert (onConflict =  OnConflictStrategy.REPLACE)
-    fun createHousingEstateAgent(housingEstateAgent: HousingEstateAgent) : Long
+    suspend fun createHousingEstateAgent(housingEstateAgent: HousingEstateAgent) : Long
 
     @Update
-    fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) : Int
+    suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) : Int
 
 
 }

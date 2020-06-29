@@ -15,9 +15,46 @@ data class Housing @JvmOverloads constructor (@PrimaryKey @ColumnInfo(name = "re
                                               @ColumnInfo (name = "state") var state : String,
                                               @ColumnInfo (name = "dateEntry") var dateEntry : String,
                                               @ColumnInfo (name = "dateSale")  var dateSale : String? = null,
-                                              @ColumnInfo (name = "description") var description : String? = null,
-                                              @Ignore var poiList : List<HousingPoi>? = null,
-                                              @Ignore var estateAgentList: List<HousingEstateAgent>? = null,
-                                              @Ignore var photoList : List<Photo>?= null,
-                                              @Ignore var address: Address? = null)
-{}
+                                              @ColumnInfo (name = "description") var description : String? = null)
+
+                                              //,@Ignore var poiList : List<HousingPoi>? = null,
+                                              //@Ignore var estateAgentList: List<HousingEstateAgent>? = null,
+                                              //@Ignore var photoList : List<Photo>?= null,
+                                              //@Ignore var address: Address? = null)
+                    //TODO-Q : Pourquoi ça fait planter ? --> A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
+{
+   /* private var address : Address? = null
+    private var estateAgentList : List<HousingEstateAgent>? = null
+    private var photoList : List<Photo>? = null
+    private var poiList : List<HousingPoi>? = null
+
+    fun getAddress(): Address?  = this.address
+    fun getEstateAgentList() : List<HousingEstateAgent>? = this.estateAgentList
+    fun getPhotoList() :  List<Photo>? = this.photoList
+    fun getPoiList() : List<HousingPoi>? = this.poiList
+
+    fun setAddress(address: Address)
+    {
+        this.address = address
+    }
+
+    fun setEstateAgentList(estateAgentList : List<HousingEstateAgent>)
+    {
+        this.estateAgentList = estateAgentList
+    }
+
+    fun setPhotoList(photoList : List<Photo>)
+    {
+        this.photoList = photoList
+    }
+
+    fun setPoi(poiList : List<HousingPoi>)
+    {
+        this.poiList = poiList
+    }*/
+
+
+
+
+
+}

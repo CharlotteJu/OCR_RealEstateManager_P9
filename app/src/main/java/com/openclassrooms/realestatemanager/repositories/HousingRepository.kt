@@ -11,8 +11,8 @@ class HousingRepository(private val housingDao : HousingDAO)
 
     fun getHousing(reference : String) : LiveData<Housing> = this.housingDao.getHousing(reference)
 
-    fun createHousing(housing: Housing) = this.housingDao.createHousing(housing)
+    suspend fun createHousing(housing: Housing) = this.housingDao.createHousing(housing)
 
-    fun updateHousing (housing: Housing) = this.housingDao.updateHousing(housing)
+    suspend fun updateHousing (housing: Housing) = this.housingDao.updateHousing(housing)
 
 }

@@ -13,7 +13,7 @@ class AddressRepository (private val addressDAO: AddressDAO)
 
     fun getAddressFromId(id : Int) : LiveData<Address> = this.addressDAO.getAddressFromId(id)
 
-    fun createAddress(address: Address) = this.addressDAO.createAddress(address)
+    suspend fun createAddress(address: Address) = this.addressDAO.createAddress(address)
 
-    fun updateAddress(address: Address) = this.addressDAO.updateAddress(address)
+    suspend fun updateAddress(address: Address) = this.addressDAO.updateAddress(address)
 }

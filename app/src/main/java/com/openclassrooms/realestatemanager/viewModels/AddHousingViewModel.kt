@@ -11,69 +11,69 @@ class AddHousingViewModel(private val housingRepository: HousingRepository,
                           private val addressRepository: AddressRepository,
                           private val photoRepository: PhotoRepository,
                           private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                          private val housingPoiRepository: HousingPoiRepository,
-                          private val executor: Executor) : ViewModel()
+                          private val housingPoiRepository: HousingPoiRepository)
+                            : ViewModel()
 {
 
-    fun createHousing(housing : Housing)
+    /*suspend fun createHousing(housing : Housing)
     {
-        this.executor.execute {this.housingRepository.createHousing(housing)}
-        this.executor.execute { housing.address?.let { this.addressRepository.createAddress(housing.address!!) } }
-        this.executor.execute { housing.photoList?.let {
+        this.housingRepository.createHousing(housing)
+        housing.getAddress()?.let { this.addressRepository.createAddress(housing.getAddress()!!) }
+        housing.getPhotoList()?.let {
                 for (i in it)
                 {
                     this.photoRepository.createPhoto(i)
                 }
             }
-        }
-        this.executor.execute { housing.estateAgentList?.let {
+
+         housing.getEstateAgentList()?.let {
                 for (i in it)
                 {
                     val temp = HousingEstateAgent(i.housingReference, i.estateAgentName, i.function)
                     this.housingEstateAgentRepository.createHousingEstateAgent(temp)
                 }
             }
-        }
-        this.executor.execute { housing.poiList?.let {
+
+         housing.getPoiList()?.let {
                 for (i in it)
                 {
                     val temp = HousingPoi(i.housingReference, i.poiType, i.numberOfPoi)
                     this.housingPoiRepository.createHousingPoi(temp)
                 }
             }
-        }
+
     }
 
-    fun updateHousing(housing: Housing)
+    suspend fun updateHousing(housing: Housing)
     {
-        this.executor.execute { this.housingRepository.updateHousing(housing) }
-        if (housing.address != this.addressRepository.getAddressFromHousing(housing.ref).value) //TODO-Q : value : OK ?
+         this.housingRepository.updateHousing(housing)
+        if (housing.getAddress() != this.addressRepository.getAddressFromHousing(housing.ref).value) //TODO-Q : value : OK ?
         {
-            this.executor.execute { housing.address?.let { this.addressRepository.updateAddress(housing.address!!) } }
+            housing.getAddress()?.let { this.addressRepository.updateAddress(housing.getAddress()!!) }
         }
-        this.executor.execute { housing.photoList?.let {
+         housing.getPhotoList()?.let {
             for (i in it)
             {
                 this.photoRepository.createPhoto(i)
             }
+
         }
-        }
-        this.executor.execute { housing.estateAgentList?.let {
+         housing.getEstateAgentList()?.let {
             for (i in it)
             {
                 val temp = HousingEstateAgent(i.housingReference, i.estateAgentName, i.function)
                 this.housingEstateAgentRepository.createHousingEstateAgent(temp)
             }
+
         }
-        }
-        this.executor.execute { housing.poiList?.let {
+         housing.getPoiList()?.let {
             for (i in it)
             {
                 val temp = HousingPoi(i.housingReference, i.poiType, i.numberOfPoi)
                 this.housingPoiRepository.createHousingPoi(temp)
             }
         }
-        }
-    }
+
+    }*/
 
 }

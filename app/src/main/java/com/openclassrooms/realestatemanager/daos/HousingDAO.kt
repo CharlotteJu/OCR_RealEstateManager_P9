@@ -14,8 +14,8 @@ interface HousingDAO
     fun getHousing(reference : String) : LiveData<Housing>
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    fun createHousing (housing: Housing) : Long
+    suspend fun createHousing (housing: Housing) : Long
 
     @Update
-    fun updateHousing (housing: Housing) : Int
+    suspend fun updateHousing (housing: Housing) : Int
 }

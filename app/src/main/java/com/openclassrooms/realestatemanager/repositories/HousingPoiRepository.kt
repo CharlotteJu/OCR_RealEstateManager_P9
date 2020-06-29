@@ -10,12 +10,12 @@ class HousingPoiRepository (private val housingPoiDAO: HousingPoiDAO)
 
     fun getHousingPoi(reference: String, type: String) : LiveData<HousingPoi> = this.housingPoiDAO.getHousingPoi(reference, type)
 
-    fun getHousingPoiFromHousing(reference: String) : LiveData<HousingPoi> = this.housingPoiDAO.getHousingPoiFromHousing(reference)
+    fun getHousingPoiFromHousing(reference: String) : LiveData<List<HousingPoi>> = this.housingPoiDAO.getHousingPoiListFromHousing(reference)
 
-    fun getHousingPoiFromPoi(type: String) : LiveData<HousingPoi> = this.housingPoiDAO.getHousingPoiFromPoi(type)
+    fun getHousingPoiFromPoi(type: String) : LiveData<List<HousingPoi>> = this.housingPoiDAO.getHousingPoiListFromPoi(type)
 
-    fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.createHousingPoi(housingPoi)
+    suspend fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.createHousingPoi(housingPoi)
 
-    fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.updateHousingPoi(housingPoi)
+    suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.updateHousingPoi(housingPoi)
 
 }

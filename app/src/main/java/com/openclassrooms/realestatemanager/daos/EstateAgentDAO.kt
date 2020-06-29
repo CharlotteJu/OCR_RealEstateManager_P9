@@ -15,8 +15,8 @@ interface EstateAgentDAO
     fun getEstateAgent(name : String) : LiveData<EstateAgent>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun createEstateAgent (estateAgent: EstateAgent) : Long
+    suspend fun createEstateAgent (estateAgent: EstateAgent) : Long
 
     @Update
-    fun updateEstateAgent (estateAgent: EstateAgent) : Int
+    suspend fun updateEstateAgent (estateAgent: EstateAgent) : Int
 }

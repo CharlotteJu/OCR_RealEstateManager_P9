@@ -10,7 +10,7 @@ class EstateAgentRepository (private val estateAgentDAO: EstateAgentDAO)
 
     fun getEstateAgent(name : String) : LiveData<EstateAgent> = this.estateAgentDAO.getEstateAgent(name)
 
-    fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.createEstateAgent(estateAgent)
+    suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.createEstateAgent(estateAgent)
 
-    fun updateEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.updateEstateAgent(estateAgent)
+    suspend fun updateEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.updateEstateAgent(estateAgent)
 }

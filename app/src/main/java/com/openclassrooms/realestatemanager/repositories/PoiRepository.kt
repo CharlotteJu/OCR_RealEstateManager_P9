@@ -11,8 +11,8 @@ class PoiRepository (private val poiDAO: PoiDAO)
 
     fun getPoi(type : String) : LiveData<Poi> = this.poiDAO.getPoi(type)
 
-    fun createPoi(poi: Poi) = this.poiDAO.createPoi(poi)
+    suspend fun createPoi(poi: Poi) = this.poiDAO.createPoi(poi)
 
-    fun updatePoi(poi: Poi) = this.poiDAO.updatePoi(poi)
+    suspend fun updatePoi(poi: Poi) = this.poiDAO.updatePoi(poi)
 
 }
