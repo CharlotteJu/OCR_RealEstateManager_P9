@@ -23,7 +23,9 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") val 
                                               //@Ignore var address: Address? = null)
                     //TODO-Q : Pourquoi ça fait planter ? --> A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 {
-   /* private var address : Address? = null
+
+    //TODO : Faire des types Converter
+    /*private var address : Address? = null
     private var estateAgentList : List<HousingEstateAgent>? = null
     private var photoList : List<Photo>? = null
     private var poiList : List<HousingPoi>? = null

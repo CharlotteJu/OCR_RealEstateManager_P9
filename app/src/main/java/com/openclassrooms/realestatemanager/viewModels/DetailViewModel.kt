@@ -5,29 +5,42 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.database.AppDatabase
-import com.openclassrooms.realestatemanager.models.Housing
+import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import java.util.concurrent.Executor
 
+/**
+ * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> DetailFragment
+ */
 class DetailViewModel constructor(private val housingRepository: HousingRepository,
-                                                private val addressRepository: AddressRepository,
-                                                private val estateAgentRepository: EstateAgentRepository,
-                                                private val photoRepository: PhotoRepository,
-                                                private val poiRepository: PoiRepository,
-                                                private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                                                private val housingPoiRepository: HousingPoiRepository,
-                                                private val executor: Executor) : ViewModel() //TODO : Remplacer Executor par Coroutines
+                                  private val addressRepository: AddressRepository,
+                                  private val photoRepository: PhotoRepository,
+                                  private val housingEstateAgentRepository: HousingEstateAgentRepository,
+                                  private val housingPoiRepository: HousingPoiRepository)
+                                    : ViewModel()
 {
-    fun getHousing(reference : String) : LiveData<Housing>
+    lateinit var address : LiveData<Address>
+    lateinit var photoList : LiveData<List<Photo>>
+    lateinit var poiList : LiveData<List<HousingPoi>>
+    lateinit var estateAgentList : LiveData<List<HousingEstateAgent>>
+
+    fun getHousing(reference : String) : LiveData<Housing> = this.housingRepository.getHousing(reference)
+
+    fun getAllInfoForOneHousing(reference: String)
     {
-        var housing = this.housingRepository.getHousing(reference)
-        //var function : Function = setOf(Function)
+        this.address = this.getAddress(reference)
+        this.photoList = this.getPhotoList(reference)
+        this.estateAgentList = this.getEstateAgentList(reference)
+        this.poiList = this.getPoiList(reference)
 
-        //var test = Transformations.map(housing, function )
-        //var address = this.addressRepository.getAddressFromHousing(reference)
-        //var photoList = this.photoRepository.getPhotoListFromHousing(reference)
+    }  
 
+    private fun getAddress(reference: String) : LiveData<Address> = this.addressRepository.getAddressFromHousing(reference)
 
-        return housing
-    }
+    private fun getPhotoList(reference: String) : LiveData<List<Photo>> = this.photoRepository.getPhotoListFromHousing(reference)
+
+    private fun getPoiList(reference: String) : LiveData<List<HousingPoi>> = this.housingPoiRepository.getHousingPoiFromHousing(reference)
+
+    private fun getEstateAgentList(reference: String) : LiveData<List<HousingEstateAgent>> = this.housingEstateAgentRepository.getHousingEstateAgentFromHousing(reference)
+
 }

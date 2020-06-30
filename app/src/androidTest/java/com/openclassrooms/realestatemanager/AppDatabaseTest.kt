@@ -84,7 +84,7 @@ class AppDatabaseTest
     {
         database.close()
     }
-    
+
 
     @Test
     @Throws(Exception::class)
