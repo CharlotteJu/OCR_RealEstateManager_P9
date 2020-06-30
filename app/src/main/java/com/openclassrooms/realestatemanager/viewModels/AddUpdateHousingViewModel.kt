@@ -18,6 +18,25 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     //////////////////// CREATE ////////////////////
 
+    suspend fun createGlobalHousing(housing: Housing, address: Address?, photoList: List<Photo>?, housingEstateAgentList: List<HousingEstateAgent>?, housingPoiList: List<HousingPoi>?)
+    {
+        this.createHousing(housing)
+        this.createAddress(address!!)
+        for (photo in photoList!!)
+        {
+            this.createPhoto(photo)
+        }
+        for (housingEstateAgent in housingEstateAgentList!!)
+        {
+            this.createHousingEstateAgent(housingEstateAgent)
+        }
+        for (housingPoi in housingPoiList!!)
+        {
+            this.createHousingPoi(housingPoi)
+        }
+
+    }
+
     suspend fun createHousing(housing : Housing) = this.housingRepository.createHousing(housing)
 
     suspend fun createAddress(address: Address) = this.addressRepository.createAddress(address)
@@ -31,6 +50,34 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     //////////////////// UPDATE ////////////////////
 
+
+    suspend fun updateGlobalHousing(housing: Housing, address: Address, photoList: List<Photo>?, housingEstateAgentList: List<HousingEstateAgent>?, housingPoiList: List<HousingPoi>?)
+    {
+        val updateHousing = this.housingRepository.getHousing(housing.ref).value
+
+        if (address != updateHousing!!.address)
+        {
+            this.updateAddress(address)
+        }
+
+        for (i in photoList!!)
+        {
+            for (j in updateHousing.photoList!!)
+            {
+                if (i.uri == j.uri && i != j)
+                {
+                    this.updatePhoto(i)
+                }
+            }
+
+            if(!updateHousing.photoList!!.contains(i))
+            {
+                this.createPhoto(i)
+            }
+            
+        }
+
+    }
 
     suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
 

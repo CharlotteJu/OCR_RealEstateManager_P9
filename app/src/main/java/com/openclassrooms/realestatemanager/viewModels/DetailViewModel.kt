@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.daos.HousingDAO
@@ -23,17 +24,29 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
     lateinit var photoList : LiveData<List<Photo>>
     lateinit var poiList : LiveData<List<HousingPoi>>
     lateinit var estateAgentList : LiveData<List<HousingEstateAgent>>
+    lateinit var housing : LiveData<Housing>
 
-    fun getHousing(reference : String) : LiveData<Housing> = this.housingRepository.getHousing(reference)
+    fun getHousing(reference : String) : LiveData<Housing>
+    {
+        this.housing = this.housingRepository.getHousing(reference)
+        this.getAllInfoForOneHousing(reference)
 
-    fun getAllInfoForOneHousing(reference: String)
+        housing.value!!.photoList = photoList.value
+        housing.value!!.address = address.value
+        housing.value!!.estateAgentList = estateAgentList.value
+        housing.value!!.poiList = poiList.value
+
+        return housing
+    }
+
+    private fun getAllInfoForOneHousing(reference: String)
     {
         this.address = this.getAddress(reference)
         this.photoList = this.getPhotoList(reference)
         this.estateAgentList = this.getEstateAgentList(reference)
         this.poiList = this.getPoiList(reference)
 
-    }  
+    }
 
     private fun getAddress(reference: String) : LiveData<Address> = this.addressRepository.getAddressFromHousing(reference)
 
