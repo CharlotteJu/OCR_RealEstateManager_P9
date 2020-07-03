@@ -15,8 +15,6 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T
     {
-
-
         when {
             modelClass.isAssignableFrom(AddEstateTypeViewModel::class.java) ->
                 return modelClass.cast(AddEstateTypeViewModel(estateAgentRepository, poiRepository))!!

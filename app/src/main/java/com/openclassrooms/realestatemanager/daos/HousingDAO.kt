@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.daos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
 
 @Dao
@@ -19,4 +20,12 @@ interface HousingDAO
 
     @Update
     suspend fun updateHousing (housing: Housing) : Int
+
+    @Transaction
+    @Query("SELECT * FROM housing WHERE reference = :reference")
+    fun getCompleteHousing(reference: String) : LiveData<CompleteHousing>
+
+    @Transaction
+    @Query("SELECT * FROM housing")
+    fun getAllCompleteHousing() : LiveData<List<CompleteHousing>>
 }

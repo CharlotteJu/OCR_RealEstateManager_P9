@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/item_poi_icone"
-        android:layout_width="@dimen/item_poi_ic_size"
-        android:layout_height="@dimen/item_poi_ic_size"
-        android:src="@drawable/ic_park_"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_park_24"
         android:layout_marginTop="@dimen/item_poi_margin"
         android:layout_marginBottom="@dimen/item_poi_margin"
         android:layout_marginStart="@dimen/item_poi_margin"

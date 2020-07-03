@@ -15,6 +15,8 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                            private val housingPoiRepository: HousingPoiRepository)
                             : ViewModel()
 {
+
+
     fun getHousingList() : LiveData<List<Housing>> = this.housingRepository.getAllHousing()
 
     fun getAddressList() : LiveData<List<Address>> = this.addressRepository.getAllAddress()

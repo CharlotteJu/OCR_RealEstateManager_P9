@@ -12,7 +12,12 @@
         tools:layout="@layout/fragment_list" >
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment" >
+        <argument
+            android:name="reference"
+            app:argType="string"
+            android:defaultValue="0"/>
+        </action>
         <action
             android:id="@+id/action_listFragment_to_addHousingFragment"
             app:destination="@id/addHousingFragment" />
@@ -38,6 +43,7 @@
         <action
             android:id="@+id/action_detailFragment_to_editHousingFragment"
             app:destination="@id/editHousingFragment" />
+
     </fragment>
 
     <fragment

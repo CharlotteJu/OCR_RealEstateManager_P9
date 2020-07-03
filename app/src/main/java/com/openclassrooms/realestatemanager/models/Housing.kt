@@ -17,13 +17,18 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") val 
                                 @ColumnInfo (name = "dateSale")  var dateSale : String? = null,
                                 @ColumnInfo (name = "description") var description : String? = null)
 
-{
-    var poiList : List<HousingPoi>? = null
-    var  estateAgentList: List<HousingEstateAgent>? = null
-    var  photoList : List<Photo>?= null
-    var address: Address? = null
+                                /*@Ignore var poiList : List<HousingPoi>? = null,
+                                @Ignore var  estateAgentList: List<HousingEstateAgent>? = null,
+                                @Ignore var  photoList : List<Photo>?= null,
+                                @Ignore var address: Address? = null*/
 
-    constructor(ref : String,
+{
+    /*@Ignore var poiList : List<HousingPoi>? = null
+    @Ignore var  estateAgentList: List<HousingEstateAgent>? = null
+    @Ignore var  photoList : List<Photo>?= null
+    @Ignore var address: Address? = null*/
+
+    /*constructor(ref : String,
         type : String,
         price : Double,
         area : Double? = null,
@@ -38,7 +43,7 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") val 
         poiList : List<HousingPoi>? = null,
         estateAgentList: List<HousingEstateAgent>? = null,
         photoList : List<Photo>?= null,
-        address: Address? = null) : this("","",0.0,0.0,0,0,0,"","","","")
+        address: Address? = null) : this("","",0.0,0.0,0,0,0,"","","","")*/
 
 
     //TODO-Q : Types Converter ?

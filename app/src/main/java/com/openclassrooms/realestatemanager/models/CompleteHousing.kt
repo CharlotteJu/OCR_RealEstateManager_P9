@@ -1,22 +1,12 @@
 package com.openclassrooms.realestatemanager.models
 
-import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Relation
 
-class CompleteHousing (val ref : String,
-                       var type : String,
-                       var price : Double,
-                       var area : Double? = null,
-                       var rooms : Int? = null,
-                       var bedrooms : Int?= null,
-                       var bathrooms : Int?= null,
-                       var state : String,
-                       var dateEntry : String,
-                       var dateSale : String? = null,
-                       var description : String? = null,
-                       var address: Address? = null,
-                       var poiList: List<HousingPoi>? = null,
-                       var photoList: List<Photo>? = null,
-                       var estateAgentList: List<HousingEstateAgent>)
-
+data class CompleteHousing (@Embedded var housing: Housing,
+                            @Relation(parentColumn = "reference", entityColumn = "housing_reference") var photoList: List<Photo>? = null,
+                            @Relation(parentColumn = "reference", entityColumn = "housing_reference") var address: Address? = null,
+                            @Relation(parentColumn = "reference", entityColumn = "housing_reference") var estateAgentList: List<HousingEstateAgent>? = null,
+                            @Relation(parentColumn = "reference", entityColumn = "housing_reference") var poiList : List<HousingPoi>? = null)
 {
 }
