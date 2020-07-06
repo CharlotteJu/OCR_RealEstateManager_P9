@@ -55,12 +55,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         mNavigationController = findNavController(R.id.main_activity_navHost)
 
-
-
-        // TODO-Q : A quoi ça sert ? --> Ne marche pas
-        /*
-        // NavigationUI.setupActionBarWithNavController(this, this.mNavigationController, this.mDrawerLayout)
-        // NavigationUI.setupWithNavController(mNavigationView, mNavigationController)*/
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean

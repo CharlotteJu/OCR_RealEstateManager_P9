@@ -49,20 +49,6 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
 
-            <TextView
-                android:id="@+id/detail_fragment_description_image"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="wrap_content"
-                android:text="DESCRIPTION"
-                android:textAlignment="center"
-                android:layout_marginStart="@dimen/detail_fragment_margin"
-                android:layout_marginEnd="@dimen/detail_fragment_margin"
-                android:layout_marginBottom="@dimen/detail_fragment_margin"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_rcv_photo"
-                app:layout_constraintEnd_toEndOf="@id/detail_fragment_rcv_photo"
-                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_rcv_photo"/>
-
-
             <ImageButton
                 android:id="@+id/detail_fragment_image_button_next"
                 android:layout_width="@dimen/constraint_width_0"

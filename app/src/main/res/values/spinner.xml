@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="state_spinner">
+        <item>On going market</item>
+        <item>For sale</item>
+        <item>On Signature</item>
+        <item>Sell out</item>
+    </string-array>
+
+    <string-array name="type_housing_spinner">
+        <item>Apartment</item>
+        <item>House</item>
+        <item>Loft</item>
+        <item>Manor</item>
+        <item>Private Mansion</item>
+        <item>Castle</item>
+        <item>Barge</item>
+        <item>Block of flats</item>
+    </string-array>
+    
+    <string-array name="type_poi_spinner">
+        <item>Restaurant</item>
+        <item>School</item>
+        <item>Store</item>
+        <item>Subway</item>
+        <item>Park</item>
+    </string-array>
+    
+    <string-array name="function_spinner"></string-array>
+    <string-array name="district_spinner"></string-array>
+
+    <!--TODO : OK pour les spinners ? District automatique ? -->
+
+</resources>

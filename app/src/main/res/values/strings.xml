@@ -17,4 +17,17 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <!-- Poi Type -->
+    <string name="poi_type_restaurant">restaurant</string>
+    <string name="poi_type_school">school</string>
+    <string name="poi_type_store">store</string>
+    <string name="poi_type_subway">subway</string>
+    <string name="poi_type_park">park</string>
+
+    <string name="restaurants">Restaurants</string>
+    <string name="schools">Schools</string>
+    <string name="stores">Stores</string>
+    <string name="subways">Subways</string>
+    <string name="parks">Parks</string>
+
 </resources>

@@ -45,7 +45,6 @@ class ListFragment : Fragment() {
         val fabDetail : FloatingActionButton = view.list_fragment_detail_fab
 
         this.testVM()
-        this.testEnum()
 
         this.recyclerView = view.list_fragment_rcv
 
@@ -66,11 +65,7 @@ class ListFragment : Fragment() {
         return view
     }
 
-    fun testEnum ()
-    {
-        val test : String = EnumState.FOR_SALE.name
-        val lenght = test.length
-    }
+
 
     private fun configRecyclerView()
     {

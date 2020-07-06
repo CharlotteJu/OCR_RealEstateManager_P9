@@ -46,7 +46,6 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") val 
         address: Address? = null) : this("","",0.0,0.0,0,0,0,"","","","")*/
 
 
-    //TODO-Q : Types Converter ?
     /*private var address : Address? = null
     private var estateAgentList : List<HousingEstateAgent>? = null
     private var photoList : List<Photo>? = null
