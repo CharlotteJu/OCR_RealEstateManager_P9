@@ -22,12 +22,13 @@ import com.openclassrooms.realestatemanager.viewModels.Injection
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListFragment : Fragment() {
 
     private lateinit var m_Adapter : ListHousingAdapter
-    //private val m_ViewModel : DetailViewModel by viewModel()
+    //private val m_ViewModel : DetailViewModel by inject()
     private lateinit var m_ViewModel : DetailViewModel
     private var m_listHousing : MutableList<CompleteHousing> = arrayListOf()
     private lateinit var recyclerView : RecyclerView

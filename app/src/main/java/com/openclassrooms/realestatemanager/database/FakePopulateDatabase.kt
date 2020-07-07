@@ -68,6 +68,7 @@ class FakePopulateDatabase
             housing.put("reference", reference)
             housing.put("type", "House")
             housing.put("price", 1000000.0)
+            housing.put("area", 123.4)
             housing.put("state", "On sale")
             housing.put("dateEntry", "02/07/2020")
 

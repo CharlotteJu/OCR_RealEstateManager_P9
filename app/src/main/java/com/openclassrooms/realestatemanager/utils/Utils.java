@@ -24,6 +24,16 @@ public class Utils {
     }
 
     /**
+     * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
+     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
+     * @param euros
+     * @return
+     */
+    public static int convertEuroToDollar(int euros){
+        return (int) Math.round(euros / 0.812);
+    } // TODO : A BIEN REVOIR !!!!!
+
+    /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return

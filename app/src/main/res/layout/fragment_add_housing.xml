@@ -26,6 +26,7 @@
                 android:id="@+id/add_housing_fragment_type_spinner"
                 style="@style/add_housing_spinner_big"
                 android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
+                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_type_title"/>
@@ -43,6 +44,7 @@
             <Spinner
                 android:id="@+id/add_housing_fragment_price_currency_spinner"
                 style="@style/add_housing_spinner_little"
+                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"/>
@@ -103,6 +105,10 @@
             <Spinner
                 android:id="@+id/add_housing_fragment_number_bedrooms_spinner"
                 style="@style/add_housing_spinner_big"
+                android:clickable="false"
+                android:focusable="false"
+                android:duplicateParentState="true"
+                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_number_bedrooms_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_number_bedrooms_title"/>
@@ -296,8 +302,7 @@
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_title"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_title" />
 
 
             <EditText
@@ -307,12 +312,12 @@
                 android:layout_marginStart="@dimen/add_housing_fragment_text_margin"
                 android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toEndOf="@id/add_housing_fragment_photo_image"
-                app:layout_constraintEnd_toStartOf="@id/add_housing_photo_button"
+                app:layout_constraintEnd_toStartOf="@id/add_housing_fragment_photo_button"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_photo_image"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_photo_image"/>
 
             <ImageButton
-                android:id="@+id/add_housing_photo_button"
+                android:id="@+id/add_housing_fragment_photo_button"
                 android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_add_circle_24"
@@ -321,6 +326,17 @@
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_photo_image"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_photo_image"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/add_housing_fragment_photo_rcv"
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="120dp"
+                tools:listitem="@layout/item_photo"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_image"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

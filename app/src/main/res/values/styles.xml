@@ -21,6 +21,9 @@
     <!-- ADD HOUSING FRAGMENT -->
     <style name="add_housing_spinner">
         <item name="android:background">@drawable/test_spinner</item>
+        <item name="android:focusable">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:enabled">false</item>
         <item name="android:spinnerMode">dropdown</item>
     </style>
 
