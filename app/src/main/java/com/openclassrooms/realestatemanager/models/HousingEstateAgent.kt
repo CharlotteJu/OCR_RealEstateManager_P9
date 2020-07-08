@@ -15,7 +15,6 @@ import androidx.room.PrimaryKey
                                     childColumns = ["estate_agent_name"])])
 
 data class HousingEstateAgent constructor(@ColumnInfo (name = "housing_reference", index = true) val housingReference : String,
-                          @ColumnInfo (name = "estate_agent_name", index = true) val estateAgentName : String,
-                          @ColumnInfo (name = "function") var function : String? = null)
+                          @ColumnInfo (name = "estate_agent_name", index = true) val estateAgentName : String)
 
 {}

@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +14,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
+import com.openclassrooms.realestatemanager.views.adapters.NothingSelectedSpinnerAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 
 
@@ -33,6 +36,7 @@ class AddHousingFragment : Fragment() {
         this.configureSpinners()
         this.enableViews(false)
         this.getAllInfo()
+        this.createRef() //TODO : A appeler au bon moment
         return m_View
     }
 
@@ -58,20 +62,16 @@ class AddHousingFragment : Fragment() {
 
     }
 
-    private fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
-    {
-        return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).also {
-            adapter -> adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) } }
-    }
+
 
     private fun getAllInfo()
     {
         //TODO : CASTER LES EDIT VIDES !
         this.getPrice()
+        this.getTypeAndState()
         this.getInfoInsideHouse()
         this.getAddress()
         this.getDescription()
-        this.getTypeAndState()
         this.getPhotos()
         this.getEstateAgents()
     }
@@ -79,7 +79,7 @@ class AddHousingFragment : Fragment() {
 
     private fun getPrice()
     {
-        if (this.m_View.add_housing_fragment_price_editTxt.text.toString() != "")
+        if (this.getEditTxt(this.m_View.add_housing_fragment_price_editTxt) != null)
         {
             this.housing.price = this.m_View.add_housing_fragment_price_editTxt.toString().toDouble()
             this.m_View.add_housing_fragment_price_currency_spinner.isEnabled = true
@@ -94,41 +94,48 @@ class AddHousingFragment : Fragment() {
         }
     }
 
+
+
     private fun getInfoInsideHouse()
     {
-        housing.area = this.m_View.add_housing_fragment_area_editTxt.text.toString().toDouble()
-
-        this.m_View.add_housing_fragment_number_rooms_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> housing.rooms = parent.getItemAtPosition(position).toString().toInt() }
-        this.m_View.add_housing_fragment_number_bedrooms_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> housing.bedrooms = parent.getItemAtPosition(position).toString().toInt() }
-        this.m_View.add_housing_fragment_number_bathrooms_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> housing.bathrooms = parent.getItemAtPosition(position).toString().toInt() }
+        if (this.getEditTxt(this.m_View.add_housing_fragment_area_editTxt) != null)
+        {
+            housing.area = this.getEditTxt(this.m_View.add_housing_fragment_area_editTxt)?.toDouble()!!
+        }
+        housing.rooms = getItemSpinner(this.m_View.add_housing_fragment_number_rooms_spinner)?.toInt()
+        housing.bedrooms = getItemSpinner(this.m_View.add_housing_fragment_number_bedrooms_spinner)?.toInt()
+        housing.bathrooms = getItemSpinner(this.m_View.add_housing_fragment_number_bathrooms_spinner)?.toInt()
     }
 
     private fun getTypeAndState()
     {
-        this.m_View.add_housing_fragment_type_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> housing.type =  parent.getItemAtPosition(position).toString()}
-        this.m_View.add_housing_fragment_state_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> housing.state = parent.getItemAtPosition(position).toString()  }
+
+        if (this.getItemSpinner(this.m_View.add_housing_fragment_type_spinner) != null)
+        {
+            housing.type = this.getItemSpinner(this.m_View.add_housing_fragment_type_spinner)!!
+        }
+        if (this.getItemSpinner(this.m_View.add_housing_fragment_state_spinner) != null)
+        {
+            housing.state = this.getItemSpinner(this.m_View.add_housing_fragment_state_spinner)!!
+        }
     }
 
     private fun getDescription()
     {
-        housing.description = this.m_View.add_housing_fragment_description_editTxt.text.toString()
+        housing.description = this.getEditTxt(this.m_View.add_housing_fragment_description_editTxt)
     }
 
     private fun getAddress()
     {
-        val addressTxt = this.m_View.add_housing_fragment_address_editTxt.text.toString()
-        val zipCodeTxt = this.m_View.add_housing_fragment_zipCode_editTxt.text.toString()
-        val cityTxt = this.m_View.add_housing_fragment_city_editTxt.text.toString()
-        lateinit var country : String
+        val addressTxt = this.getEditTxt(this.m_View.add_housing_fragment_address_editTxt)
+        val zipCodeTxt = this.getEditTxt(this.m_View.add_housing_fragment_zipCode_editTxt)
+        val cityTxt = this.getEditTxt(this.m_View.add_housing_fragment_city_editTxt)
+        var country : String? = null
 
-        this.m_View.add_housing_fragment_country_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            ->  country = parent.getItemAtPosition(position).toString()}
-
+        if (this.getItemSpinner(this.m_View.add_housing_fragment_country_spinner) != null)
+        {
+            country = this.getItemSpinner(this.m_View.add_housing_fragment_country_spinner)!!
+        }
 
         // TODO : Voir si on rajoute le reste ou pas
         // TODO : VIEW MODEL
@@ -136,23 +143,16 @@ class AddHousingFragment : Fragment() {
 
     private fun getEstateAgents()
     {
-        val estateAgentList = ArrayList<HousingEstateAgent>() //TODO-Q : Pourquoi val alors que je peux avoir à add ?
+        var estateAgentList = ArrayList<HousingEstateAgent>() //TODO-Q : Pourquoi val alors que je peux avoir à add ?
         lateinit var housingEstateAgent: HousingEstateAgent
 
 
         this.m_View.add_housing_fragment_estate_agent_button.isEnabled = false
-        this.m_View.add_housing_fragment_estate_agent_function_spinner.isEnabled = false
-
-        this.m_View.add_housing_fragment_estate_agent_name_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            -> val name = parent.getItemAtPosition(position).toString()
-            housingEstateAgent = HousingEstateAgent(housingReference, name, null)
-            this.m_View.add_housing_fragment_estate_agent_function_spinner.isEnabled = true
+        val name = this.getItemSpinner(this.m_View.add_housing_fragment_estate_agent_name_spinner)
+        if (name != null)
+        {
+            housingEstateAgent = HousingEstateAgent(housingReference, name)
             this.m_View.add_housing_fragment_estate_agent_button.isEnabled = true
-        }
-
-        this.m_View.add_housing_fragment_estate_agent_function_spinner.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id
-            ->  val function = parent.getItemAtPosition(position).toString()
-            housingEstateAgent.function = function
         }
 
         this.m_View.add_housing_fragment_estate_agent_button.setOnClickListener {
@@ -179,8 +179,10 @@ class AddHousingFragment : Fragment() {
         this.m_View.add_housing_fragment_photo_rcv.layoutManager = LinearLayoutManager(context)
     }
 
+
+
     /**
-     * Put isClickable for some spinners once the ref is created
+     * Put isEnabled for some spinners once the ref is created
      */
     private fun enableViews(boolean : Boolean)
     {
@@ -188,12 +190,61 @@ class AddHousingFragment : Fragment() {
         this.m_View.add_housing_fragment_number_bedrooms_spinner.isEnabled = boolean
         this.m_View.add_housing_fragment_number_bathrooms_spinner.isEnabled = boolean
         this.m_View.add_housing_fragment_estate_agent_name_spinner.isEnabled = boolean
+        this.m_View.add_housing_fragment_state_spinner.isEnabled = boolean
         this.m_View.add_housing_fragment_address_editTxt.isEnabled = boolean
         this.m_View.add_housing_fragment_zipCode_editTxt.isEnabled = boolean
         this.m_View.add_housing_fragment_city_editTxt.isEnabled = boolean
         this.m_View.add_housing_fragment_country_spinner.isEnabled = boolean
         this.m_View.add_housing_fragment_description_editTxt.isEnabled = boolean
+        this.m_View.add_housing_fragment_image_description_editTxt.isEnabled = boolean
     }
+
+    private fun configureSpinnerAdapter(res : Int) : NothingSelectedSpinnerAdapter?
+    {
+        /*return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).also {
+            adapter -> adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) } }*/
+        val adapter = context?.let {
+            ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item)}
+
+        return NothingSelectedSpinnerAdapter(adapter, R.layout.spinner_nothing_selected, context)
+
+    }
+
+    private fun getItemSpinner(spinner: Spinner) : String?
+    {
+        var string : String? = null
+        //TODO-Q : Object ?
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
+        {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
+            {
+                string = parent?.getItemAtPosition(position).toString()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        return string
+    }
+
+    private fun getEditTxt(editText: EditText) : String?
+    {
+        var string : String? = null
+
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                string = s.toString()
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        })
+
+        return string
+    }
+
+
+
 
     /*private fun bindViews()
     {

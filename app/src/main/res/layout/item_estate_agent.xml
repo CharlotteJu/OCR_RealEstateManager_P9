@@ -15,17 +15,8 @@
         android:text="NAME"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:id="@+id/item_estate_agent_function"
-        android:layout_width="@dimen/constraint_width_0"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/item_estate_agent_text_size"
-        android:text="FUNCTION "
-        android:layout_marginStart="@dimen/item_estate_agent_margin"
-        app:layout_constraintStart_toEndOf="@id/item_estate_agent_name"
-        app:layout_constraintTop_toTopOf="@id/item_estate_agent_name"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <View
         android:layout_width="@dimen/view_separator_width"

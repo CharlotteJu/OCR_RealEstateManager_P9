@@ -23,7 +23,7 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->
                 return modelClass.cast(DetailViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository))!!
             modelClass.isAssignableFrom(ListHousingViewModel::class.java) ->
-                return modelClass.cast(ListHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository))!!
+                return modelClass.cast(ListHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository,housingPoiRepository))!!
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

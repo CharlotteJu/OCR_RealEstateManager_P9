@@ -101,7 +101,6 @@ class FakePopulateDatabase
             val housingEstateAgent = ContentValues()
             housingEstateAgent.put("housing_reference", reference)
             housingEstateAgent.put("estate_agent_name", name)
-            housingEstateAgent.put("function", "Seller")
 
             return housingEstateAgent
         }

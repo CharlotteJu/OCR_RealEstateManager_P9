@@ -2,7 +2,6 @@
 <resources>
 
     <string-array name="state_spinner">
-        <item></item>
         <item>On going market</item>
         <item>For sale</item>
         <item>On Signature</item>
@@ -10,7 +9,6 @@
     </string-array>
 
     <string-array name="type_housing_spinner">
-        <item></item>
         <item>Apartment</item>
         <item>House</item>
         <item>Loft</item>
@@ -22,7 +20,6 @@
     </string-array>
     
     <string-array name="type_poi_spinner">
-        <item></item>
         <item>Restaurant</item>
         <item>School</item>
         <item>Store</item>
@@ -31,13 +28,11 @@
     </string-array>
 
     <string-array name="price_currency_spinner">
-        <item></item>
         <item>$</item>
         <item>€</item>
     </string-array>
 
     <string-array name="number_rooms">
-        <item></item>
         <item>0</item>
         <item>1</item>
         <item>2</item>

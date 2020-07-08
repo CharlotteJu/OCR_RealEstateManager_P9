@@ -34,7 +34,6 @@ class ListEstateAgentAdapter(private var listEstateAgent : List<HousingEstateAge
         fun configureDesign(estateAgent : HousingEstateAgent)
         {
             estateAgent.estateAgentName.let { itemView.item_estate_agent_name.text = it }
-            estateAgent.function.let { itemView.item_estate_agent_function.text = it }
         }
     }
 }
