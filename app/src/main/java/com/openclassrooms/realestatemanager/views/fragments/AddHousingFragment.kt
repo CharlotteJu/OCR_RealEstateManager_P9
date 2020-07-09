@@ -45,7 +45,6 @@ class AddHousingFragment : Fragment() {
         this.configureSpinners()
         this.enableViews(false)
         this.getAllInfo()
-        this.createRef() //TODO : A appeler au bon moment
 
         this.m_View.add_housing_fragment_final_button.setOnClickListener {
             this.findNavController().navigate(R.id.listFragment)

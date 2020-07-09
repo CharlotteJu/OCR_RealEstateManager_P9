@@ -13,10 +13,6 @@
         <action
             android:id="@+id/action_listFragment_to_detailFragment"
             app:destination="@id/detailFragment" >
-        <argument
-            android:name="reference"
-            app:argType="string"
-            android:defaultValue="0"/>
         </action>
         <action
             android:id="@+id/action_listFragment_to_addHousingFragment"
@@ -40,6 +36,10 @@
         android:id="@+id/detailFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.DetailFragment"
         android:label="DetailFragment" >
+        <argument
+            android:name="reference"
+            app:argType="string"
+            android:defaultValue="0"/>
         <action
             android:id="@+id/action_detailFragment_to_editHousingFragment"
             app:destination="@id/editHousingFragment" />

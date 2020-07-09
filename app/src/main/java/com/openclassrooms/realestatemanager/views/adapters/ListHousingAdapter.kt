@@ -12,13 +12,13 @@ import com.openclassrooms.realestatemanager.models.CompleteHousing
 import kotlinx.android.synthetic.main.item_housing.view.*
 import kotlinx.android.synthetic.main.item_photo.view.*
 
-class ListHousingAdapter(private var listHousing : List<CompleteHousing>)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
+class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: onItemClickListener)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHousingViewHolder
     {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_housing, parent, false)
-        return ListHousingViewHolder(view)
+        return ListHousingViewHolder(view, this.onItemClickListener)
     }
 
 
@@ -36,12 +36,16 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>)  : Rec
         this.notifyDataSetChanged()
     }
 
-    class ListHousingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ListHousingViewHolder(itemView: View, private val onItemClickListener: onItemClickListener) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(housing: CompleteHousing)
         {
             this.configPhoto(housing)
             this.configText(housing)
+
+            itemView.tag = housing.housing.ref
+
+            itemView.setOnClickListener{onItemClickListener.onItemClick(adapterPosition)}
         }
 
         private fun configPhoto(housing : CompleteHousing)
