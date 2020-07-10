@@ -62,7 +62,12 @@
         android:id="@+id/addHousingFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.AddHousingFragment"
         android:label="fragment_add_housing"
-        tools:layout="@layout/fragment_add_housing" />
+        tools:layout="@layout/fragment_add_housing">
+    <argument
+        android:name="reference"
+        app:argType="string"
+        android:defaultValue="0"/>
+    </fragment>
     <fragment
         android:id="@+id/editHousingFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.EditHousingFragment"

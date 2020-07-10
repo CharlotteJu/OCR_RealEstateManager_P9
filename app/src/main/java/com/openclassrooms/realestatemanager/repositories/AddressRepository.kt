@@ -11,7 +11,7 @@ class AddressRepository (private val addressDAO: AddressDAO)
 
     fun getAddressFromHousing(reference : String) : LiveData<Address> = this.addressDAO.getAddressFromHousing(reference)
 
-    fun getAddressFromId(id : Int) : LiveData<Address> = this.addressDAO.getAddressFromId(id)
+    fun getAddressFromId(id : String) : LiveData<Address> = this.addressDAO.getAddressFromId(id)
 
     suspend fun createAddress(address: Address) = this.addressDAO.createAddress(address)
 

@@ -49,11 +49,11 @@ class AppDatabaseTest
             dateEntry = "20200624",
             dateSale = null)
 
-    private var address = Address(1, "38 rue de Bellevue", city = "Boulogne-Billancourt", country = "FR", housingReference = reference, zipCode = null)
+    private var address = Address("idAddress", "38 rue de Bellevue", city = "Boulogne-Billancourt", country = "FR", housingReference = reference, zipCode = null)
     private var estateAgent = EstateAgent(name, "Jean", null, null)
     private var photo = Photo("URI", null, reference)
     private var poi = Poi(typePoi, "IC")
-    private var housingEstateAgent = HousingEstateAgent(reference, name, "ENTRY")
+    private var housingEstateAgent = HousingEstateAgent(reference, name)
     private var housingPoi = HousingPoi(reference, typePoi, 2)
 
     @get:Rule var rule  = InstantTaskExecutorRule()
@@ -249,13 +249,6 @@ class AppDatabaseTest
         assertEquals(housingEstateAgentTest!!, (housingEstateAgent))
         assertEquals(housingEstateAgentFromHousingTest!![0], (housingEstateAgent))
         assertEquals(housingEstateAgentFromEstateAgentTest!![0], (housingEstateAgent))
-
-        //UPDATE
-        housingEstateAgent.function = "SALE"
-        housingEstateAgentDAO.updateHousingEstateAgent(housingEstateAgent)
-        val housingEstateAgentUpdate = LiveDataTestUtil.getValue(housingEstateAgentDAO.getHousingEstateAgent(reference, name))
-        assertNotSame(housingEstateAgentUpdate, housingEstateAgentFromHousingTest)
-        assertEquals(housingEstateAgentUpdate, housingEstateAgent)
     }
 
     @Test

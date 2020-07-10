@@ -154,9 +154,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/detail_fragment_margin"
                 android:text="REF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/detail_fragment_area_txt"/>
-
+                android:layout_marginTop="@dimen/detail_fragment_margin"
+                app:layout_constraintTop_toTopOf="@id/detail_fragment_area_txt"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/detail_fragment_state_txt"
@@ -202,7 +202,7 @@
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_date_sale_txt"/>
 
             <View
-                android:id="@+id/detail_fragment_separation_1"
+                android:id="@+id/detail_fragment_separation_1_info_address"
                 android:layout_width="@dimen/view_separator_width"
                 android:layout_height="@dimen/view_separator_height"
                 android:background="@color/colorPrimary"
@@ -235,10 +235,10 @@
                 android:layout_marginTop="@dimen/detail_fragment_separator_margin"
                 android:src="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_1"/>
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_1_info_address"/>
 
             <View
-                android:id="@+id/detail_fragment_separation_2"
+                android:id="@+id/detail_fragment_separation_2_address_desc"
                 android:layout_width="@dimen/view_separator_width"
                 android:layout_height="@dimen/view_separator_height"
                 android:background="@color/colorPrimary"
@@ -257,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/detail_fragment_separator_margin"
                 android:text="DESCRIPTION : "
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_2"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_2_address_desc"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"/>
 
             <TextView
@@ -271,7 +271,7 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_description_title_txt"/>
 
            <View
-               android:id="@+id/detail_fragment_separation_3"
+               android:id="@+id/detail_fragment_separation_3_desc_poi"
                android:layout_width="@dimen/view_separator_width"
                android:layout_height="@dimen/view_separator_height"
                android:background="@color/colorPrimary"
@@ -290,7 +290,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/detail_fragment_separator_margin"
                 android:text="POINT OF INTEREST : "
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_3"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_3_desc_poi"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"/>
 
             <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
@@ -304,7 +304,7 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_poi_title_txt" />
 
             <View
-                android:id="@+id/detail_fragment_separation_4"
+                android:id="@+id/detail_fragment_separation_4_poi_estate"
                 android:layout_width="@dimen/view_separator_width"
                 android:layout_height="@dimen/view_separator_height"
                 android:background="@color/colorPrimary"
@@ -328,7 +328,7 @@
                 android:textAlignment="textStart"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_4"/>
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_4_poi_estate"/>
 
             <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
             <androidx.recyclerview.widget.RecyclerView

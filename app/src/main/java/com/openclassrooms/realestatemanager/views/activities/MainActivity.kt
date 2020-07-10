@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.views.fragments.ListFragmentDirections
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -63,7 +65,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             R.id.menu_drawer_home -> this.mNavigationController.navigate(R.id.listFragment)
             R.id.menu_drawer_settings -> this.mNavigationController.navigate(R.id.settingsFragment)
-            R.id.menu_drawer_add_housing -> this.mNavigationController.navigate(R.id.addHousingFragment)
+            R.id.menu_drawer_add_housing -> {
+                val bundle = Bundle()
+                bundle.putString("reference", UUID.randomUUID().toString())
+                this.mNavigationController.navigate(R.id.addHousingFragment, bundle)
+            }
             R.id.menu_drawer_add_estate_agent -> this.mNavigationController.navigate(R.id.addEstateAgentFragment)
         }
         // To Close drawerLayout auto

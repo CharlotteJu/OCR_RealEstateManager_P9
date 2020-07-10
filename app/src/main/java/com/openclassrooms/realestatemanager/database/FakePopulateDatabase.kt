@@ -78,7 +78,7 @@ class FakePopulateDatabase
         private fun addAddress() : ContentValues
         {
             val address = ContentValues()
-            address.put("id", 0)
+            address.put("id", "idAddress")
             address.put("street", "38 Rue de Bellevue")
             address.put("city", "Boulogne-Billancourt")
             address.put("country", "FR")

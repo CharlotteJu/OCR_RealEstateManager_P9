@@ -24,15 +24,12 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
  */
 class DetailFragment : Fragment() {
 
-    lateinit var refString : String //= arguments?.getString("reference")
 
-    lateinit var ref : String// = DetailFragmentArgs.fromBundle(this.requireArguments()).reference
-
-    private val m_ViewModel : DetailViewModel  by viewModel()
+    private lateinit var ref : String// = DetailFragmentArgs.fromBundle(this.requireArguments()).reference
+    private val mViewModel : DetailViewModel  by viewModel()
     private lateinit var housing : CompleteHousing
-    private lateinit var m_View : View
-
-
+    private lateinit var mView : View
+    private lateinit var notSpecify : String // = getString(R.string.not_specify)
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -42,21 +39,21 @@ class DetailFragment : Fragment() {
         {
             ref = requireArguments().getString("reference").toString()
         }
+        notSpecify = getString(R.string.not_specify)
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        m_View = inflater.inflate(R.layout.fragment_detail, container, false)
+        mView = inflater.inflate(R.layout.fragment_detail, container, false)
         this.getDataFromLiveData()
-        return m_View
+        return mView
     }
 
     private fun getDataFromLiveData()
     {
-        val debug = ref
-        m_ViewModel.getHousing(ref).observe(viewLifecycleOwner, Observer {
+        mViewModel.getHousing(ref).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
         })
@@ -66,6 +63,7 @@ class DetailFragment : Fragment() {
     {
         this.showTypeAndPrice()
         this.showStateDateAndRef()
+        this.showInfoInsideHouse()
         this.showAddress()
         this.showDescription()
         this.showPoi()
@@ -75,46 +73,50 @@ class DetailFragment : Fragment() {
 
     private fun showTypeAndPrice()
     {
-        this.m_View.detail_fragment_type_txt.text = housing.housing.type
-        this.m_View.detail_fragment_price_txt.text = housing.housing.price.toString() //TODO : Rajouter la device
+        this.mView.detail_fragment_type_txt.text = housing.housing.type
+        this.mView.detail_fragment_price_txt.text = housing.housing.price.toString() //TODO : Rajouter la device
     }
 
     private fun showInfoInsideHouse()
     {
-        this.m_View.detail_fragment_area_txt.text = housing.housing.area.toString()
+        this.mView.detail_fragment_area_txt.text = housing.housing.area.toString()
 
-        if (housing.housing.rooms != null) { this.m_View.detail_fragment_number_rooms_txt.text = housing.housing.rooms.toString() }
-        else { this.m_View.detail_fragment_number_rooms_txt.visibility = View.INVISIBLE }
+        if (housing.housing.rooms != null) { this.mView.detail_fragment_number_rooms_txt.text = housing.housing.rooms.toString() }
+        else { this.mView.detail_fragment_number_rooms_txt.text = notSpecify }
 
-        if (housing.housing.bedrooms != null) { this.m_View.detail_fragment_bedrooms_txt.text = housing.housing.bedrooms.toString() }
-        else { this.m_View.detail_fragment_bedrooms_txt.visibility = View.INVISIBLE }
+        if (housing.housing.bedrooms != null) { this.mView.detail_fragment_bedrooms_txt.text = housing.housing.bedrooms.toString() }
+        else { this.mView.detail_fragment_bedrooms_txt.text = notSpecify }
 
-        if (housing.housing.bathrooms != null) { this.m_View.detail_fragment_bathrooms_txt.text = housing.housing.bathrooms.toString() }
-        else { this.m_View.detail_fragment_bathrooms_txt.visibility = View.INVISIBLE }
+        if (housing.housing.bathrooms != null) { this.mView.detail_fragment_bathrooms_txt.text = housing.housing.bathrooms.toString() }
+        else { this.mView.detail_fragment_bathrooms_txt.text = notSpecify }
     }
 
     private fun showStateDateAndRef()
     {
-        this.m_View.detail_fragment_state_txt.text = housing.housing.state
-        this.m_View.detail_fragment_date_entry_txt.text = housing.housing.dateEntry
+        this.mView.detail_fragment_state_txt.text = housing.housing.state
+        this.mView.detail_fragment_date_entry_txt.text = housing.housing.dateEntry
 
-        if (housing.housing.dateSale != null) { this.m_View.detail_fragment_date_sale_txt.text = housing.housing.dateSale }
-        else { this.m_View.detail_fragment_date_sale_txt.visibility = View.INVISIBLE }
+        if (housing.housing.dateSale != null) { this.mView.detail_fragment_date_sale_txt.text = housing.housing.dateSale }
+        else {
+            this.mView.detail_fragment_date_sale_txt.visibility = View.INVISIBLE
+            this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
+        }
 
-        this.m_View.detail_fragment_reference_txt.text = housing.housing.ref
+        this.mView.detail_fragment_reference_txt.text = housing.housing.ref
     }
 
     private fun showAddress()
     {
         if (housing.address != null)
         {
-            this.m_View.detail_fragment_address_txt.text = housing.address.toString()
+            this.mView.detail_fragment_address_txt.text = housing.address.toString()
             //TODO : Afficher sur la map
         }
         else
         {
-            this.m_View.detail_fragment_address_txt.visibility = View.GONE
-            this.m_View.detail_fragment_address_map_image.visibility = View.GONE
+            this.mView.detail_fragment_address_txt.visibility = View.GONE
+            this.mView.detail_fragment_address_map_image.visibility = View.GONE
+            this.mView.detail_fragment_separation_2_address_desc.visibility = View.GONE
         }
     }
 
@@ -122,12 +124,13 @@ class DetailFragment : Fragment() {
     {
         if (housing.housing.description != null)
         {
-            this.m_View.detail_fragment_description_txt.text = housing.housing.description
+            this.mView.detail_fragment_description_txt.text = housing.housing.description
         }
         else
         {
-            this.m_View.detail_fragment_description_title_txt.visibility = View.GONE
-            this.m_View.detail_fragment_description_txt.visibility = View.GONE
+            this.mView.detail_fragment_description_title_txt.visibility = View.GONE
+            this.mView.detail_fragment_description_txt.visibility = View.GONE
+            this.mView.detail_fragment_separation_3_desc_poi.visibility = View.GONE
         }
     }
 
@@ -137,13 +140,14 @@ class DetailFragment : Fragment() {
         {
             val poiList = housing.poiList!!.toList()
             val adapter = ListPoiAdapter(poiList)
-            this.m_View.detail_fragment_rcv_poi.adapter = adapter
-            this.m_View.detail_fragment_rcv_poi.layoutManager = LinearLayoutManager(context)
+            this.mView.detail_fragment_rcv_poi.adapter = adapter
+            this.mView.detail_fragment_rcv_poi.layoutManager = LinearLayoutManager(context)
         }
         else
         {
-            this.m_View.detail_fragment_poi_title_txt.visibility = View.GONE
-            this.m_View.detail_fragment_rcv_poi.visibility = View.GONE
+            this.mView.detail_fragment_poi_title_txt.visibility = View.GONE
+            this.mView.detail_fragment_rcv_poi.visibility = View.GONE
+            this.mView.detail_fragment_separation_4_poi_estate.visibility = View.GONE
         }
     }
 
@@ -153,13 +157,13 @@ class DetailFragment : Fragment() {
         {
             val estateList = housing.estateAgentList!!.toList()
             val adapter = ListEstateAgentAdapter(estateList)
-            this.m_View.add_housing_fragment_estate_agent_rcv.adapter = adapter
-            this.m_View.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
+            this.mView.add_housing_fragment_estate_agent_rcv.adapter = adapter
+            this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
         }
         else
         {
-            this.m_View.detail_fragment_estate_agent_title_txt.visibility = View.GONE
-            this.m_View.detail_fragment_rcv_estate_agent.visibility = View.GONE
+            this.mView.detail_fragment_estate_agent_title_txt.visibility = View.GONE
+            this.mView.detail_fragment_rcv_estate_agent.visibility = View.GONE
         }
     }
 
@@ -169,12 +173,12 @@ class DetailFragment : Fragment() {
         {
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoAdapter(photoList)
-            this.m_View.detail_fragment_rcv_photo.adapter = adapter
-            this.m_View.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context)
+            this.mView.detail_fragment_rcv_photo.adapter = adapter
+            this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context)
         }
         else
         {
-            this.m_View.detail_fragment_rcv_photo.visibility = View.GONE
+            this.mView.detail_fragment_rcv_photo.visibility = View.GONE
         }
     }
 

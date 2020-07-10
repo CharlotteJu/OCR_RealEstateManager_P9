@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.viewModels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
@@ -12,12 +13,16 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                                 private val addressRepository: AddressRepository,
                                 private val photoRepository: PhotoRepository,
                                 private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                                private val housingPoiRepository: HousingPoiRepository)
+                                private val housingPoiRepository: HousingPoiRepository,
+                                private val estateAgentRepository: EstateAgentRepository)
                                 : ViewModel()
 {
 
-    //////////////////// CREATE ////////////////////
+    //////////////////// GET ////////////////////
 
+    fun getEstateAgentList() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
+
+    //////////////////// CREATE ////////////////////
 
 
     suspend fun createHousing(housing : Housing) = this.housingRepository.createHousing(housing)

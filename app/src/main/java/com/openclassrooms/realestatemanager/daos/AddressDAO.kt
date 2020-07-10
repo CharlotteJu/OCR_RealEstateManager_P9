@@ -15,7 +15,7 @@ interface AddressDAO
     fun getAddressFromHousing(reference : String) : LiveData<Address>
 
     @Query("SELECT * FROM address WHERE id =:id")
-    fun getAddressFromId(id : Int) : LiveData<Address>
+    fun getAddressFromId(id : String) : LiveData<Address>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createAddress (address: Address) : Long

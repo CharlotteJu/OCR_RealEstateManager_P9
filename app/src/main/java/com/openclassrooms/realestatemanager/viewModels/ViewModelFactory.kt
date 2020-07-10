@@ -19,7 +19,7 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
             modelClass.isAssignableFrom(AddEstateTypeViewModel::class.java) ->
                 return modelClass.cast(AddEstateTypeViewModel(estateAgentRepository, poiRepository))!!
             modelClass.isAssignableFrom(AddUpdateHousingViewModel::class.java) ->
-                return modelClass.cast(AddUpdateHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository))!!
+                return modelClass.cast(AddUpdateHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository, estateAgentRepository))!!
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->
                 return modelClass.cast(DetailViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository))!!
             modelClass.isAssignableFrom(ListHousingViewModel::class.java) ->
