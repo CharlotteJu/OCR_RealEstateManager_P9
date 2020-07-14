@@ -18,4 +18,6 @@ class HousingPoiRepository (private val housingPoiDAO: HousingPoiDAO)
 
     suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.updateHousingPoi(housingPoi)
 
+    suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiDAO.deleteHousingPoi(housingPoi)
+
 }

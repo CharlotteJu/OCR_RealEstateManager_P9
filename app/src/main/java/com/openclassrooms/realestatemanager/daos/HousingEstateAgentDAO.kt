@@ -25,5 +25,8 @@ interface HousingEstateAgentDAO
     @Update
     suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) : Int
 
+    @Delete
+    suspend fun deleteHousingEstateAgent (housingEstateAgent: HousingEstateAgent)
+
 
 }

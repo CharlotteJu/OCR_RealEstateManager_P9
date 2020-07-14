@@ -24,4 +24,7 @@ interface HousingPoiDAO
 
     @Update
     suspend fun updateHousingPoi(housingPoi: HousingPoi) : Int
+
+    @Delete
+    suspend fun deleteHousingPoi(housingPoi: HousingPoi)
 }

@@ -13,4 +13,6 @@ class EstateAgentRepository (private val estateAgentDAO: EstateAgentDAO)
     suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.createEstateAgent(estateAgent)
 
     suspend fun updateEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.updateEstateAgent(estateAgent)
+
+    suspend fun deleteEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.deleteEstateAgent(estateAgent)
 }

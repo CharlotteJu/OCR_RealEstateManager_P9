@@ -16,6 +16,8 @@ class HousingRepository(private val housingDao : HousingDAO)
 
     suspend fun updateHousing (housing: Housing) = this.housingDao.updateHousing(housing)
 
+    suspend fun deleteHousing (housing: Housing) = this.housingDao.deleteHousing(housing)
+
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingDao.getCompleteHousing(reference)
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingDao.getAllCompleteHousing()

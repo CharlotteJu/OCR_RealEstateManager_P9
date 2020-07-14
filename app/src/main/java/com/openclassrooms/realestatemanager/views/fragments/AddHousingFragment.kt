@@ -16,18 +16,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.SPINNER_SELECT
+import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.ext.scope
 import java.util.*
 import kotlin.collections.ArrayList
 
 
 class AddHousingFragment : Fragment() {
 
-    private var housing = Housing()
+    private lateinit var housing : Housing
     private lateinit var mView : View
     //private var housingReference : String? = null
     private var address : Address? = null
@@ -41,7 +45,9 @@ class AddHousingFragment : Fragment() {
         if (arguments!= null)
         {
             housingReference = requireArguments().getString("reference").toString()
+            housing = Housing(ref = housingReference)
         }
+
         //housingReference = UUID.randomUUID().toString()
     }
 
@@ -56,11 +62,58 @@ class AddHousingFragment : Fragment() {
         this.getAllInfo()
 
         this.mView.add_housing_fragment_final_button.setOnClickListener {
+            this.coroutine()
             this.findNavController().navigate(R.id.listFragment)
-            //this.addFinal()
         }
 
         return mView
+    }
+
+    private fun coroutine() = runBlocking {
+
+       // mViewModel.createHousing(housing)
+
+        val test = launch {
+            mViewModel.createHousing(housing)
+        }
+
+        test.join()
+
+        launch { addFinal() }
+
+       /* val housingTest = mViewModel.getHousing(housingReference).observe(viewLifecycleOwner, Observer {
+            val debug = it
+            val test2 = launch { addFinal() }
+        })*/
+
+
+
+
+    }
+
+    private suspend fun addFinal()
+    {
+
+       // mViewModel.createHousing(housing)
+
+        if (address != null)
+        {
+            mViewModel.createAddress(address!!)
+        }
+
+        for (estate in estateAgentList)
+        {
+            val estateAgent = HousingEstateAgent(housingReference!!, estate.lastName)
+            mViewModel.createHousingEstateAgent(estateAgent)
+        }
+
+        for (photo in photoList)
+        {
+            mViewModel.createPhoto(photo)
+        }
+
+        //TODO : Chercher les POI
+
     }
 
     private fun getEstateAgentList()
@@ -89,32 +142,7 @@ class AddHousingFragment : Fragment() {
 
     }
 
-    private suspend fun addFinal()
-    {
-        if (housingReference != null)
-        {
-            this.mViewModel.createHousing(housing)
 
-            if (address != null)
-            {
-                this.mViewModel.createAddress(address!!)
-            }
-
-            for (estate in estateAgentList)
-            {
-                val estateAgent = HousingEstateAgent(housingReference!!, estate.lastName)
-                this.mViewModel.createHousingEstateAgent(estateAgent)
-            }
-
-            for (photo in photoList)
-            {
-                this.mViewModel.createPhoto(photo)
-            }
-
-            //TODO : Chercher les POI
-        }
-
-    }
 
 
 
@@ -122,6 +150,7 @@ class AddHousingFragment : Fragment() {
     {
         this.mView.add_housing_fragment_type_spinner.adapter = configureSpinnerAdapter(R.array.type_housing_spinner)
         this.mView.add_housing_fragment_type_spinner.prompt = getString(R.string.spinners_type)
+        this.mView.add_housing_fragment_type_spinner.setSelection(2)
         this.mView.add_housing_fragment_state_spinner.adapter = configureSpinnerAdapter(R.array.state_spinner)
         this.mView.add_housing_fragment_state_spinner.prompt = getString(R.string.spinners_state)
         this.mView.add_housing_fragment_price_currency_spinner.adapter = configureSpinnerAdapter(R.array.price_currency_spinner)
@@ -191,7 +220,7 @@ class AddHousingFragment : Fragment() {
             {
                 parent?.let {
                     val item : String = parent.getItemAtPosition(position).toString()
-                    if (item != SPINNER_SELECT) housing.rooms = item.toInt()
+                    if (item != SPINNER_SELECT) housing.bedrooms = item.toInt()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -203,7 +232,7 @@ class AddHousingFragment : Fragment() {
             {
                 parent?.let {
                     val item : String = parent.getItemAtPosition(position).toString()
-                    if (item != SPINNER_SELECT) housing.rooms = item.toInt()
+                    if (item != SPINNER_SELECT) housing.bathrooms = item.toInt()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -244,14 +273,14 @@ class AddHousingFragment : Fragment() {
 
     private fun getAddress()
     {
-        var addressTxt : String? = null
-        var zipCodeTxt : String? = null
-        var cityTxt : String? = null
-        var country : String? = null
 
-        this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { addressTxt = it.toString() }
-        this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged { zipCodeTxt = it.toString() }
-        this.mView.add_housing_fragment_city_editTxt.doAfterTextChanged { cityTxt = it.toString() }
+        val uuidAddress = UUID.randomUUID().toString()
+
+        address = Address(uuidAddress, street = STRING_EMPTY, city = STRING_EMPTY, country = STRING_EMPTY, housingReference = this.housingReference)
+
+        this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { address!!.street = it.toString() }
+        this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged { address!!.zipCode = it.toString().toInt() }
+        this.mView.add_housing_fragment_city_editTxt.doAfterTextChanged { address!!.city = it.toString() }
 
         this.mView.add_housing_fragment_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
@@ -259,7 +288,7 @@ class AddHousingFragment : Fragment() {
             {
                 parent?.let {
                     val item : String = parent.getItemAtPosition(position).toString()
-                    if (item != SPINNER_SELECT) country = item
+                    if (item != SPINNER_SELECT) address!!.country = item
                   }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -283,7 +312,7 @@ class AddHousingFragment : Fragment() {
                     if (item != SPINNER_SELECT)
                     {
                         name = item
-                        housingEstateAgent = HousingEstateAgent(housingReference!!, name!!)
+                        housingEstateAgent = HousingEstateAgent(housingReference, name!!)
                         mView.add_housing_fragment_estate_agent_button.isEnabled = true
                     }
                 }
@@ -313,7 +342,7 @@ class AddHousingFragment : Fragment() {
     {
         if (housing.type != "" && housing.price != 0.0 && housing.area != 0.0 && housing.state!= "" )
         {
-            this.mView.add_housing_fragment_final_button.isEnabled = true // TODO : Ou appeler ?
+            this.mView.add_housing_fragment_final_button.isEnabled = true // TODO-Q : Ou appeler ? --> Listener spinner
         }
     }
 

@@ -3,6 +3,8 @@ package com.openclassrooms.realestatemanager.viewModels
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> DetailFragment
@@ -19,5 +21,49 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
     fun getHousing(reference : String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
 
     fun getGlobalHousingList() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
+
+    suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
+
+    suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
+
+    suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
+
+    suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
+
+    suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
+
+    fun test (completeHousing: CompleteHousing)
+    {
+        viewModelScope.launch (Dispatchers.IO)
+        {
+            if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
+
+            if (completeHousing.estateAgentList != null || completeHousing.estateAgentList!!.isNotEmpty())
+            {
+                for (i in completeHousing.estateAgentList!!)
+                {
+                    deleteHousingEstateAgent(i)
+                }
+            }
+
+            if (completeHousing.photoList != null || completeHousing.photoList!!.isNotEmpty())
+            {
+                for (i in completeHousing.photoList!!)
+                {
+                    deletePhoto(i)
+                }
+            }
+
+            if (completeHousing.poiList != null || completeHousing.poiList!!.isNotEmpty())
+            {
+                for (i in completeHousing.poiList!!)
+                {
+                    deleteHousingPoi(i)
+                }
+            }
+
+            deleteHousing(completeHousing.housing)
+        }
+    }
 
 }

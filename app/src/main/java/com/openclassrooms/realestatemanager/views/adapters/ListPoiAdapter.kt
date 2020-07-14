@@ -32,8 +32,6 @@ class ListPoiAdapter (private val poiList : List<HousingPoi>) : RecyclerView.Ada
 
     class ListPoiViewModel (itemView : View, val context : Context) : RecyclerView.ViewHolder(itemView)
     {
-       //TODO-Q : Pourquoi pas val sur itemView mais sur Context ?
-
         fun configureDesign(poi : HousingPoi)
         {
             when(poi.poiType){

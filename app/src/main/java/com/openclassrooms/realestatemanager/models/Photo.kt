@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity (tableName = "photo",
-        foreignKeys = [ForeignKey(entity = Housing::class,
+        foreignKeys = [ForeignKey(onDelete = ForeignKey.CASCADE, entity = Housing::class,
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"])])
 

@@ -16,4 +16,6 @@ class PhotoRepository (private val photoDAO: PhotoDAO)
 
     suspend fun updatePhoto (photo: Photo) = this.photoDAO.updatePhoto(photo)
 
+    suspend fun deletePhoto (photo: Photo) = this.photoDAO.deletePhoto(photo)
+
 }

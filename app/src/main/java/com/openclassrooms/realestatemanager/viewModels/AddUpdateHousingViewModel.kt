@@ -2,8 +2,11 @@ package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 
 /**
@@ -21,6 +24,20 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     //////////////////// GET ////////////////////
 
     fun getEstateAgentList() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
+
+    fun getHousing(reference : String) : LiveData<Housing> = this.housingRepository.getHousing(reference)
+
+    fun test (housing: Housing, address: Address)
+    {
+       val test1 =  viewModelScope.launch (Dispatchers.IO)
+        {
+            //TODO-Q : Pour chaque suspend fun ?
+            createHousing(housing)
+        }
+
+
+
+    }
 
     //////////////////// CREATE ////////////////////
 

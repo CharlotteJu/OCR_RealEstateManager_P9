@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import kotlinx.android.synthetic.main.item_housing.view.*
-import kotlinx.android.synthetic.main.item_photo.view.*
+import kotlinx.coroutines.launch
 
-class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: onItemClickListener)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
+class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHousingViewHolder
     {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_housing, parent, false)
-        return ListHousingViewHolder(view, this.onItemClickListener)
+        return ListHousingViewHolder(view, this.onItemClickListener, this.onClickDelete)
     }
 
 
@@ -36,7 +34,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
         this.notifyDataSetChanged()
     }
 
-    class ListHousingViewHolder(itemView: View, private val onItemClickListener: onItemClickListener) : RecyclerView.ViewHolder(itemView)
+    class ListHousingViewHolder(itemView: View, private val onItemClickListener: OnItemClickListener, private val onClickDelete: OnClickDelete) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(housing: CompleteHousing)
         {
@@ -45,7 +43,9 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
 
             itemView.tag = housing.housing.ref
 
-            itemView.setOnClickListener{onItemClickListener.onItemClick(adapterPosition)}
+            itemView.setOnClickListener{ onItemClickListener.onItemClick(adapterPosition) }
+
+            itemView.item_housing_delete_btn.setOnClickListener { onClickDelete.onClickDelete(adapterPosition) }
         }
 
         private fun configPhoto(housing : CompleteHousing)

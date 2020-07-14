@@ -102,7 +102,8 @@ class DetailFragment : Fragment() {
             this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
         }
 
-        this.mView.detail_fragment_reference_txt.text = housing.housing.ref
+        val stringTest = housing.housing.ref.substring(10)
+        this.mView.detail_fragment_reference_txt.text = stringTest
     }
 
     private fun showAddress()

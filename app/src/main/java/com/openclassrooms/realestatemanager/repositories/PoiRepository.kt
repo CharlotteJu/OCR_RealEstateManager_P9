@@ -15,4 +15,6 @@ class PoiRepository (private val poiDAO: PoiDAO)
 
     suspend fun updatePoi(poi: Poi) = this.poiDAO.updatePoi(poi)
 
+    suspend fun deletePoi (poi: Poi) = this.poiDAO.deletePoi(poi)
+
 }

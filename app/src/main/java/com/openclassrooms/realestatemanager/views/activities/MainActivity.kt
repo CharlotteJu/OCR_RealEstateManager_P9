@@ -32,9 +32,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureNavigationView()
         this.configureNavigationController()
 
-
     }
-
 
     private fun configureToolbar()
     {

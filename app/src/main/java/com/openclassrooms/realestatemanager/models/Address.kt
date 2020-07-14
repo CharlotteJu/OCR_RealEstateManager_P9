@@ -3,10 +3,12 @@ package com.openclassrooms.realestatemanager.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
+//TODO : Delete CASCADE
 @Entity (tableName = "address",
-        foreignKeys = [ForeignKey (entity = Housing::class,
+        foreignKeys = [ForeignKey (onDelete = CASCADE, entity = Housing::class,
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"])])
 data class Address constructor (@PrimaryKey @ColumnInfo(name = "id") val id : String,

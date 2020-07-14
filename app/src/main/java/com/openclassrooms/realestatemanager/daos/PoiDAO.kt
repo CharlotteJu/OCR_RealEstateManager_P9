@@ -20,4 +20,7 @@ interface PoiDAO
 
     @Update
     suspend fun updatePoi(poi: Poi) : Int
+
+    @Delete
+    suspend fun deletePoi(poi: Poi)
 }

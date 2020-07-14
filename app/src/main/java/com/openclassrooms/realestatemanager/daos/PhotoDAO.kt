@@ -22,4 +22,7 @@ interface PhotoDAO
 
     @Update
     suspend fun updatePhoto (photo: Photo) : Int
+
+    @Delete
+    suspend fun deletePhoto (photo: Photo)
 }

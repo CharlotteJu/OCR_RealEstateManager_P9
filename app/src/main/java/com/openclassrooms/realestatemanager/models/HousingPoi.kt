@@ -7,11 +7,11 @@ import androidx.room.PrimaryKey
 
 @Entity (tableName = "housing_poi",
         primaryKeys = ["housing_reference", "poi_type"],
-        foreignKeys = [ForeignKey(entity = Housing::class,
+        foreignKeys = [ForeignKey(onDelete = ForeignKey.CASCADE, entity = Housing::class,
                                     parentColumns = ["reference"],
                                     childColumns = ["housing_reference"]),
 
-                        ForeignKey(entity = Poi::class,
+                        ForeignKey(onDelete = ForeignKey.CASCADE, entity = Poi::class,
                                         parentColumns = ["type"],
                                         childColumns = ["poi_type"])])
 

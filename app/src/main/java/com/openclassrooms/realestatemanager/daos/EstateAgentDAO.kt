@@ -19,4 +19,7 @@ interface EstateAgentDAO
 
     @Update
     suspend fun updateEstateAgent (estateAgent: EstateAgent) : Int
+
+    @Delete
+    suspend fun deleteEstateAgent (estateAgent: EstateAgent)
 }

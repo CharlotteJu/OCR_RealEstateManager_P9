@@ -22,4 +22,7 @@ interface AddressDAO
 
     @Update
     suspend fun updateAddress (address: Address) : Int
+
+    @Delete
+    suspend fun deleteAddress (address: Address)
 }

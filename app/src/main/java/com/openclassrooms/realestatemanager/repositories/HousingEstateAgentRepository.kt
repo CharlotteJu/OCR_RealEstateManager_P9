@@ -18,4 +18,6 @@ class HousingEstateAgentRepository (private val housingEstateAgentDAO: HousingEs
 
     suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.updateHousingEstateAgent(housingEstateAgent)
 
+    suspend fun deleteHousingEstateAgent (housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentDAO.deleteHousingEstateAgent(housingEstateAgent)
+
 }

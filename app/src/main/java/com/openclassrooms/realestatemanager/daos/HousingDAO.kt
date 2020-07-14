@@ -21,6 +21,9 @@ interface HousingDAO
     @Update
     suspend fun updateHousing (housing: Housing) : Int
 
+    @Delete
+    suspend fun deleteHousing (housing: Housing)
+
     @Transaction
     @Query("SELECT * FROM housing WHERE reference = :reference")
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing>
