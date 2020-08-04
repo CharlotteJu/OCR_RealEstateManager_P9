@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.utils.DOLLAR
+import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.android.synthetic.main.item_housing.view.*
 import kotlinx.coroutines.launch
 
-class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
+class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete, private val currency : String)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHousingViewHolder
     {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_housing, parent, false)
-        return ListHousingViewHolder(view, this.onItemClickListener, this.onClickDelete)
+        return ListHousingViewHolder(view, this.onItemClickListener, this.onClickDelete, this.currency)
     }
 
 
@@ -34,7 +36,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
         this.notifyDataSetChanged()
     }
 
-    class ListHousingViewHolder(itemView: View, private val onItemClickListener: OnItemClickListener, private val onClickDelete: OnClickDelete) : RecyclerView.ViewHolder(itemView)
+    class ListHousingViewHolder(itemView: View, private val onItemClickListener: OnItemClickListener, private val onClickDelete: OnClickDelete, private val currency: String) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(housing: CompleteHousing)
         {
@@ -68,9 +70,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
 
         private fun configText(housing : CompleteHousing)
         {
-            housing.housing.type.let {
-                itemView.item_housing_type_txt.text = it
-            }
+            housing.housing.type.let { itemView.item_housing_type_txt.text = it }
 
             if (housing.address != null)
             {
@@ -86,8 +86,25 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
 
             housing.housing.price.let {
                 val priceString = "$it$"
-                itemView.item_housing_price_txt.text = priceString //TODO : Voir conversion && pas de puissance
+                itemView.item_housing_price_txt.text = priceString
             }
+
+
+            val priceString : String?
+            if (currency == DOLLAR)
+            {
+                housing.housing.price.let {
+                    priceString = "$it$"
+                }
+            }
+            else
+            {
+                housing.housing.price.let {
+                    val euroPrice = Utils.convertDollarToEuro(it.toInt()) //TODO : Convertir en double la fonction
+                    priceString = "$euroPrice€"
+                }
+            }
+            itemView.item_housing_price_txt.text = priceString
         }
 
 

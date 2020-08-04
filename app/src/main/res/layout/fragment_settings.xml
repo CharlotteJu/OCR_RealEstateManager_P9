@@ -49,14 +49,16 @@
             android:id="@+id/settings_fragment_dollar_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DOLLAR" />
+            android:text="@string/dollar"
+            android:tag="@string/dollar"/>
 
         <RadioButton
             android:id="@+id/settings_fragment_euro_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/settings_fragment_margin_Start"
-            android:text="EURO" />
+            android:text="@string/euro"
+            android:tag="@string/dollar"/>
 
     </RadioGroup>
 

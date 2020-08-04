@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +11,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
+import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
+import com.openclassrooms.realestatemanager.utils.DOLLAR
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
 
@@ -23,12 +28,17 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
     private lateinit var mAdapter : ListHousingAdapter
     private val mViewModel : DetailViewModel by viewModel()
     private var mListHousing : MutableList<CompleteHousing> = arrayListOf()
+    private lateinit var currency: String
 
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+    }
 
+    override fun onResume() {
+        super.onResume()
+        this.configRecyclerView()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -46,9 +56,17 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
         return mView
     }
 
+    private fun getSharedPreferences()
+    {
+        val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        currency = sharedPreferences.getString(CURRENCY_TAG, DOLLAR).toString()
+        //TODO : Voir avec l'adapter de la liste des biens
+    }
+
     private fun configRecyclerView()
     {
-        this.mAdapter = ListHousingAdapter(mListHousing, this, this)
+        this.getSharedPreferences()
+        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency)
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
     }
@@ -57,7 +75,7 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
     {
         //val bundle = DetailFragmentArgs(this.m_listHousing[position].housing.ref).toBundle()
 
-        val bundle : Bundle = Bundle()
+        val bundle  = Bundle()
         bundle.putString("reference", this.mListHousing[position].housing.ref)
         findNavController().navigate(R.id.detailFragment, bundle)
     }
@@ -65,7 +83,7 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
     override fun onClickDelete(position: Int)
     {
         val completeHousing = this.mListHousing[position]
-        this.mViewModel.test(completeHousing)
+        this.mViewModel.deleteGlobal(completeHousing)
 
         /*this.mViewModel.deleteHousing(completeHousing.housing)
 

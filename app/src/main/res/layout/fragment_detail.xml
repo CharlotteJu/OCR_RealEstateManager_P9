@@ -44,6 +44,7 @@
                 android:orientation="horizontal"
                 android:background="@color/colorPrimary"
                 tools:listitem="@layout/item_photo"
+                android:layout_marginTop="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_type_txt"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -147,16 +148,6 @@
                 app:layout_constraintStart_toEndOf="@id/detail_fragment_bathrooms_ic"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_bathrooms_ic"
                 app:layout_constraintBottom_toBottomOf="@id/detail_fragment_bathrooms_ic"/>
-
-            <TextView
-                android:id="@+id/detail_fragment_reference_txt"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/detail_fragment_margin"
-                android:text="REF"
-                android:layout_marginTop="@dimen/detail_fragment_margin"
-                app:layout_constraintTop_toTopOf="@id/detail_fragment_area_txt"
-                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/detail_fragment_state_txt"

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+    <string name="dollar">DOLLAR</string>
+    <string name="euro">EURO</string>
 
 
     <!-- Used in NavigationDrawer -->

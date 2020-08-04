@@ -22,17 +22,17 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
 
     fun getGlobalHousingList() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
-    suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
+    private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
 
-    suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
+    private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
 
-    suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
+    private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
 
-    suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
+    private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
 
-    suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
+    private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
 
-    fun test (completeHousing: CompleteHousing)
+    fun deleteGlobal (completeHousing: CompleteHousing)
     {
         viewModelScope.launch (Dispatchers.IO)
         {

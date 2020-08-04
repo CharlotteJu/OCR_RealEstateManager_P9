@@ -62,7 +62,7 @@ class DetailFragment : Fragment() {
     private fun showDesign()
     {
         this.showTypeAndPrice()
-        this.showStateDateAndRef()
+        this.showStateAndDate()
         this.showInfoInsideHouse()
         this.showAddress()
         this.showDescription()
@@ -91,7 +91,7 @@ class DetailFragment : Fragment() {
         else { this.mView.detail_fragment_bathrooms_txt.text = notSpecify }
     }
 
-    private fun showStateDateAndRef()
+    private fun showStateAndDate()
     {
         this.mView.detail_fragment_state_txt.text = housing.housing.state
         this.mView.detail_fragment_date_entry_txt.text = housing.housing.dateEntry
@@ -102,8 +102,6 @@ class DetailFragment : Fragment() {
             this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
         }
 
-        val stringTest = housing.housing.ref.substring(10)
-        this.mView.detail_fragment_reference_txt.text = stringTest
     }
 
     private fun showAddress()

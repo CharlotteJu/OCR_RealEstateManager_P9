@@ -46,23 +46,31 @@
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_type_title"/>
 
-            <Spinner
-                android:id="@+id/add_housing_fragment_price_currency_spinner"
-                style="@style/add_housing_spinner_little"
-                android:prompt="@string/spinners_currency"
-                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
-                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"/>
-
             <EditText
                 android:id="@+id/add_housing_fragment_price_editTxt"
                 style="@style/add_housing_editText"
                 android:inputType="numberDecimal"
-                android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintEnd_toStartOf="@id/add_housing_fragment_price_currency_spinner"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"/>
+
+            <!-- STATE -->
+
+            <TextView
+                android:id="@+id/add_housing_fragment_state_title"
+                style="@style/add_housing_title"
+                android:text="@string/spinners_state"
+                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_price_title"/>
+
+            <Spinner
+                android:id="@+id/add_housing_fragment_state_spinner"
+                style="@style/add_housing_spinner_big"
+                android:prompt="@array/state_spinner"
+                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_state_title"
+                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_state_title"/>
 
             <!-- AREA -->
 
@@ -71,7 +79,7 @@
                 style="@style/add_housing_title"
                 android:text="@string/area"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_price_title"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_state_title"/>
 
             <EditText
                 android:id="@+id/add_housing_fragment_area_editTxt"
@@ -198,20 +206,6 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_country_title"/>
 
-            <TextView
-                android:id="@+id/add_housing_fragment_state_title"
-                style="@style/add_housing_title"
-                android:text="@string/spinners_state"
-                app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_country_title"/>
-
-            <Spinner
-                android:id="@+id/add_housing_fragment_state_spinner"
-                style="@style/add_housing_spinner_big"
-                android:prompt="@array/state_spinner"
-                app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_state_title"
-                app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toTopOf="@id/add_housing_fragment_state_title"/>
 
             <!-- DESCRIPTION -->
 
@@ -222,7 +216,7 @@
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_state_title"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_country_title"/>
 
             <EditText
                 android:id="@+id/add_housing_fragment_description_editTxt"

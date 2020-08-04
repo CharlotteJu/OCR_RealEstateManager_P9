@@ -6,7 +6,6 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 
-//TODO : Delete CASCADE
 @Entity (tableName = "address",
         foreignKeys = [ForeignKey (onDelete = CASCADE, entity = Housing::class,
                                     parentColumns = ["reference"],

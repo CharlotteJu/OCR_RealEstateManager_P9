@@ -1,15 +1,20 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
+import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
+import com.openclassrooms.realestatemanager.utils.DOLLAR
+import com.openclassrooms.realestatemanager.utils.EURO
+import com.openclassrooms.realestatemanager.views.activities.MainActivity
+import kotlinx.android.synthetic.main.fragment_settings.view.*
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -18,40 +23,51 @@ private const val ARG_PARAM2 = "param2"
  */
 class SettingsFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var currency : String
+    private lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+        mView = inflater.inflate(R.layout.fragment_settings, container, false)
+        this.getSharedPreferences()
+        this.getRadioButton()
+        return mView
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
+    private fun getRadioButton()
+    {
+        this.mView.settings_fragment_radio_group.setOnCheckedChangeListener {
+            group, checkedId ->
+            when (checkedId) {
+            R.id.settings_fragment_dollar_radio_button -> currency = DOLLAR
+            R.id.settings_fragment_euro_radio_button -> currency = EURO
+        }
+            this.updateSharedPreferences(currency) }
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-                SettingsFragment().apply {
-                    arguments = Bundle().apply {
-                        putString(ARG_PARAM1, param1)
-                        putString(ARG_PARAM2, param2)
-                    }
-                }
     }
+
+    private fun getSharedPreferences()
+    {
+        val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        currency = sharedPreferences.getString(CURRENCY_TAG, DOLLAR).toString()
+        if (currency== DOLLAR) this.mView.settings_fragment_dollar_radio_button.isChecked = true
+        else this.mView.settings_fragment_euro_radio_button.isChecked = true
+
+    }
+
+    private fun updateSharedPreferences(currency : String)
+    {
+        val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val editor = sharedPreferences!!.edit()
+        editor.putString(CURRENCY_TAG, currency).apply()
+    }
+
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.activities
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -15,6 +16,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
+import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
+import com.openclassrooms.realestatemanager.utils.DOLLAR
 import com.openclassrooms.realestatemanager.views.fragments.ListFragmentDirections
 import java.util.*
 
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureToolbar()
         this.configureNavigationView()
         this.configureNavigationController()
-
+        this.getSharedPreferences()
     }
 
     private fun configureToolbar()
@@ -55,6 +59,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         mNavigationController = findNavController(R.id.main_activity_navHost)
 
+    }
+
+    private fun updateSharedPreferences(currency : String)
+    {
+        val sharedPreferences = applicationContext.getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(CURRENCY_TAG, currency).apply()
+        this.getSharedPreferences()
+    }
+
+    private fun getSharedPreferences()
+    {
+        val sharedPreferences = applicationContext.getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        val currency : String? = sharedPreferences.getString(CURRENCY_TAG, DOLLAR)
+        //TODO : Voir avec l'adapter de la liste des biens
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean
