@@ -18,9 +18,9 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
 {
 
 
-    fun getHousing(reference : String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
+    fun getCompleteHousing(reference : String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
 
-    fun getGlobalHousingList() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
+    fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
     private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
 

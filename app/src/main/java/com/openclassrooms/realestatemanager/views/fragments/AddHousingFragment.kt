@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.koin.RealEstateApplication
 import com.openclassrooms.realestatemanager.models.*
-import com.openclassrooms.realestatemanager.utils.DOUBLE_00
-import com.openclassrooms.realestatemanager.utils.SPINNER_SELECT
-import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
-import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
@@ -26,16 +23,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AddHousingFragment : Fragment() {
+class AddHousingFragment : BaseFragment() {
 
     private lateinit var housing : Housing
     private lateinit var mView : View
-    //private var housingReference : String? = null
+    private lateinit var housingReference : String
+    private lateinit var currency : String
+
     private var address : Address? = null
     private var estateAgentList : List<EstateAgent> = ArrayList()
     private var photoList : List<Photo> = ArrayList()
     private val mViewModel : AddUpdateHousingViewModel by viewModel()
-    private lateinit var housingReference : String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +43,7 @@ class AddHousingFragment : Fragment() {
             housingReference = requireArguments().getString("reference").toString()
             housing = Housing(ref = housingReference)
         }
+        this.currency = getCurrencyFromSharedPreferences()
 
         //housingReference = UUID.randomUUID().toString()
     }
@@ -138,12 +138,22 @@ class AddHousingFragment : Fragment() {
         this.getDescription()
         this.getPhotos()
         this.getEstateAgents()
+        this.getDateOfToday()
     }
 
     private fun getPrice()
     {
         this.mView.add_housing_fragment_price_editTxt.doAfterTextChanged {
-            this.housing.price = it.toString().toDouble() //TODO : Si Pref en euro, convert Dollar
+            if (currency== DOLLAR)
+            {
+                this.housing.price = it.toString().toDouble()
+            }
+            else
+            {
+                val price = it.toString().toDouble()
+                val euroToDollarPrice = Utils.convertEuroToDollarDouble(price)
+                this.housing.price = euroToDollarPrice
+            }
             this.enableFinalButton()
         }
     }
@@ -279,6 +289,7 @@ class AddHousingFragment : Fragment() {
 
         this.mView.add_housing_fragment_estate_agent_button.setOnClickListener {
             if (housingEstateAgent != null) estateAgentList.add(housingEstateAgent!!)
+            //TODO : Afficher RCV et remettre spinner à 0
         }
     }
 
@@ -302,6 +313,13 @@ class AddHousingFragment : Fragment() {
             this.mView.add_housing_fragment_final_button.visibility = View.VISIBLE
             this.mView.add_housing_fragment_final_button.isEnabled = true
         }
+    }
+
+    private fun getDateOfToday()
+    {
+        val date = Calendar.getInstance().time
+        val stringDate = Utils.getTodayDateGood(date)
+        housing.dateEntry = stringDate
     }
 
     private fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?

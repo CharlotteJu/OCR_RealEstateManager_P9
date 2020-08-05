@@ -1,20 +1,18 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.R
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.android.synthetic.main.fragment_map.view.*
-
-
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -23,9 +21,12 @@ private const val ARG_PARAM2 = "param2"
  */
 class MapFragment : Fragment() {
 
+    //private lateinit var mFusedLocationClient : FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +46,20 @@ class MapFragment : Fragment() {
 
         return view
     }
+
+    /*private fun fetchLocation()
+    {
+        if (ActivityCompat.checkSelfPermission(
+                        context,
+                        Manifest.permission.ACCESS_FINE_LOCATION != PackageManager.PERMISSION_GRANTED))
+        {
+            ActivityCompat.requestPermissions(activity, Manifest)
+        }
+        else
+        {
+
+        }
+    }*/
 
 
 }

@@ -100,7 +100,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
             else
             {
                 housing.housing.price.let {
-                    val euroPrice = Utils.convertDollarToEuro(it.toInt()) //TODO : Convertir en double la fonction
+                    val euroPrice = Utils.convertDollarToEuroDouble(it)
                     priceString = "$euroPrice€"
                 }
             }

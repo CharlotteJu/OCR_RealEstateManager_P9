@@ -88,6 +88,9 @@ dependencies {
     // Multidex
     implementation "androidx.multidex:multidex:2.0.1"
 
+    //Google
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+
 
 
     //TEST

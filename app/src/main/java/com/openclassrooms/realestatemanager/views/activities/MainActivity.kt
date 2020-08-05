@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureToolbar()
         this.configureNavigationView()
         this.configureNavigationController()
-        this.getSharedPreferences()
     }
 
     private fun configureToolbar()
@@ -66,14 +65,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val sharedPreferences = applicationContext.getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(CURRENCY_TAG, currency).apply()
-        this.getSharedPreferences()
-    }
 
-    private fun getSharedPreferences()
-    {
-        val sharedPreferences = applicationContext.getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        val currency : String? = sharedPreferences.getString(CURRENCY_TAG, DOLLAR)
-        //TODO : Voir avec l'adapter de la liste des biens
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean

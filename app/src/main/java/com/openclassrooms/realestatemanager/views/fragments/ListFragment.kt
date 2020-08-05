@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +9,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
-import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
-import com.openclassrooms.realestatemanager.utils.DOLLAR
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
-class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
+class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private lateinit var mView : View
     private lateinit var mAdapter : ListHousingAdapter
@@ -44,7 +38,7 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         this.mView = inflater.inflate(R.layout.fragment_list, container, false)
-        this.mViewModel.getGlobalHousingList().observe(this.viewLifecycleOwner, Observer {
+        this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mAdapter.updateList(it)
             mListHousing = it as MutableList<CompleteHousing>
         })
@@ -56,16 +50,9 @@ class ListFragment : Fragment(), OnItemClickListener, OnClickDelete {
         return mView
     }
 
-    private fun getSharedPreferences()
-    {
-        val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        currency = sharedPreferences.getString(CURRENCY_TAG, DOLLAR).toString()
-        //TODO : Voir avec l'adapter de la liste des biens
-    }
-
     private fun configRecyclerView()
     {
-        this.getSharedPreferences()
+        this.currency = getCurrencyFromSharedPreferences()
         this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency)
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)

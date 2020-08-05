@@ -53,7 +53,7 @@ class DetailFragment : Fragment() {
 
     private fun getDataFromLiveData()
     {
-        mViewModel.getHousing(ref).observe(viewLifecycleOwner, Observer {
+        mViewModel.getCompleteHousing(ref).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
         })
@@ -67,14 +67,14 @@ class DetailFragment : Fragment() {
         this.showAddress()
         this.showDescription()
         this.showPoi()
-        //this.showEstateAgent()
-        //this.showPhoto()
+        this.showEstateAgent()
+        this.showPhoto()
     }
 
     private fun showTypeAndPrice()
     {
         this.mView.detail_fragment_type_txt.text = housing.housing.type
-        this.mView.detail_fragment_price_txt.text = housing.housing.price.toString() //TODO : Rajouter la device
+        this.mView.detail_fragment_price_txt.text = housing.housing.price.toString() //TODO : Convertir dans la bonne device et ajouter le symbole
     }
 
     private fun showInfoInsideHouse()
@@ -135,7 +135,7 @@ class DetailFragment : Fragment() {
 
     private fun showPoi()
     {
-        if (housing.poiList != null)
+        if (!housing.poiList.isNullOrEmpty())
         {
             val poiList = housing.poiList!!.toList()
             val adapter = ListPoiAdapter(poiList)
@@ -152,24 +152,30 @@ class DetailFragment : Fragment() {
 
     private fun showEstateAgent()
     {
-        if (housing.estateAgentList != null)
+
+        this.mView.detail_fragment_estate_agent_title_txt.visibility = View.GONE
+        this.mView.detail_fragment_rcv_estate_agent.visibility = View.GONE
+        /*if (!housing.estateAgentList.isNullOrEmpty())
         {
             val estateList = housing.estateAgentList!!.toList()
             val adapter = ListEstateAgentAdapter(estateList)
-            this.mView.add_housing_fragment_estate_agent_rcv.adapter = adapter
             this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
+            this.mView.add_housing_fragment_estate_agent_rcv.visibility = View.VISIBLE
+            this.mView.add_housing_fragment_estate_agent_rcv.adapter = adapter
+
         }
         else
         {
             this.mView.detail_fragment_estate_agent_title_txt.visibility = View.GONE
             this.mView.detail_fragment_rcv_estate_agent.visibility = View.GONE
-        }
+        }*/
     }
 
     private fun showPhoto()
     {
-        if (housing.photoList != null)
+        if (!housing.photoList.isNullOrEmpty())
         {
+            this.mView.detail_fragment_no_photo.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoAdapter(photoList)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
