@@ -56,6 +56,7 @@ class DetailFragment : Fragment() {
         mViewModel.getCompleteHousing(ref).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
+            val test = "TEST"
         })
     }
 
