@@ -63,7 +63,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         //val bundle = DetailFragmentArgs(this.m_listHousing[position].housing.ref).toBundle()
 
         val bundle  = Bundle()
-        bundle.putString("reference", this.mListHousing[position].housing.ref)
+        bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
         findNavController().navigate(R.id.detailFragment, bundle)
     }
 

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
 /**
  * A simple [Fragment] subclass.
  */
@@ -37,7 +38,7 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if (arguments!= null)
         {
-            ref = requireArguments().getString("reference").toString()
+            ref = requireArguments().getString(BUNDLE_REFERENCE).toString()
         }
         notSpecify = getString(R.string.not_specify)
     }
@@ -56,7 +57,6 @@ class DetailFragment : Fragment() {
         mViewModel.getCompleteHousing(ref).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
-            val test = "TEST"
         })
     }
 
