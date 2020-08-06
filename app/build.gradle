@@ -73,8 +73,11 @@ dependencies {
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     // RX Kotlin + RX Android
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
@@ -95,7 +98,7 @@ dependencies {
     //Google
     implementation "com.google.android.gms:play-services-maps:17.0.0"
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    implementation 'com.google.android.libraries.places:places:2.2.0'
+    implementation 'com.google.android.libraries.places:places:2.3.0'
 
 
     //TEST

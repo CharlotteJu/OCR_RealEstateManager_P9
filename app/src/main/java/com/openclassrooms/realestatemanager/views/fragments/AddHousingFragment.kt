@@ -11,6 +11,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.koin.RealEstateApplication
 import com.openclassrooms.realestatemanager.models.*
@@ -29,11 +31,12 @@ class AddHousingFragment : BaseFragment() {
     private lateinit var mView : View
     private lateinit var housingReference : String
     private lateinit var currency : String
-
     private var address : Address? = null
     private var estateAgentList : List<EstateAgent> = ArrayList()
     private var photoList : List<Photo> = ArrayList()
     private val mViewModel : AddUpdateHousingViewModel by viewModel()
+    private lateinit var mApiKey : String
+    private lateinit var placesClient : PlacesClient // TODO : Vraiment besoin de ça ?
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +47,10 @@ class AddHousingFragment : BaseFragment() {
             housing = Housing(ref = housingReference)
         }
         this.currency = getCurrencyFromSharedPreferences()
+        this.mApiKey = resources.getString(R.string.google_api_key)
+        Places.initialize(requireContext(), mApiKey)
+        this.placesClient = Places.createClient(requireContext())
+
 
         //housingReference = UUID.randomUUID().toString()
     }

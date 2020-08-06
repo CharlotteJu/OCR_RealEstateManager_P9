@@ -142,7 +142,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
                     mMap.apply {
                         val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
                         addMarker(MarkerOptions().position(marker))
-                        moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 20f))
+                        moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
                     }
                 } else {
 

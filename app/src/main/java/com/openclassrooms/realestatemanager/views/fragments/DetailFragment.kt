@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
@@ -18,12 +19,13 @@ import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
 /**
  * A simple [Fragment] subclass.
  */
-class DetailFragment : Fragment() {
+class DetailFragment : BaseFragment() {
 
 
     private lateinit var ref : String// = DetailFragmentArgs.fromBundle(this.requireArguments()).reference
@@ -31,6 +33,7 @@ class DetailFragment : Fragment() {
     private lateinit var housing : CompleteHousing
     private lateinit var mView : View
     private lateinit var notSpecify : String // = getString(R.string.not_specify)
+    private lateinit var currency: String
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -41,6 +44,7 @@ class DetailFragment : Fragment() {
             ref = requireArguments().getString(BUNDLE_REFERENCE).toString()
         }
         notSpecify = getString(R.string.not_specify)
+        currency = getCurrencyFromSharedPreferences()
     }
 
 
@@ -75,7 +79,9 @@ class DetailFragment : Fragment() {
     private fun showTypeAndPrice()
     {
         this.mView.detail_fragment_type_txt.text = housing.housing.type
-        this.mView.detail_fragment_price_txt.text = housing.housing.price.toString() //TODO : Convertir dans la bonne device et ajouter le symbole
+
+        val stringPrice = Utils.getPriceString(currency, housing.housing.price)
+        this.mView.detail_fragment_price_txt.text = stringPrice
     }
 
     private fun showInfoInsideHouse()

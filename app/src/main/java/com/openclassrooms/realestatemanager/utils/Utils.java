@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.openclassrooms.realestatemanager.utils.ConstKt.DOLLAR;
+
 /**
  * Created by Philippe on 21/02/2018.
  */
@@ -55,6 +57,19 @@ public class Utils {
     public static Double convertEuroToDollarDouble(double euros)
     {
         return (double) Math.round(euros / 0.812);
+    }
+
+    public static String getPriceString (String currency, double price)
+    {
+        if (currency.equals(DOLLAR))
+        {
+            return "" + price + "$";
+        }
+        else
+        {
+            double euroPrice = convertDollarToEuroDouble(price);
+            return "" + euroPrice + "€";
+        }
     }
 
     /**
