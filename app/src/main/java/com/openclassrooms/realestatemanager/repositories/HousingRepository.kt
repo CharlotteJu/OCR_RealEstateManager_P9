@@ -1,10 +1,14 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
 
+/**
+ * Repository of [HousingDAO], and getting [CompleteHousing]
+ */
 class HousingRepository(private val housingDao : HousingDAO)
 {
 
@@ -16,6 +20,9 @@ class HousingRepository(private val housingDao : HousingDAO)
 
     suspend fun updateHousing (housing: Housing) = this.housingDao.updateHousing(housing)
 
+    /**
+     * Just for test
+     */
     suspend fun deleteHousing (housing: Housing) = this.housingDao.deleteHousing(housing)
 
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingDao.getCompleteHousing(reference)

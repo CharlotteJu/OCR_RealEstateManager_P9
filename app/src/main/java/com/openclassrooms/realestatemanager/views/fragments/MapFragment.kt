@@ -93,6 +93,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
     {
         for (housing in mListHousing)
         {
+            val test = housing
             if (housing.address != null)
             {
                 val geocoder : Geocoder = Geocoder(context)
@@ -148,7 +149,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
 
                     val locationManager : LocationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
 
-                    if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) != null)
+                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                     {
                         //TODO : Pourquoi ça ne peut pas être null ? Si permission pas accordée
                         startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
@@ -167,7 +168,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
     }
 
     override fun onLocationChanged(location: Location?) {
-        mCurrentLocation = location // TODO : Comme déclarer un objet LocationListener sinon ?
+        mCurrentLocation = location //TODO : Comme déclarer un objet LocationListener sinon ?
+        mMap.apply {
+            val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+            addMarker(MarkerOptions().position(marker))
+            moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+        }
     }
 
     override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}

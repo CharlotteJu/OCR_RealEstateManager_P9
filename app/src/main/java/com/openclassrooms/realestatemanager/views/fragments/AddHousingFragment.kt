@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.koin.RealEstateApplication
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
@@ -86,7 +83,7 @@ class AddHousingFragment : BaseFragment() {
             housingEstateAgentList.add(estateAgent)
         }
 
-        this.mViewModel.createGlobal(housing, address, photoList, housingEstateAgentList)
+        this.mViewModel.createGlobalHousing(housing, address, photoList, housingEstateAgentList, null) //TODO : Gérer PoiList
 
         //TODO : Si connecté à internet --> Push sur Firebase
     }
@@ -253,6 +250,8 @@ class AddHousingFragment : BaseFragment() {
         val uuidAddress = UUID.randomUUID().toString()
 
         address = Address(uuidAddress, street = STRING_EMPTY, city = STRING_EMPTY, country = STRING_EMPTY, housingReference = this.housingReference)
+
+        //TODO-Q : Si champs vide, que faire ?
 
         this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { address!!.street = it.toString() }
         this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged { address!!.zipCode = it.toString().toInt() }

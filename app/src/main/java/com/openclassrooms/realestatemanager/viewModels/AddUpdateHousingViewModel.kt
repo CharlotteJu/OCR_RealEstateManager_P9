@@ -27,6 +27,8 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     fun getHousing(reference : String) : LiveData<Housing> = this.housingRepository.getHousing(reference)
 
+    fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
+
 
 
     //////////////////// CREATE ////////////////////
@@ -42,12 +44,10 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
-    fun createGlobal (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?)
+    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, poiList : List<HousingPoi>? )
     {
-        val test1 =  viewModelScope.launch (Dispatchers.IO)
+        viewModelScope.launch (Dispatchers.IO)
         {
-            //TODO-Q : Pour chaque suspend fun ?
-
             createHousing(housing)
 
             if (address != null)
@@ -70,7 +70,14 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     createPhoto(photo)
                 }
             }
-            //createHousingPoi(housingPoi) // TODO : Voir pour les POI
+
+            if (poiList != null)
+            {
+                for (poi in poiList)
+                {
+                    createHousingPoi(poi)
+                }
+            }
         }
 
         //test1.join()
@@ -80,77 +87,77 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     //////////////////// UPDATE ////////////////////
 
-    suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
+    private suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
 
-    suspend fun updateAddress(address: Address) = this.addressRepository.updateAddress(address)
+    private suspend fun updateAddress(address: Address) = this.addressRepository.updateAddress(address)
 
-    suspend fun updatePhoto(photo: Photo) = this.photoRepository.updatePhoto(photo)
+    private suspend fun updatePhoto(photo: Photo) = this.photoRepository.updatePhoto(photo)
 
-    suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.updateHousingEstateAgent(housingEstateAgent)
+    private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
 
-    suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.updateHousingPoi(housingPoi)
+    private suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.updateHousingEstateAgent(housingEstateAgent)
 
+    private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
 
-    /* suspend fun createGlobalHousing(housing: Housing, address: Address?, photoList: List<Photo>?, housingEstateAgentList: List<HousingEstateAgent>?, housingPoiList: List<HousingPoi>?)
+    private suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.updateHousingPoi(housingPoi)
+
+    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?)
     {
-        this.createHousing(housing)
-        this.createAddress(address!!)
-        for (photo in photoList!!)
+        viewModelScope.launch (Dispatchers.IO)
         {
-            this.createPhoto(photo)
-        }
-        for (housingEstateAgent in housingEstateAgentList!!)
-        {
-            this.createHousingEstateAgent(housingEstateAgent)
-        }
-        for (housingPoi in housingPoiList!!)
-        {
-            this.createHousingPoi(housingPoi)
-        }
 
-    }*/
+            if (housing.ref == completeHousing.housing.ref)
+            {
+                if (housing != completeHousing.housing) updateHousing(housing)
+                if (address != null && completeHousing.address != null && address != completeHousing.address) updateAddress(address)
 
-
-
-
-
-
-
-
-
-
-
-
-    /*suspend fun createHousing(housing : Housing)
-    {
-        this.housingRepository.createHousing(housing)
-        housing.getAddress()?.let { this.addressRepository.createAddress(housing.getAddress()!!) }
-        housing.getPhotoList()?.let {
-                for (i in it)
+                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
                 {
-                    this.photoRepository.createPhoto(i)
+                    for (i in estateAgentList)
+                    {
+                        if (!completeHousing.estateAgentList?.contains(i)!!) createHousingEstateAgent(i) // TODO-Q : Ok ?
+                    }
+
+                    for (i in completeHousing.estateAgentList!!)
+                    {
+                        if (!estateAgentList.contains(i)) deleteHousingEstateAgent(i)
+                    }
+                }
+
+                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
+                {
+                    for (i in photoList)
+                    {
+                        if (!completeHousing.photoList?.contains(i)!!) createPhoto(i)
+                        else
+                        {
+                            val index = completeHousing.photoList!!.indexOf(i)
+                            if (completeHousing.photoList!![index] != i) updatePhoto(i) // TODO-Q : Ok ?
+                        }
+                    }
+
+                    for (i in completeHousing.photoList!!)
+                    {
+                        if (!photoList.contains(i)) deletePhoto(i) // TODO-Q : Si un attribut est différent, ça va supprimer quand même ?
+                    }
                 }
             }
 
-         housing.getEstateAgentList()?.let {
-                for (i in it)
-                {
-                    val temp = HousingEstateAgent(i.housingReference, i.estateAgentName, i.function)
-                    this.housingEstateAgentRepository.createHousingEstateAgent(temp)
-                }
-            }
+            // TODO : Voir pour les POI
+        }
 
-         housing.getPoiList()?.let {
-                for (i in it)
-                {
-                    val temp = HousingPoi(i.housingReference, i.poiType, i.numberOfPoi)
-                    this.housingPoiRepository.createHousingPoi(temp)
-                }
-            }
+    }
 
-    }*/
+
+
+
+
+
+
+
 
 
 
 }
+
 

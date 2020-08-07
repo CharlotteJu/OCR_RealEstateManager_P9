@@ -5,6 +5,9 @@ import androidx.lifecycle.LiveData
 import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.models.Address
 
+/**
+ * Repository of [AddressDAO]
+ */
 class AddressRepository (private val addressDAO: AddressDAO)
 {
     fun getAllAddress() : LiveData<List<Address>> = this.addressDAO.getAllAddress()

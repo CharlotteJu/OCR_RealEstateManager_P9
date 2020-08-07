@@ -8,7 +8,9 @@ import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.models.*
 
-
+/**
+ * [RoomDatabase] class
+ */
 @Database (entities = [Housing::class,
                         Address::class,
                         EstateAgent::class,
@@ -31,9 +33,14 @@ public abstract class AppDatabase : RoomDatabase()
 
     companion object
     {
+        // Singleton to have multiple instance of database on the same time
         @Volatile
         private var INSTANCE : AppDatabase?=null
 
+        /**
+         * Get the [AppDatabase]
+         * @param context [Context]
+         */
         fun getDatabase(context:Context) : AppDatabase
         {
             var temp = this.INSTANCE
@@ -48,7 +55,7 @@ public abstract class AppDatabase : RoomDatabase()
                 this.INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE")
                         .build()
                 return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").addCallback(FakePopulateDatabase.prepopulateDatabase()).build()
-                //return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build() // En cas de bugg de version
+                //return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build() // If bug when we change a model
             }
         }
     }

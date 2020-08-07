@@ -2,8 +2,12 @@ package com.openclassrooms.realestatemanager.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.models.HousingPoi
 
+/**
+ * Interface DAO for [HousingPoi] with [RoomDatabase]
+ */
 @Dao
 interface HousingPoiDAO
 {

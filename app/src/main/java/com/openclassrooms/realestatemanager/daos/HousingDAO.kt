@@ -3,9 +3,13 @@ package com.openclassrooms.realestatemanager.daos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
 
+/**
+ * Interface DAO for [Housing] with [RoomDatabase]
+ */
 @Dao
 interface HousingDAO
 {

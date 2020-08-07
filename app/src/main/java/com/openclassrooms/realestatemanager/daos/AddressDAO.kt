@@ -5,6 +5,9 @@ import androidx.room.*
 import com.openclassrooms.realestatemanager.models.Address
 import com.openclassrooms.realestatemanager.models.Housing
 
+/**
+ * Interface DAO for [Address] with [RoomDatabase]
+ */
 @Dao
 interface AddressDAO
 {

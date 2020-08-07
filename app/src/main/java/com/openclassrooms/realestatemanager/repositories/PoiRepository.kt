@@ -1,10 +1,14 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.PoiDAO
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.models.Poi
 
+/**
+ * Repository of [PoiDAO]
+ */
 class PoiRepository (private val poiDAO: PoiDAO)
 {
     fun getAllPoi() : LiveData<List<Poi>> = this.poiDAO.getAllPoi()

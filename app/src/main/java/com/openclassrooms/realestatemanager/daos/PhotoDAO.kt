@@ -2,9 +2,13 @@ package com.openclassrooms.realestatemanager.daos
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.models.Housing
 import com.openclassrooms.realestatemanager.models.Photo
 
+/**
+ * Interface DAO for [Photo] with [RoomDatabase]
+ */
 @Dao
 interface PhotoDAO
 {

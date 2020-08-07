@@ -4,6 +4,9 @@ import android.content.Context
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.repositories.*
 
+/**
+ * Using if we don't use Koin
+ */
 class Injection
 {
 

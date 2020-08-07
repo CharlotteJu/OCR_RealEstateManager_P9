@@ -5,6 +5,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+/**
+ * Fake Populate Database to test application
+ */
 class FakePopulateDatabase
 {
     companion object {

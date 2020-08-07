@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-
+/**
+ * Java Class to receipt json from API Places of [PlacesApi]
+ */
 public class PlacesPoiPOJO
 {
 

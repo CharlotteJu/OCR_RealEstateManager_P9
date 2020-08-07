@@ -1,9 +1,13 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.EstateAgentDAO
 import com.openclassrooms.realestatemanager.models.EstateAgent
 
+/**
+ * Repository of [EstateAgentDAO]
+ */
 class EstateAgentRepository (private val estateAgentDAO: EstateAgentDAO)
 {
     fun getAllEstateAgent() : LiveData<List<EstateAgent>> = this.estateAgentDAO.getAllEstateAgent()

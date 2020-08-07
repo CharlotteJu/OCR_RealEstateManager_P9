@@ -1,9 +1,13 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.PhotoDAO
 import com.openclassrooms.realestatemanager.models.Photo
 
+/**
+ * Repository of [PhotoDAO]
+ */
 class PhotoRepository (private val photoDAO: PhotoDAO)
 {
     fun getAllPhoto() : LiveData<List<Photo>> = this.photoDAO.getAllPhoto()
