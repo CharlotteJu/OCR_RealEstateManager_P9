@@ -57,8 +57,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
         this.mFusedLocationClient = requireActivity().let { LocationServices.getFusedLocationProviderClient(it) }
         this.currency = getCurrencyFromSharedPreferences()
 
-
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -151,13 +149,28 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
 
                     if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
                     {
-                        //TODO : Pourquoi ça ne peut pas être null ? Si permission pas accordée
                         startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                         this.fetchLocation()
                     }
                     else
                     {
-                       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, this )
+                       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
+                           override fun onLocationChanged(location: Location?) {
+                               TODO("Not yet implemented")
+                           }
+
+                           override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                               TODO("Not yet implemented")
+                           }
+
+                           override fun onProviderEnabled(provider: String?) {
+                               TODO("Not yet implemented")
+                           }
+
+                           override fun onProviderDisabled(provider: String?) {
+                               TODO("Not yet implemented")
+                           }
+                       } )
                     }
                 }
 

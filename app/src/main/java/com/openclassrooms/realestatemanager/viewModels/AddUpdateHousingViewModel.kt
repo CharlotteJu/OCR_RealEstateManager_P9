@@ -78,6 +78,8 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     createHousingPoi(poi)
                 }
             }
+
+            // Appeler POI ICI
         }
 
         //test1.join()
