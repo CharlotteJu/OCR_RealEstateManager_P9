@@ -27,10 +27,12 @@ val appModule = module (override = true) {
     single<HousingPoiRepository>{ HousingPoiRepository(get()) }
     single<PhotoRepository>{ PhotoRepository(get()) }
     single<PoiRepository>{PoiRepository(get())}
+    single<PlacesPoiRepository>{PlacesPoiRepository()}
+    single<StaticMapRepository>{StaticMapRepository()}
 
     viewModel{AddEstateTypeViewModel(get(), get())}
-    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get())}
-    viewModel{DetailViewModel(get(), get(), get(), get(), get())}
+    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get(), get())}
+    viewModel{DetailViewModel(get(), get(), get(), get(), get(), get())}
     viewModel{ListHousingViewModel(get(), get(), get(), get(), get())}
-    factory { ViewModelFactory(get(), get(), get(), get(), get(), get(), get()) }
+    factory { ViewModelFactory(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
 }

@@ -28,16 +28,7 @@
         app:layout_constraintBottom_toBottomOf="@id/item_poi_icone"
         app:layout_constraintStart_toEndOf="@id/item_poi_icone"/>
 
-    <TextView
-        android:id="@+id/item_poi_number"
-        android:layout_width="@dimen/constraint_width_0"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/item_housing_text_district_size"
-        android:text="number"
-        android:textStyle="italic"
-        android:layout_marginEnd="@dimen/item_poi_margin"
-        app:layout_constraintTop_toTopOf="@id/item_poi_icone"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <View
         android:layout_width="@dimen/view_separator_width"

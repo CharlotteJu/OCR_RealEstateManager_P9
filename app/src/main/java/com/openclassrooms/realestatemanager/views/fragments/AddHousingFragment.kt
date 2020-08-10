@@ -83,7 +83,9 @@ class AddHousingFragment : BaseFragment() {
             housingEstateAgentList.add(estateAgent)
         }
 
-        this.mViewModel.createGlobalHousing(housing, address, photoList, housingEstateAgentList, null) //TODO : Gérer PoiList
+        val key = getString(R.string.google_api_key)
+
+        context?.let { this.mViewModel.createGlobalHousing(housing, address, photoList, housingEstateAgentList, it, key) }
 
         //TODO : Si connecté à internet --> Push sur Firebase
     }
@@ -112,7 +114,10 @@ class AddHousingFragment : BaseFragment() {
             }
 
             this.mView.add_housing_fragment_estate_agent_name_spinner.adapter = adapter
+
         })
+
+
 
     }
 

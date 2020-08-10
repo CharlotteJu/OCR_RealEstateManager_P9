@@ -51,7 +51,7 @@ class ListPoiAdapter (private val poiList : List<HousingPoi>) : RecyclerView.Ada
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_park_24)
                     itemView.item_poi_description.text = context.getString(R.string.parks)}
             }
-            poi.numberOfPoi.let { itemView.item_poi_number.text = it.toString() }
+
         }
     }
 }

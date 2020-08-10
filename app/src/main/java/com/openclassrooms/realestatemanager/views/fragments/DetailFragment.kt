@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 
 import com.openclassrooms.realestatemanager.R
@@ -18,7 +21,9 @@ import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.item_photo.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.StringBuilder
 import java.util.*
 
 const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
@@ -116,8 +121,21 @@ class DetailFragment : BaseFragment() {
         if (housing.address != null)
         {
             this.mView.detail_fragment_address_txt.text = housing.address.toString()
-            //TODO : Afficher sur la map
-        }
+            val geocoder : Geocoder = Geocoder(context)
+            val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
+            val lat  = listGeocoder[0].latitude
+            val lng = listGeocoder[0].longitude
+            val location = "$lat,$lng"
+
+            val key = getString(R.string.google_api_key)
+
+            val url = "https://maps.googleapis.com/maps/api/staticmap?&center=$location &zoom=15&size=400x400&key=$key"
+
+            Glide.with(mView)
+                    .load(url)
+                    .apply(RequestOptions.centerCropTransform())
+                    .into(mView.detail_fragment_address_map_image)
+            }
         else
         {
             this.mView.detail_fragment_address_txt.visibility = View.GONE

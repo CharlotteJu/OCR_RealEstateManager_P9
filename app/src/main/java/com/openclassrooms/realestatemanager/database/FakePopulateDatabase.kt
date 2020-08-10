@@ -62,7 +62,15 @@ class FakePopulateDatabase
             poi3.put("type", "subway")
             poi3.put("ic", "ic_baseline_subway_24")
 
-            return listOf(poi1, poi2, poi3)
+            val poi4 = ContentValues()
+            poi4.put("type", "park")
+            poi4.put("ic", "ic_baseline_park_24")
+
+            val poi5 = ContentValues()
+            poi5.put("type", "school")
+            poi5.put("ic", "ic_baseline_school_24")
+
+            return listOf(poi1, poi2, poi3, poi4, poi5)
         }
 
         private fun addHousing() : ContentValues
@@ -113,17 +121,16 @@ class FakePopulateDatabase
             val housingPoi1 = ContentValues()
             housingPoi1.put("housing_reference", reference)
             housingPoi1.put("poi_type", "restaurant")
-            housingPoi1.put("number_of_poi", 12)
 
             val housingPoi2 = ContentValues()
             housingPoi2.put("housing_reference", reference)
             housingPoi2.put("poi_type", "store")
-            housingPoi2.put("number_of_poi", 20)
+
 
             val housingPoi3 = ContentValues()
             housingPoi3.put("housing_reference", reference)
             housingPoi3.put("poi_type", "subway")
-            housingPoi3.put("number_of_poi", 3)
+
 
             return listOf(housingPoi1, housingPoi2, housingPoi3)
         }

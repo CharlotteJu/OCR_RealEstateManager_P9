@@ -5,6 +5,8 @@ import android.os.strictmode.InstanceCountViolation
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.models.*
 
@@ -18,7 +20,7 @@ import com.openclassrooms.realestatemanager.models.*
                         HousingPoi::class,
                         Photo::class,
                         Poi::class],
-            version = 1,
+            version = 1 ,
             exportSchema = false)
 
 public abstract class AppDatabase : RoomDatabase()
@@ -36,6 +38,7 @@ public abstract class AppDatabase : RoomDatabase()
         // Singleton to have multiple instance of database on the same time
         @Volatile
         private var INSTANCE : AppDatabase?=null
+
 
         /**
          * Get the [AppDatabase]
@@ -55,7 +58,7 @@ public abstract class AppDatabase : RoomDatabase()
                 this.INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE")
                         .build()
                 return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").addCallback(FakePopulateDatabase.prepopulateDatabase()).build()
-                //return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build() // If bug when we change a model
+                //eturn Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build() // If bug when we change a model
             }
         }
     }

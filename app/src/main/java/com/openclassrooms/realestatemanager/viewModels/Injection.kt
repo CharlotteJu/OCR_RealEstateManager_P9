@@ -28,8 +28,10 @@ class Injection
             val poiRepository = PoiRepository(getPoiDao(context))
             val housingEstateAgentRepository = HousingEstateAgentRepository(getHousingEstateAgentDao(context))
             val housingPoiRepository = HousingPoiRepository(getHousingPoiDao(context))
+            val placesPoiRepository = PlacesPoiRepository()
+            val staticMapRepository = StaticMapRepository()
 
-            return ViewModelFactory(housingRepository, addressRepository, estateAgentRepository, housingEstateAgentRepository, housingPoiRepository, photoRepository, poiRepository)
+            return ViewModelFactory(housingRepository, addressRepository, estateAgentRepository, housingEstateAgentRepository, housingPoiRepository, photoRepository, poiRepository, placesPoiRepository, staticMapRepository )
         }
     }
 }

@@ -6,7 +6,7 @@
         <item>On going market</item>
         <item>For sale</item>
         <item>On Signature</item>
-        <item>Sell out</item>
+        <item>Sold out</item>
     </string-array>
 
     <string-array name="type_housing_spinner">
