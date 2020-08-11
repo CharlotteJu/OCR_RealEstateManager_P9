@@ -194,19 +194,6 @@
 
             <!-- ADDRESS -->
 
-            <TextView
-                android:id="@+id/detail_fragment_address_txt"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="wrap_content"
-                android:text="ADDRESS"
-                android:textAlignment="center"
-                android:layout_marginStart="@dimen/detail_fragment_margin"
-                android:layout_marginEnd="@dimen/constraint_width_0"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"
-                app:layout_constraintEnd_toStartOf="@id/detail_fragment_address_map_image"
-                app:layout_constraintTop_toTopOf="@id/detail_fragment_address_map_image"
-                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_address_map_image"/>
-
             <ImageView
                 android:id="@+id/detail_fragment_address_map_image"
                 android:layout_width="@dimen/detail_fragment_map_image_size"
@@ -215,6 +202,20 @@
                 android:src="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_1_info_address"/>
+
+            <TextView
+                android:id="@+id/detail_fragment_address_txt"
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="wrap_content"
+                android:text="ADDRESS"
+                android:textAlignment="center"
+                android:layout_marginStart="@dimen/detail_fragment_margin"
+                android:layout_marginEnd="@dimen/detail_fragment_margin"
+                app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"
+                app:layout_constraintEnd_toStartOf="@id/detail_fragment_address_map_image"
+                app:layout_constraintTop_toTopOf="@id/detail_fragment_address_map_image"
+                app:layout_constraintBottom_toBottomOf="@id/detail_fragment_address_map_image"/>
+
 
             <View
                 android:id="@+id/detail_fragment_separation_2_address_desc"

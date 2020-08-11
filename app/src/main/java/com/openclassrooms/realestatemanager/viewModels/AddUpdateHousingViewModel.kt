@@ -9,6 +9,8 @@ import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
+import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
+import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.ext.scope
@@ -59,8 +61,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun getPoi(location : String, type : String, radius : Int, key : String) = this.placesPoiRepository.test(location, type, radius, key)
 
-    //private fun getPoiRx(location : String, type : String, radius : Int, key : String) = this.placesPoiRepository.testRX(location, type, radius, key)
-
     private suspend fun createPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
     private fun getTypePoi(context: Context) : List<String>
@@ -84,31 +84,28 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (address != null)
             {
-                createAddress(address)
-
-                val geocoder : Geocoder = Geocoder(context)
-                val listGeocoder  = geocoder.getFromLocationName(address.toString(), 1)
-                val lat  = listGeocoder[0].latitude
-                val lng = listGeocoder[0].longitude
-                val location = "$lat,$lng"
-
-                val listTypePoi = getTypePoi(context)
-
-                val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
-
-                for (place in listPoiPlaces)
+                val location = Utils.geocoderAddress(address.toString(), context)
+                if (location != ERROR_GEOCODER_ADDRESS)
                 {
-                    for (type in listTypePoi)
+                    createAddress(address)
+                    val listTypePoi = getTypePoi(context)
+
+                    val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
+
+                    for (place in listPoiPlaces)
                     {
-                        if (place.types.contains(type))
+                        for (type in listTypePoi)
                         {
-                            val housingPoi = HousingPoi(housing.ref, type)
-                            createHousingPoi(housingPoi)
+                            if (place.types.contains(type))
+                            {
+                                val housingPoi = HousingPoi(housing.ref, type)
+                                createHousingPoi(housingPoi)
+                            }
                         }
+
                     }
-
                 }
-
+                //TODO : Faire un return si c'est ERROR
             }
 
             if (estateAgentList != null)
@@ -127,7 +124,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 }
             }
 
-            // Appeler POI ICI
         }
 
         //test1.join()

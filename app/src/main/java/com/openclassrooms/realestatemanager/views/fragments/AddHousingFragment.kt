@@ -15,6 +15,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
+import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -29,7 +30,8 @@ class AddHousingFragment : BaseFragment() {
     private lateinit var housingReference : String
     private lateinit var currency : String
     private var address : Address? = null
-    private var estateAgentList : List<EstateAgent> = ArrayList()
+    private var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
+    private lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
     private var photoList : List<Photo> = ArrayList()
     private val mViewModel : AddUpdateHousingViewModel by viewModel()
     private lateinit var mApiKey : String
@@ -45,6 +47,7 @@ class AddHousingFragment : BaseFragment() {
         }
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
 
@@ -59,14 +62,13 @@ class AddHousingFragment : BaseFragment() {
 
         this.getEstateAgentList()
         this.configureSpinners()
-        //this.enableViews(false)
         this.getAllInfo()
+        this.displayEstateAgentRcv()
 
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
         this.mView.add_housing_fragment_final_button.setOnClickListener {
             this.addFinal()
-            //this.coroutine()
             this.findNavController().navigate(R.id.listFragment)
         }
 
@@ -75,17 +77,8 @@ class AddHousingFragment : BaseFragment() {
 
     private fun addFinal()
     {
-        val housingEstateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-
-        for (housingEstateAgent in estateAgentList)
-        {
-            val estateAgent = HousingEstateAgent(housingReference, housingEstateAgent.lastName)
-            housingEstateAgentList.add(estateAgent)
-        }
-
-        val key = getString(R.string.google_api_key)
-
-        context?.let { this.mViewModel.createGlobalHousing(housing, address, photoList, housingEstateAgentList, it, key) }
+        this.checkAddress()
+        context?.let { this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey) }
 
         //TODO : Si connecté à internet --> Push sur Firebase
     }
@@ -275,9 +268,16 @@ class AddHousingFragment : BaseFragment() {
         }
     }
 
+    private fun checkAddress()
+    {
+        if (address!!.street == STRING_EMPTY && address!!.city == STRING_EMPTY && address!!.country == STRING_EMPTY)
+        {
+            address = null
+        }
+    }
+
     private fun getEstateAgents()
     {
-        val estateAgentList = ArrayList<HousingEstateAgent>()
         var housingEstateAgent: HousingEstateAgent? = null
 
         this.mView.add_housing_fragment_estate_agent_button.isEnabled = false
@@ -299,7 +299,10 @@ class AddHousingFragment : BaseFragment() {
         }
 
         this.mView.add_housing_fragment_estate_agent_button.setOnClickListener {
-            if (housingEstateAgent != null) estateAgentList.add(housingEstateAgent!!)
+            housingEstateAgent?.let {
+                estateAgentList.add(it)
+                mAdapterEstateAgentRcv.updateList(estateAgentList)
+            }
             //TODO : Afficher RCV et remettre spinner à 0
         }
     }
@@ -310,7 +313,14 @@ class AddHousingFragment : BaseFragment() {
 
     }
 
-    private fun displayPhotoRcv(photoList : List<Photo>)
+    private fun displayEstateAgentRcv()
+    {
+
+        this.mView.add_housing_fragment_estate_agent_rcv.adapter = mAdapterEstateAgentRcv
+        this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun displayPhotoRcv()
     {
         val adapter = ListPhotoAdapter(photoList)
         this.mView.add_housing_fragment_photo_rcv.adapter = adapter
@@ -337,85 +347,7 @@ class AddHousingFragment : BaseFragment() {
     {
         return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).
                         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
-
-        /*val adapter = context?.let {
-            ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item)}
-            return NothingSelectedSpinnerAdapter(adapter, R.layout.spinner_nothing_selected, context)*/
     }
 
-    /*private fun getItemSpinner(spinner: Spinner) : String?
-    {
-        var string : String? = null
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
-        {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
-            {
-                string = parent?.getItemAtPosition(position).toString()
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        return string
-    }
-
-    private fun getEditTxt(editText: EditText) : String?
-    {
-        var string : String? = null
-
-        editText.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable?) {
-                string = s.toString()
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        })
-
-        return string
-    }*/
-
-    /*private fun coroutine() = runBlocking {
-            val test = launch {
-            mViewModel.createHousing(housing)
-        }
-
-        test.join()
-
-        launch { addFinal() }
-
-       /* val housingTest = mViewModel.getHousing(housingReference).observe(viewLifecycleOwner, Observer {
-            val debug = it
-            val test2 = launch { addFinal() }
-        })*/
-    }*/
-
-
-
-    /*private suspend fun addFinal()
-    {
-
-       // mViewModel.createHousing(housing)
-
-        if (address != null)
-        {
-            mViewModel.createAddress(address!!)
-        }
-
-        for (estate in estateAgentList)
-        {
-            val estateAgent = HousingEstateAgent(housingReference!!, estate.lastName)
-            mViewModel.createHousingEstateAgent(estateAgent)
-        }
-
-        for (photo in photoList)
-        {
-            mViewModel.createPhoto(photo)
-        }
-
-        //TODO : Chercher les POI
-
-    }*/
 
 }

@@ -28,6 +28,12 @@ class ListEstateAgentAdapter(private var listEstateAgent : List<HousingEstateAge
 
     override fun getItemCount(): Int = this.listEstateAgent.size
 
+    fun updateList(listEstateAgent: List<HousingEstateAgent>)
+    {
+        this.listEstateAgent = listEstateAgent
+        this.notifyDataSetChanged()
+    }
+
 
     class ListEstateAgentViewModel(itemView: View) : RecyclerView.ViewHolder(itemView)
     {

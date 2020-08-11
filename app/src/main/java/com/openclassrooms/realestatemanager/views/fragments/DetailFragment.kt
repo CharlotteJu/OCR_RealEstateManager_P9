@@ -14,6 +14,7 @@ import com.bumptech.glide.request.RequestOptions
 
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
@@ -27,6 +28,8 @@ import java.lang.StringBuilder
 import java.util.*
 
 const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
+const val ZOOM_STATIC_MAP = 15
+const val SIZE_STATIC_MAP = "400x400"
 /**
  * A simple [Fragment] subclass.
  */
@@ -118,30 +121,31 @@ class DetailFragment : BaseFragment() {
 
     private fun showAddress()
     {
+        var addressValid = false
         if (housing.address != null)
         {
             this.mView.detail_fragment_address_txt.text = housing.address.toString()
-            val geocoder : Geocoder = Geocoder(context)
-            val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
-            val lat  = listGeocoder[0].latitude
-            val lng = listGeocoder[0].longitude
-            val location = "$lat,$lng"
+            val location = Utils.geocoderAddress(housing.address.toString(), requireContext())
 
-            val key = getString(R.string.google_api_key)
+            if (location != ERROR_GEOCODER_ADDRESS)
+            {
+                addressValid = true
+                val url = buildUrlStaticMap(location)
 
-            val url = "https://maps.googleapis.com/maps/api/staticmap?&center=$location &zoom=15&size=400x400&key=$key"
-
-            Glide.with(mView)
-                    .load(url)
-                    .apply(RequestOptions.centerCropTransform())
-                    .into(mView.detail_fragment_address_map_image)
+                Glide.with(mView)
+                        .load(url)
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(mView.detail_fragment_address_map_image)
             }
-        else
+        }
+
+        if (!addressValid)
         {
             this.mView.detail_fragment_address_txt.visibility = View.GONE
             this.mView.detail_fragment_address_map_image.visibility = View.GONE
             this.mView.detail_fragment_separation_2_address_desc.visibility = View.GONE
         }
+
     }
 
     private fun showDescription()
@@ -178,22 +182,20 @@ class DetailFragment : BaseFragment() {
     private fun showEstateAgent()
     {
 
-        this.mView.detail_fragment_estate_agent_title_txt.visibility = View.GONE
-        this.mView.detail_fragment_rcv_estate_agent.visibility = View.GONE
-        /*if (!housing.estateAgentList.isNullOrEmpty())
+        this.mView.detail_fragment_estate_agent_title_txt.visibility = View.VISIBLE
+        this.mView.detail_fragment_rcv_estate_agent.visibility = View.VISIBLE
+        if (!housing.estateAgentList.isNullOrEmpty())
         {
             val estateList = housing.estateAgentList!!.toList()
             val adapter = ListEstateAgentAdapter(estateList)
-            this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
-            this.mView.add_housing_fragment_estate_agent_rcv.visibility = View.VISIBLE
-            this.mView.add_housing_fragment_estate_agent_rcv.adapter = adapter
-
+            this.mView.detail_fragment_rcv_estate_agent.adapter = adapter
+            this.mView.detail_fragment_rcv_estate_agent.layoutManager = LinearLayoutManager(context)
         }
         else
         {
             this.mView.detail_fragment_estate_agent_title_txt.visibility = View.GONE
             this.mView.detail_fragment_rcv_estate_agent.visibility = View.GONE
-        }*/
+        }
     }
 
     private fun showPhoto()
@@ -210,6 +212,14 @@ class DetailFragment : BaseFragment() {
         {
             this.mView.detail_fragment_rcv_photo.visibility = View.GONE
         }
+    }
+
+    private fun buildUrlStaticMap(location : String) : String
+    {
+        val key = getString(R.string.google_api_key)
+
+        return "https://maps.googleapis.com/maps/api/staticmap?&center=$location&zoom=$ZOOM_STATIC_MAP&size=$SIZE_STATIC_MAP&markers=color:red|$location&key=$key"
+
     }
 
 }

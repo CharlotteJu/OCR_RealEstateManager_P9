@@ -1,15 +1,20 @@
 package com.openclassrooms.realestatemanager.utils;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.openclassrooms.realestatemanager.utils.ConstKt.DOLLAR;
+import static com.openclassrooms.realestatemanager.utils.ConstKt.ERROR_GEOCODER_ADDRESS;
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -106,5 +111,25 @@ public class Utils {
 
         /*connectivityManager.isActiveNetworkMetered();
         connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();*/
+    }
+
+    public static String geocoderAddress(String address, Context context)
+    {
+        Geocoder geocoder = new Geocoder(context);
+        try {
+            List<Address> addressList= geocoder.getFromLocationName(address.toString(),1);
+            double lat = addressList.get(0).getLatitude();
+            double lng = addressList.get(0).getLongitude();
+            return "" + lat + "," + lng;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ERROR_GEOCODER_ADDRESS;
+        }
+
+        /*val geocoder : Geocoder = Geocoder(context)
+        val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
+        val lat  = listGeocoder[0].latitude
+        val lng = listGeocoder[0].longitude
+        val location = "$lat,$lng"*/
     }
 }

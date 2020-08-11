@@ -47,7 +47,7 @@
     <dimen name="detail_fragment_rcv_poi_size">380dp</dimen>
     <dimen name="detail_fragment_rcv_estate_agent_size">380dp</dimen>
     <dimen name="detail_fragment_rcv_photo_size">320dp</dimen>
-    <dimen name="detail_fragment_map_image_size">180dp</dimen>
+    <dimen name="detail_fragment_map_image_size">260dp</dimen>
 
     <!-- SETTINGS FRAGMENT -->
     <dimen name="settings_fragment_text_size">16sp</dimen>
