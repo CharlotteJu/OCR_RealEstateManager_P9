@@ -26,16 +26,17 @@ import kotlin.collections.ArrayList
 class AddHousingFragment : BaseFragment() {
 
     private lateinit var housing : Housing
-    private lateinit var mView : View
     private lateinit var housingReference : String
     private lateinit var currency : String
+    private lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
     private var address : Address? = null
     private var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    private lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
     private var photoList : List<Photo> = ArrayList()
+
     private val mViewModel : AddUpdateHousingViewModel by viewModel()
+    private lateinit var mView : View
     private lateinit var mApiKey : String
-    private lateinit var placesClient : PlacesClient // TODO : Vraiment besoin de ça ?
+    private lateinit var placesClient : PlacesClient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,8 +52,6 @@ class AddHousingFragment : BaseFragment() {
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
 
-
-        //housingReference = UUID.randomUUID().toString()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -227,10 +226,16 @@ class AddHousingFragment : BaseFragment() {
             {
                 parent?.let {
                     val item : String = parent.getItemAtPosition(position).toString()
-                    if (item != SPINNER_SELECT) {
+                    if (item != SPINNER_SELECT)
+                    {
                         housing.state = item
                         enableFinalButton()
+                        if (item == getString(R.string.sold_out))
+                        {
+                            //TODO : Afficher une DatePickerDialog
+                        }
                     }
+
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -302,8 +307,8 @@ class AddHousingFragment : BaseFragment() {
             housingEstateAgent?.let {
                 estateAgentList.add(it)
                 mAdapterEstateAgentRcv.updateList(estateAgentList)
+                mView.add_housing_fragment_estate_agent_name_spinner.setSelection(0)
             }
-            //TODO : Afficher RCV et remettre spinner à 0
         }
     }
 
@@ -338,8 +343,7 @@ class AddHousingFragment : BaseFragment() {
 
     private fun getDateOfToday()
     {
-        val date = Calendar.getInstance().time
-        val stringDate = Utils.getTodayDateGood(date)
+        val stringDate = Utils.getTodayDateGood()
         housing.dateEntry = stringDate
     }
 

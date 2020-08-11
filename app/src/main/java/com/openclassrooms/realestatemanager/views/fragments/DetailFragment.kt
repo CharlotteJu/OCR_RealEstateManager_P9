@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.location.Geocoder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,12 +19,8 @@ import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
-import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
-import kotlinx.android.synthetic.main.item_photo.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.StringBuilder
-import java.util.*
 
 const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
 const val ZOOM_STATIC_MAP = 15
@@ -125,7 +120,7 @@ class DetailFragment : BaseFragment() {
         if (housing.address != null)
         {
             this.mView.detail_fragment_address_txt.text = housing.address.toString()
-            val location = Utils.geocoderAddress(housing.address.toString(), requireContext())
+            val location = Utils.getGeocoderAddress(housing.address.toString(), requireContext())
 
             if (location != ERROR_GEOCODER_ADDRESS)
             {

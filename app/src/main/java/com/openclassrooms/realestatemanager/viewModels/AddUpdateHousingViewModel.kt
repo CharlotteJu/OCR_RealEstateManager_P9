@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
-import android.location.Geocoder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
@@ -13,11 +11,6 @@ import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.ext.scope
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.util.concurrent.Executor
 
 
 /**
@@ -84,7 +77,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (address != null)
             {
-                val location = Utils.geocoderAddress(address.toString(), context)
+                val location = Utils.getGeocoderAddress(address.toString(), context)
                 if (location != ERROR_GEOCODER_ADDRESS)
                 {
                     createAddress(address)

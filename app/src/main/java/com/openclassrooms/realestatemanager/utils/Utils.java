@@ -4,12 +4,16 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -87,7 +91,9 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
-    public static String getTodayDateGood(Date date){
+    public static String getTodayDateGood()
+    {
+        Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(date);
     }
@@ -106,14 +112,24 @@ public class Utils {
     public static Boolean isInternetAvailableGood(Context context)
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
+        {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnectedOrConnecting();
+        }
+        else
+        {
+            NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET); //TODO : OK ?
+        }
+
+
 
         /*connectivityManager.isActiveNetworkMetered();
         connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();*/
     }
 
-    public static String geocoderAddress(String address, Context context)
+    public static String getGeocoderAddress(String address, Context context)
     {
         Geocoder geocoder = new Geocoder(context);
         try {

@@ -43,7 +43,7 @@ const val LOCATION_PERMISSION_REQUEST_CODE = 101
  * Use the [MapFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
+class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var mMap: GoogleMap
@@ -52,7 +52,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
     private var mListHousing : MutableList<CompleteHousing> = arrayListOf()
     private lateinit var currency : String
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         this.mFusedLocationClient = requireActivity().let { LocationServices.getFusedLocationProviderClient(it) }
         this.currency = getCurrencyFromSharedPreferences()
@@ -60,7 +61,8 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View?
+    {
         val view: View = inflater.inflate(R.layout.fragment_map, container, false)
         val mapFragment = FragmentManager.findFragment<SupportMapFragment>(view)
         this.fetchLocation()
@@ -73,10 +75,9 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
         return view
     }
 
-    override fun onMapReady(p0: GoogleMap?) {
-
+    override fun onMapReady(p0: GoogleMap?)
+    {
         if (p0 != null) mMap = p0
-
         if (mCurrentLocation != null)
         {
             mMap.apply {
@@ -121,15 +122,13 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
                     bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
                     findNavController().navigate(R.id.detailFragment, bundle)
                 }
-
-
-
             }
         }
     }
 
 
-    private fun fetchLocation() {
+    private fun fetchLocation()
+    {
         if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
 
@@ -156,44 +155,23 @@ class MapFragment : BaseFragment(), OnMapReadyCallback, LocationListener {
                     {
                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
                            override fun onLocationChanged(location: Location?) {
-                               TODO("Not yet implemented")
+                               mCurrentLocation = location
+                               mMap.apply {
+                                   val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+                                   addMarker(MarkerOptions().position(marker))
+                                   moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+                               }
                            }
 
-                           override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
-                               TODO("Not yet implemented")
-                           }
+                           override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
-                           override fun onProviderEnabled(provider: String?) {
-                               TODO("Not yet implemented")
-                           }
+                           override fun onProviderEnabled(provider: String?) {}
 
-                           override fun onProviderDisabled(provider: String?) {
-                               TODO("Not yet implemented")
-                           }
-                       } )
+                           override fun onProviderDisabled(provider: String?) {}
+                       })
                     }
                 }
-
             }
         }
-
-
     }
-
-    override fun onLocationChanged(location: Location?) {
-        mCurrentLocation = location //TODO : Comme déclarer un objet LocationListener sinon ?
-        mMap.apply {
-            val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-            addMarker(MarkerOptions().position(marker))
-            moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-        }
-    }
-
-    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-
-    override fun onProviderEnabled(provider: String?) {}
-
-    override fun onProviderDisabled(provider: String?) {}
-
-
 }

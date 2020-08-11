@@ -30,6 +30,9 @@
     <string name="spinners_state">STATE</string>
     <string name="spinners_estate_agent">ESTATE AGENT</string>
 
+    <!-- Spinner STATE -->
+    <string name="sold_out">Sold out</string>
+
     <!-- Add and Edit Housing Fragment -->
     <string name="price">PRICE</string>
     <string name="area">AREA</string>
