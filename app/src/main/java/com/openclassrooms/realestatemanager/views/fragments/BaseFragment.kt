@@ -13,4 +13,5 @@ abstract class BaseFragment : Fragment()
         val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         return sharedPreferences.getString(CURRENCY_TAG, DOLLAR).toString()
     }
+
 }

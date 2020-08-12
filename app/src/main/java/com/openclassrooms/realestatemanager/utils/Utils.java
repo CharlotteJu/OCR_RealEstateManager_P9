@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.utils;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -9,6 +11,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.widget.DatePicker;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -94,7 +97,12 @@ public class Utils {
     public static String getTodayDateGood()
     {
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return getDateFormat(date);
+    }
+
+    public static String getDateFormat(Date date)
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); //TODO-Q : Obligé de mettre locale ?
         return dateFormat.format(date);
     }
 
@@ -122,11 +130,6 @@ public class Utils {
             NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
             return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET); //TODO : OK ?
         }
-
-
-
-        /*connectivityManager.isActiveNetworkMetered();
-        connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();*/
     }
 
     public static String getGeocoderAddress(String address, Context context)
@@ -142,10 +145,36 @@ public class Utils {
             return ERROR_GEOCODER_ADDRESS;
         }
 
-        /*val geocoder : Geocoder = Geocoder(context)
+        /* KOTLIN
+        val geocoder : Geocoder = Geocoder(context)
         val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
         val lat  = listGeocoder[0].latitude
         val lng = listGeocoder[0].longitude
         val location = "$lat,$lng"*/
+    }
+
+    private static String date;
+
+    public static String getDatePickerDialog(Activity activity)
+    {
+        Calendar calendar = Calendar.getInstance();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(activity);
+            datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
+                {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                    date =  "" + calendar.getTime();
+                    datePickerDialog.show();
+                }
+            });
+
+        }
+
+        return date;
     }
 }

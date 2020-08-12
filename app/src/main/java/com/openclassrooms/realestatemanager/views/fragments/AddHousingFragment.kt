@@ -1,10 +1,13 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -19,11 +22,12 @@ import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapte
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.Year
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AddHousingFragment : BaseFragment() {
+class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var housing : Housing
     private lateinit var housingReference : String
@@ -232,7 +236,7 @@ class AddHousingFragment : BaseFragment() {
                         enableFinalButton()
                         if (item == getString(R.string.sold_out))
                         {
-                            //TODO : Afficher une DatePickerDialog
+                            getDatePickerDialog()
                         }
                     }
 
@@ -351,6 +355,59 @@ class AddHousingFragment : BaseFragment() {
     {
         return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).
                         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
+    }
+
+    private fun getDatePickerDialog()
+    {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+
+            val month1 = month+1
+            val monthString = if (month1 < 10) "0$month1"
+            else month1.toString()
+            
+            housing.dateSale = "$dayOfMonth/$monthString/$year"
+            //housing.dateSale = Utils.getDateFormat(calendar.time) //TODO-Q : Pourquoi ça met la Date du jour ?
+            }, year, month, dayOfMonth)
+
+        datePickerDialog.show()
+
+        if (housing.dateSale != null)
+        {
+            housing.dateSale = ""
+        }
+
+
+
+        /*val datePickerDialog = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            DatePickerDialog(requireActivity())
+        } else {
+            TODO("VERSION.SDK_INT < N")
+        }
+
+        datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            date = Utils.getDateFormat(calendar.time)
+            datePickerDialog.show()
+        }*/
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int)
+    {
+        var date = ""
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        date = Utils.getDateFormat(calendar.time)
     }
 
 
