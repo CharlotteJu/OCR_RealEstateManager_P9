@@ -13,18 +13,14 @@ import com.bumptech.glide.request.RequestOptions
 
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
-import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
+import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val BUNDLE_REFERENCE = "BUNDLE_REFERENCE"
-const val ZOOM_STATIC_MAP = 15
-const val SIZE_STATIC_MAP = "400x400"
 /**
  * A simple [Fragment] subclass.
  */
@@ -106,7 +102,8 @@ class DetailFragment : BaseFragment() {
         this.mView.detail_fragment_state_txt.text = housing.housing.state
         this.mView.detail_fragment_date_entry_txt.text = housing.housing.dateEntry
 
-        if (housing.housing.dateSale != null) { this.mView.detail_fragment_date_sale_txt.text = housing.housing.dateSale }
+        if (housing.housing.dateSale != null)
+        { this.mView.detail_fragment_date_sale_txt.text = housing.housing.dateSale }
         else {
             this.mView.detail_fragment_date_sale_txt.visibility = View.INVISIBLE
             this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
@@ -120,9 +117,9 @@ class DetailFragment : BaseFragment() {
         if (housing.address != null)
         {
             this.mView.detail_fragment_address_txt.text = housing.address.toString()
-            val location = Utils.getGeocoderAddress(housing.address.toString(), requireContext())
+            val location = UtilsKotlin.getGeocoderAddress(housing.address.toString(), requireContext())
 
-            if (location != ERROR_GEOCODER_ADDRESS)
+            if (location != null && location != ERROR_GEOCODER_ADDRESS)
             {
                 addressValid = true
                 val url = buildUrlStaticMap(location)
@@ -199,9 +196,9 @@ class DetailFragment : BaseFragment() {
         {
             this.mView.detail_fragment_no_photo.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
-            val adapter = ListPhotoAdapter(photoList)
+            val adapter = ListPhotoDetailAdapter(photoList)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
-            this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context)
+            this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
         else
         {

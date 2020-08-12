@@ -1,17 +1,25 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.ContentResolver
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.SyncStateContract.Helpers.insert
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.openclassrooms.realestatemanager.R
@@ -19,23 +27,26 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAdapter
+import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
+import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.time.Year
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
+class AddHousingFragment : BaseFragment() {
 
     private lateinit var housing : Housing
     private lateinit var housingReference : String
     private lateinit var currency : String
     private lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
+    private lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
     private var address : Address? = null
     private var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    private var photoList : List<Photo> = ArrayList()
+    private var photoUri : Uri? = null
+
+    private var photoList : MutableList<Photo> = ArrayList()
 
     private val mViewModel : AddUpdateHousingViewModel by viewModel()
     private lateinit var mView : View
@@ -53,6 +64,8 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key)
         this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
+
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
 
@@ -67,6 +80,7 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
         this.configureSpinners()
         this.getAllInfo()
         this.displayEstateAgentRcv()
+        this.displayPhotoRcv()
 
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
@@ -236,6 +250,7 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
                         enableFinalButton()
                         if (item == getString(R.string.sold_out))
                         {
+                            //housing.dateSale =  UtilsKotlin.getDatePickerDialog(requireContext())
                             getDatePickerDialog()
                         }
                     }
@@ -317,22 +332,59 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
     }
 
 
+
     private fun getPhotos()
     {
+        //val photo = Photo(STRING_EMPTY, STRING_EMPTY, housingReference)
 
+        var description = STRING_EMPTY
+
+        this.mView.add_housing_fragment_photo_image.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                UtilsPermissions.checkCameraPermission(requireActivity()) //TODO : Attention, ça plante la 1ère fois
+                UtilsPermissions.checkReadPermission(requireActivity())
+                UtilsPermissions.checkWritePermission(requireActivity())
+            }
+
+
+
+            //pickImageFromGallery()
+            openCamera()
+        }
+
+        this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
+
+        this.mView.add_housing_fragment_photo_button.setOnClickListener{
+            if (photoUri != null)
+            {
+                val photo = Photo(photoUri!!.toString(), description, housingReference)
+                photoList.add(photo)
+                mAdapterPhotoAddRcv.updateList(photoList)
+
+                //Clear photo and description
+                this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+
+                /* photoUri = STRING_EMPTY
+                 description = STRING_EMPTY*/ //TODO-Q : Où est-ce que je peux clear ça ?
+                this.mView.add_housing_fragment_image_description_editTxt.text.clear()
+            }
+            else
+            {
+                Toast.makeText(requireContext(), getString(R.string.toast_no_photo), Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun displayEstateAgentRcv()
     {
-
         this.mView.add_housing_fragment_estate_agent_rcv.adapter = mAdapterEstateAgentRcv
-        this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
+        this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun displayPhotoRcv()
     {
-        val adapter = ListPhotoAdapter(photoList)
-        this.mView.add_housing_fragment_photo_rcv.adapter = adapter
+        this.mView.add_housing_fragment_photo_rcv.adapter = mAdapterPhotoAddRcv
         this.mView.add_housing_fragment_photo_rcv.layoutManager = LinearLayoutManager(context)
     }
 
@@ -358,6 +410,8 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun getDatePickerDialog()
+
+
     {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -369,46 +423,52 @@ class AddHousingFragment : BaseFragment(), DatePickerDialog.OnDateSetListener {
             val month1 = month+1
             val monthString = if (month1 < 10) "0$month1"
             else month1.toString()
-            
+
             housing.dateSale = "$dayOfMonth/$monthString/$year"
             //housing.dateSale = Utils.getDateFormat(calendar.time) //TODO-Q : Pourquoi ça met la Date du jour ?
             }, year, month, dayOfMonth)
 
         datePickerDialog.show()
 
-        if (housing.dateSale != null)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK)
         {
-            housing.dateSale = ""
+            if (requestCode == IMAGE_PICK_GALLERY_CODE || requestCode == IMAGE_PICK_CAMERA_CODE)
+            //photoUri = data?.data //Pas pour le Camera
+            context?.let {
+                Glide.with(it)
+                        .load(photoUri)
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(this.mView.add_housing_fragment_photo_image)
+            }
         }
-
-
-
-        /*val datePickerDialog = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            DatePickerDialog(requireActivity())
-        } else {
-            TODO("VERSION.SDK_INT < N")
-        }
-
-        datePickerDialog.setOnDateSetListener { view, year, month, dayOfMonth ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            date = Utils.getDateFormat(calendar.time)
-            datePickerDialog.show()
-        }*/
     }
 
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int)
+    private fun pickImageFromGallery()
     {
-        var date = ""
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.YEAR, year)
-        calendar.set(Calendar.MONTH, month)
-        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        this.startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE)
 
-        date = Utils.getDateFormat(calendar.time)
     }
 
+    private fun openCamera()
+    {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "New picture")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the camera")
+        photoUri = requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE)
+
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.views.adapters
 
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Photo
-import kotlinx.android.synthetic.main.item_photo.view.*
+import kotlinx.android.synthetic.main.item_photo_detail.view.*
 
-class ListPhotoAdapter(private val photoList : List<Photo>) : RecyclerView.Adapter<ListPhotoAdapter.ListPhotoViewHolder>()
+class ListPhotoDetailAdapter(private var photoList : List<Photo>) : RecyclerView.Adapter<ListPhotoDetailAdapter.ListPhotoViewHolder>()
 {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPhotoViewHolder
     {
-        return ListPhotoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo, parent, false))
+        return ListPhotoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo_detail, parent, false))
     }
 
     override fun onBindViewHolder(holder: ListPhotoViewHolder, position: Int) {
@@ -26,6 +25,12 @@ class ListPhotoAdapter(private val photoList : List<Photo>) : RecyclerView.Adapt
 
     override fun getItemCount(): Int = this.photoList.size
 
+    fun updateList(photoList: List<Photo>)
+    {
+        this.photoList = photoList
+        this.notifyDataSetChanged()
+    }
+
     class ListPhotoViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(photo : Photo)
@@ -34,16 +39,16 @@ class ListPhotoAdapter(private val photoList : List<Photo>) : RecyclerView.Adapt
                 Glide.with(itemView)
                         .load(it)
                         .apply(RequestOptions.centerCropTransform())
-                        .into(itemView.item_photo_image)
+                        .into(itemView.item_photo_detail_image)
             }
 
             if (photo.description != null)
             {
-                photo.description.let {itemView.item_photo_description.text = it }
+                photo.description.let {itemView.item_photo_detail_description.text = it }
             }
             else
             {
-                itemView.item_photo_description.visibility = View.GONE
+                itemView.item_photo_detail_description.visibility = View.GONE
             }
         }
     }

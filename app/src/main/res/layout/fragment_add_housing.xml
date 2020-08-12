@@ -288,7 +288,7 @@
                 android:id="@+id/add_housing_fragment_photo_image"
                 android:layout_width="132dp"
                 android:layout_height="132dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/ic_baseline_add_48"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 android:layout_marginEnd="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
@@ -319,10 +319,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/add_housing_fragment_photo_rcv"
-                android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="120dp"
-                tools:listitem="@layout/item_photo"
-                android:background="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                tools:listitem="@layout/item_photo_detail"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"

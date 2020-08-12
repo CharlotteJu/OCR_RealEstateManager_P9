@@ -132,49 +132,4 @@ public class Utils {
         }
     }
 
-    public static String getGeocoderAddress(String address, Context context)
-    {
-        Geocoder geocoder = new Geocoder(context);
-        try {
-            List<Address> addressList= geocoder.getFromLocationName(address.toString(),1);
-            double lat = addressList.get(0).getLatitude();
-            double lng = addressList.get(0).getLongitude();
-            return "" + lat + "," + lng;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ERROR_GEOCODER_ADDRESS;
-        }
-
-        /* KOTLIN
-        val geocoder : Geocoder = Geocoder(context)
-        val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
-        val lat  = listGeocoder[0].latitude
-        val lng = listGeocoder[0].longitude
-        val location = "$lat,$lng"*/
-    }
-
-    private static String date;
-
-    public static String getDatePickerDialog(Activity activity)
-    {
-        Calendar calendar = Calendar.getInstance();
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            DatePickerDialog datePickerDialog = new DatePickerDialog(activity);
-            datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
-                {
-                    calendar.set(Calendar.YEAR, year);
-                    calendar.set(Calendar.MONTH, month);
-                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                    date =  "" + calendar.getTime();
-                    datePickerDialog.show();
-                }
-            });
-
-        }
-
-        return date;
-    }
 }

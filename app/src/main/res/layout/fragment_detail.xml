@@ -43,7 +43,7 @@
                 android:layout_height="@dimen/detail_fragment_rcv_photo_size"
                 android:orientation="horizontal"
                 android:background="@color/colorPrimary"
-                tools:listitem="@layout/item_photo"
+                tools:listitem="@layout/item_photo_detail"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_type_txt"
                 app:layout_constraintStart_toStartOf="parent"
@@ -313,6 +313,7 @@
             <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_fragment_rcv_estate_agent"
+
                 android:layout_width="@dimen/detail_fragment_rcv_estate_agent_size"
                 android:layout_height="80dp"
                 android:layout_marginTop="@dimen/detail_fragment_margin"

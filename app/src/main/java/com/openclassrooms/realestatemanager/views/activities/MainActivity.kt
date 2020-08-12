@@ -1,6 +1,9 @@
 package com.openclassrooms.realestatemanager.views.activities
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -19,6 +22,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
 import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
 import com.openclassrooms.realestatemanager.utils.DOLLAR
+import com.openclassrooms.realestatemanager.utils.READ_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.openclassrooms.realestatemanager.views.fragments.ListFragmentDirections
 import java.util.*
 
@@ -110,4 +114,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
+
+
 }

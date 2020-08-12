@@ -8,12 +8,14 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
@@ -30,13 +32,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.utils.DOLLAR
-import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-const val LOCATION_PERMISSION_REQUEST_CODE = 101
+
 
 /**
  * A simple [Fragment] subclass.
@@ -92,7 +93,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     {
         for (housing in mListHousing)
         {
-            val test = housing
             if (housing.address != null)
             {
                 val geocoder : Geocoder = Geocoder(context)
@@ -127,51 +127,55 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private fun fetchLocation()
     {
-        if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+        /*if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_CODE)
 
-        } else {
-            val task = mFusedLocationClient.lastLocation
-            task.addOnSuccessListener {
-                if (it != null) {
-                    mCurrentLocation = it
-                    mMap.apply {
-                        val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-                        addMarker(MarkerOptions().position(marker))
-                        moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-                    }
-                } else {
+        } else {}*/
 
-                    val locationManager : LocationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
+        UtilsPermissions.checkLocationPermission(requireActivity())
 
-                    if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                    {
-                        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-                        this.fetchLocation()
-                    }
-                    else
-                    {
-                       locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
-                           override fun onLocationChanged(location: Location?) {
-                               mCurrentLocation = location
-                               mMap.apply {
-                                   val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-                                   addMarker(MarkerOptions().position(marker))
-                                   moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-                               }
+        val task = mFusedLocationClient.lastLocation
+        task.addOnSuccessListener {
+            if (it != null) {
+                mCurrentLocation = it
+                mMap.apply {
+                    val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+                    addMarker(MarkerOptions().position(marker))
+                    moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+                }
+            } else
+            {
+                val locationManager : LocationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
+
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+                {
+                    startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                    this.fetchLocation()
+                }
+                else
+                {
+                   locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
+                       override fun onLocationChanged(location: Location?) {
+                           mCurrentLocation = location
+                           mMap.apply {
+                               val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+                               addMarker(MarkerOptions().position(marker))
+                               moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
                            }
+                       }
 
-                           override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                       override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
-                           override fun onProviderEnabled(provider: String?) {}
+                       override fun onProviderEnabled(provider: String?) {}
 
-                           override fun onProviderDisabled(provider: String?) {}
-                       })
-                    }
+                       override fun onProviderDisabled(provider: String?) {}
+                   })
                 }
             }
         }
+
     }
 }

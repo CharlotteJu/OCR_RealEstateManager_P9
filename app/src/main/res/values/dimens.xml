@@ -34,7 +34,10 @@
     <dimen name="item_poi_ic_size">32dp</dimen>
 
     <!-- ITEM PHOTO -->
-    <dimen name="item_photo_size">320dp</dimen>
+    <dimen name="item_photo_detail_size">320dp</dimen>
+    <dimen name="item_photo_add_size">132dp</dimen>
+    <dimen name="item_photo_margin">8dp</dimen>
+    <dimen name="item_photo_description_margin">16dp</dimen>
 
     <!-- ITEM ESTATE AGENT -->
     <dimen name="item_estate_agent_margin">16dp</dimen>

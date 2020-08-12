@@ -61,6 +61,9 @@
     <string name="subways">Subways</string>
     <string name="parks">Parks</string>
 
+    <!-- Toast -->
+    <string name="toast_no_photo">You have not add photo</string>
+
 
 
 </resources>

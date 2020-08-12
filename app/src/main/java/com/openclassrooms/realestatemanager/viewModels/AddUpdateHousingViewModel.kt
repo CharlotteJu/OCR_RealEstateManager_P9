@@ -9,6 +9,7 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -77,8 +78,9 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (address != null)
             {
-                val location = Utils.getGeocoderAddress(address.toString(), context)
-                if (location != ERROR_GEOCODER_ADDRESS)
+                val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+
+                if (location != null && location != ERROR_GEOCODER_ADDRESS)
                 {
                     createAddress(address)
                     val listTypePoi = getTypePoi(context)
