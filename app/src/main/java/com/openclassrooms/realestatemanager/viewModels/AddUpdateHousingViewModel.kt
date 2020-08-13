@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -72,7 +73,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String )
     {
-        viewModelScope.launch (Dispatchers.IO)
+       val job =  viewModelScope.launch (Dispatchers.IO)
         {
             createHousing(housing)
 
@@ -119,8 +120,14 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 }
             }
 
+
+
         }
 
+
+        //TODO : Mettre un Listener pour savoir quand c'est fini
+
+       // Toast.makeText(context, "OK", Toast.LENGTH_LONG).show()
         //test1.join()
 
     }

@@ -33,66 +33,32 @@ import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
+abstract class BaseEditHousingFragment : BaseFragment()
+{
+    protected lateinit var housing : Housing
+    protected lateinit var housingReference : String
+    protected lateinit var currency : String
+    protected lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
+    protected lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
+    protected var address : Address? = null
+    protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
+    protected var photoUri : Uri? = null
 
-class AddHousingFragment : BaseEditHousingFragment() {
+    protected var photoList : MutableList<Photo> = ArrayList()
 
+    protected val mViewModel : AddUpdateHousingViewModel by viewModel()
+    protected lateinit var mView : View
+    protected lateinit var mApiKey : String
+    protected lateinit var placesClient : PlacesClient
 
+    protected lateinit var listAdapterTypeSpinner : ArrayAdapter<String>
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View?
+    override fun onCreate(savedInstanceState: Bundle?)
     {
-        this.mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
-        this.getEstateAgentList()
-        this.configureSpinners()
-        this.getAllInfo()
-        this.displayEstateAgentRcv()
-        this.displayPhotoRcv()
-
-        this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
-        this.mView.add_housing_fragment_final_button.isEnabled = false
-        this.mView.add_housing_fragment_final_button.setOnClickListener {
-            this.addFinal()
-            this.findNavController().navigate(R.id.listFragment)
-        }
-
-        return mView
-    }
-
-    private fun addFinal()
-    {
-        this.checkAddress()
-        val boolean = context?.let { this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey) }
-        boolean
-
-        //TODO : Si connecté à internet --> Push sur Firebase
-    }
-
-
-
-
-    /*private lateinit var housing : Housing
-    private lateinit var housingReference : String
-    private lateinit var currency : String
-    private lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
-    private lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
-    private var address : Address? = null
-    private var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    private var photoUri : Uri? = null
-
-    private var photoList : MutableList<Photo> = ArrayList()
-
-    private val mViewModel : AddUpdateHousingViewModel by viewModel()
-    private lateinit var mView : View
-    private lateinit var mApiKey : String
-    private lateinit var placesClient : PlacesClient*/
-
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments!= null)
         {
@@ -106,10 +72,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
+    }
 
-    }*/
-
-    /*private fun restOnCreateView(inflater: LayoutInflater, container: ViewGroup?)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
 
@@ -121,10 +86,13 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
-    }*/
 
 
-    /*private fun getEstateAgentList()
+
+        return mView
+    }
+
+    protected fun getEstateAgentList()
     {
         this.mViewModel.getEstateAgentList().observe(this.viewLifecycleOwner, Observer { list ->
 
@@ -140,7 +108,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
             }
 
             val adapter = context?.let {
-                        ArrayAdapter(it, android.R.layout.simple_spinner_item, nameList)
+                ArrayAdapter(it, android.R.layout.simple_spinner_item, nameList)
                         .also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         }
             }
@@ -149,9 +117,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         })
 
-    }*/
+    }
 
-    /*private fun configureSpinners()
+    protected fun configureSpinners()
     {
         this.mView.add_housing_fragment_type_spinner.adapter = configureSpinnerAdapter(R.array.type_housing_spinner)
         this.mView.add_housing_fragment_type_spinner.prompt = getString(R.string.spinners_type)
@@ -165,9 +133,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_number_bathrooms_spinner.prompt = getString(R.string.spinners_bathrooms)
         //TODO : NameSpinner && Prompt ne fonctionne pas
 
-    }*/
+    }
 
-    /*private fun getAllInfo()
+    protected fun getAllInfo()
     {
         this.getPrice()
         this.getTypeAndState()
@@ -177,9 +145,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.getPhotos()
         this.getEstateAgents()
         this.getDateOfToday()
-    }*/
+    }
 
-    /*private fun getPrice()
+    protected fun getPrice()
     {
         this.mView.add_housing_fragment_price_editTxt.doAfterTextChanged {
             if (currency== DOLLAR)
@@ -194,9 +162,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
             }
             this.enableFinalButton()
         }
-    }*/
+    }
 
-    /*private fun getInfoInsideHouse()
+    protected fun getInfoInsideHouse()
     {
         this.mView.add_housing_fragment_area_editTxt.doAfterTextChanged {
             housing.area = it.toString().toDouble()
@@ -238,9 +206,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-    }*/
+    }
 
-    /*private fun getTypeAndState()
+    protected fun getTypeAndState()
     {
         this.mView.add_housing_fragment_type_spinner.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener
         {
@@ -278,14 +246,14 @@ class AddHousingFragment : BaseEditHousingFragment() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-    }*/
+    }
 
-    /*private fun getDescription()
+    protected fun getDescription()
     {
         this.mView.add_housing_fragment_description_editTxt.doAfterTextChanged { housing.description = it.toString() }
-    }*/
+    }
 
-    /*private fun getAddress()
+    protected fun getAddress()
     {
 
         val uuidAddress = UUID.randomUUID().toString()
@@ -305,13 +273,21 @@ class AddHousingFragment : BaseEditHousingFragment() {
                 parent?.let {
                     val item : String = parent.getItemAtPosition(position).toString()
                     if (item != SPINNER_SELECT) address!!.country = item
-                  }
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-    }*/
+    }
 
-    /*private fun getEstateAgents()
+    protected fun checkAddress()
+    {
+        if (address!!.street == STRING_EMPTY && address!!.city == STRING_EMPTY && address!!.country == STRING_EMPTY)
+        {
+            address = null
+        }
+    }
+
+    protected fun getEstateAgents()
     {
         var housingEstateAgent: HousingEstateAgent? = null
 
@@ -340,9 +316,11 @@ class AddHousingFragment : BaseEditHousingFragment() {
                 mView.add_housing_fragment_estate_agent_name_spinner.setSelection(0)
             }
         }
-    }*/
+    }
 
-    /*private fun getPhotos()
+
+
+    protected fun getPhotos()
     {
         //val photo = Photo(STRING_EMPTY, STRING_EMPTY, housingReference)
 
@@ -380,9 +358,17 @@ class AddHousingFragment : BaseEditHousingFragment() {
                 Toast.makeText(requireContext(), getString(R.string.toast_no_photo), Toast.LENGTH_LONG).show()
             }
         }
-    }*/
+    }
 
-    /*private fun openCamera()
+    protected fun pickImageFromGallery()
+    {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        this.startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE)
+
+    }
+
+    protected fun openCamera()
     {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New picture")
@@ -394,42 +380,49 @@ class AddHousingFragment : BaseEditHousingFragment() {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE)
 
-    }*/
+    }
 
-    /*private fun displayEstateAgentRcv()
+    protected fun displayEstateAgentRcv()
     {
         this.mView.add_housing_fragment_estate_agent_rcv.adapter = mAdapterEstateAgentRcv
         this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-    }*/
+    }
 
-    /*private fun displayPhotoRcv()
+    protected fun displayPhotoRcv()
     {
         this.mView.add_housing_fragment_photo_rcv.adapter = mAdapterPhotoAddRcv
         this.mView.add_housing_fragment_photo_rcv.layoutManager = LinearLayoutManager(context)
-    }*/
+    }
 
-    /*private fun enableFinalButton()
+    /**
+     * Just for ADD
+     */
+    protected fun enableFinalButton()
     {
         if (housing.type != STRING_EMPTY && housing.price != DOUBLE_00 && housing.area != DOUBLE_00 && housing.state!= STRING_EMPTY )
         {
             this.mView.add_housing_fragment_final_button.visibility = View.VISIBLE
             this.mView.add_housing_fragment_final_button.isEnabled = true
         }
-    }*/
+    }
 
-    /*private fun getDateOfToday()
+    /**
+     * Just for ADD
+     */
+    protected fun getDateOfToday()
     {
         val stringDate = Utils.getTodayDateGood()
         housing.dateEntry = stringDate
-    }*/
+    }
 
-    /*private fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
+    protected fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
     {
+        //TODO : Quand est-ce que ça peut être null ?
         return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).
-                        also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
-    }*/
+        also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
+    }
 
-    /*private fun getDatePickerDialog()
+    protected fun getDatePickerDialog()
     {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -444,14 +437,14 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
             housing.dateSale = "$dayOfMonth/$monthString/$year"
             //housing.dateSale = Utils.getDateFormat(calendar.time) //TODO-Q : Pourquoi ça met la Date du jour ?
-            }, year, month, dayOfMonth)
+        }, year, month, dayOfMonth)
 
         datePickerDialog.show()
 
 
-    }*/
+    }
 
-    /*private fun getAlertDialogPhoto()
+    protected fun getAlertDialogPhoto()
     {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_photo, null)
@@ -472,9 +465,11 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         //alert.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundResource(R.drawable.ic_baseline_add_photo_gallery_48) //TODO-Q : Comment mettre des drawable ?
         //alert.getButton(DialogInterface.BUTTON_NEGATIVE).setBackgroundResource(R.drawable.ic_baseline_add_photo_camera_48)
-    }*/
+    }
 
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -496,8 +491,5 @@ class AddHousingFragment : BaseEditHousingFragment() {
                 }
             }
         }
-    }*/
-
-
-
+    }
 }

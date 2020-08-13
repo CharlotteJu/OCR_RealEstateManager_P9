@@ -41,6 +41,8 @@
     <string name="city">CITY</string>
     <string name="description">DESCRIPTION</string>
     <string name="not_specify">Not specify</string>
+    <string name="gallery">GALLERY</string>
+    <string name="camera">CAMERA</string>
 
     <!-- DetailFragment -->
     <string name="go_on_sale_on">Go on sale on : </string>

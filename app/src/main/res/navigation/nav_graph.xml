@@ -41,8 +41,8 @@
             app:argType="string"
             android:defaultValue="0"/>
         <action
-            android:id="@+id/action_detailFragment_to_editHousingFragment"
-            app:destination="@id/editHousingFragment" />
+            android:id="@+id/action_detailFragment_to_addHousingFragment"
+            app:destination="@id/addHousingFragment" />
 
     </fragment>
 

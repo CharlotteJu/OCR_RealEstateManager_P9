@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -52,6 +53,12 @@ class DetailFragment : BaseFragment() {
     {
         mView = inflater.inflate(R.layout.fragment_detail, container, false)
         this.getDataFromLiveData()
+
+        mView.detail_fragment_edit_button.setOnClickListener {
+            val bundle  = Bundle()
+            bundle.putString(BUNDLE_REFERENCE, housing.housing.ref)
+            findNavController().navigate(R.id.addHousingFragment, bundle) //TODO : Trouver comment choisir la classe chargée
+        }
         return mView
     }
 
