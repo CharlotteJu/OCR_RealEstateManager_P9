@@ -42,7 +42,22 @@ import kotlin.collections.ArrayList
 class AddHousingFragment : BaseEditHousingFragment() {
 
 
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        if (arguments!= null)
+        {
+            housingReference = requireArguments().getString(BUNDLE_REFERENCE).toString()
+            housing = Housing(ref = housingReference)
+        }
+        this.currency = getCurrencyFromSharedPreferences()
+        this.mApiKey = resources.getString(R.string.google_api_key)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
 
+        Places.initialize(requireContext(), mApiKey)
+        this.placesClient = Places.createClient(requireContext())
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {

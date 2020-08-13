@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_detailFragment_to_addHousingFragment"
             app:destination="@id/addHousingFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_editHousingFragment"
+            app:destination="@id/editHousingFragment" />
 
     </fragment>
 

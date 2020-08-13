@@ -8,12 +8,18 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.libraries.places.api.Places
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
+import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
+import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
+import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
+import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.dialog_filter.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.add_housing_fragment_zipCode_editTxt
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -30,7 +36,20 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.getHousing()
+
+        if (arguments!= null)
+        {
+            housingReference = requireArguments().getString(BUNDLE_REFERENCE).toString()
+            housing = Housing(ref = housingReference)
+        }
+        this.currency = getCurrencyFromSharedPreferences()
+        this.mApiKey = resources.getString(R.string.google_api_key)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
+
+        Places.initialize(requireContext(), mApiKey)
+        this.placesClient = Places.createClient(requireContext())
+
 
     }
 
@@ -46,6 +65,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
+
+        this.getHousing()
         /*this.mView.add_housing_fragment_final_button.setOnClickListener {
             this.addFinal()
             this.findNavController().navigate(R.id.listFragment)
@@ -57,7 +78,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     private fun getHousing()
     {
         this.mViewModel.getCompleteHousing(housingReference).observe(this.viewLifecycleOwner, Observer {
-            housingToCompare = it
+            housingToCompare = it //TODO : Pourquoi c'est null
             configureDesign()
         })
     }

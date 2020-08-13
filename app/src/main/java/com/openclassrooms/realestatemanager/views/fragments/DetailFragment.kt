@@ -57,7 +57,7 @@ class DetailFragment : BaseFragment() {
         mView.detail_fragment_edit_button.setOnClickListener {
             val bundle  = Bundle()
             bundle.putString(BUNDLE_REFERENCE, housing.housing.ref)
-            findNavController().navigate(R.id.addHousingFragment, bundle) //TODO : Trouver comment choisir la classe chargée
+            findNavController().navigate(R.id.editHousingFragment, bundle) //TODO : Trouver comment choisir la classe chargée
         }
         return mView
     }
