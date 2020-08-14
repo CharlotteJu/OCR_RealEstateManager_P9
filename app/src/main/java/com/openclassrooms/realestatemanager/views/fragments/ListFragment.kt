@@ -61,47 +61,18 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     override fun onItemClick(position : Int)
     {
-        //val bundle = DetailFragmentArgs(this.m_listHousing[position].housing.ref).toBundle()
-
         val bundle  = Bundle()
         bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
         findNavController().navigate(R.id.detailFragment, bundle)
     }
 
-    override fun onClickDelete(position: Int)
+    override fun onClickDeleteHousing(position: Int)
     {
         val completeHousing = this.mListHousing[position]
         this.mViewModel.deleteGlobal(completeHousing)
+        this.mAdapter.updateList(mListHousing)
 
-        /*this.mViewModel.deleteHousing(completeHousing.housing)
-
-        if (completeHousing.address != null) this.mViewModel.deleteAddress(completeHousing.address!!)
-
-        if (completeHousing.estateAgentList != null || completeHousing.estateAgentList!!.isNotEmpty())
-        {
-            for (i in completeHousing.estateAgentList!!)
-            {
-                this.mViewModel.deleteHousingEstateAgent(i)
-            }
-        }
-
-        if (completeHousing.photoList != null || completeHousing.photoList!!.isNotEmpty())
-        {
-            for (i in completeHousing.photoList!!)
-            {
-                this.mViewModel.deletePhoto(i)
-            }
-        }
-
-        if (completeHousing.poiList != null || completeHousing.poiList!!.isNotEmpty())
-        {
-            for (i in completeHousing.poiList!!)
-            {
-                this.mViewModel.deleteHousingPoi(i)
-            }
-        }*/
     }
-
 
 }
 

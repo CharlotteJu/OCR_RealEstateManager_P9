@@ -19,10 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
-import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
-import com.openclassrooms.realestatemanager.utils.DOLLAR
-import com.openclassrooms.realestatemanager.utils.READ_EXTERNAL_STORAGE_PERMISSION_CODE
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.views.fragments.ListFragmentDirections
 import java.util.*
 
@@ -80,7 +77,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_drawer_settings -> this.mNavigationController.navigate(R.id.settingsFragment)
             R.id.menu_drawer_add_housing -> {
                 val bundle = Bundle()
-                bundle.putString("reference", UUID.randomUUID().toString())
+                bundle.putString(BUNDLE_REFERENCE, UUID.randomUUID().toString())
                 this.mNavigationController.navigate(R.id.addHousingFragment, bundle)
             }
             R.id.menu_drawer_add_estate_agent -> this.mNavigationController.navigate(R.id.addEstateAgentFragment)

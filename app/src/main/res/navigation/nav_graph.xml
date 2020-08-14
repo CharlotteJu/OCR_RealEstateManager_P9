@@ -72,11 +72,6 @@
         android:defaultValue="0"/>
     </fragment>
     <fragment
-        android:id="@+id/editHousingFragment"
-        android:name="com.openclassrooms.realestatemanager.views.fragments.EditHousingFragment"
-        android:label="fragment_edit_housing"
-        tools:layout="@layout/fragment_edit_housing" />
-    <fragment
         android:id="@+id/settingsFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.SettingsFragment"
         android:label="fragment_settings"
@@ -90,4 +85,8 @@
         android:id="@+id/filterDialogFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.FilterDialogFragment"
         android:label="FilterDialogFragment" />
+    <fragment
+        android:id="@+id/editHousingFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.EditHousingFragment"
+        android:label="EditHousingFragment" />
 </navigation>

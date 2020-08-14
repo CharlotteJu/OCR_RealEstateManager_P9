@@ -8,18 +8,17 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.libraries.places.api.Places
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
-import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
-import kotlinx.android.synthetic.main.dialog_filter.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.add_housing_fragment_zipCode_editTxt
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -44,8 +43,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
         }
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key)
-        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
 
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
@@ -67,23 +66,29 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_final_button.isEnabled = false
 
         this.getHousing()
-        /*this.mView.add_housing_fragment_final_button.setOnClickListener {
-            this.addFinal()
+        this.mView.add_housing_fragment_final_button.setImageResource(R.drawable.ic_baseline_save_24)
+        this.mView.add_housing_fragment_final_button.setOnClickListener {
+            this.updateFinal()
             this.findNavController().navigate(R.id.listFragment)
-        }*/
+        }
 
         return mView
+    }
+
+    private fun updateFinal()
+    {
+
     }
 
     private fun getHousing()
     {
         this.mViewModel.getCompleteHousing(housingReference).observe(this.viewLifecycleOwner, Observer {
-            housingToCompare = it //TODO : Pourquoi c'est null
-            configureDesign()
+            housingToCompare = it
+            configureData()
         })
     }
 
-    private fun configureDesign()
+    private fun configureData()
     {
         housingToCompare.housing.price.let { this.mView.add_housing_fragment_price_editTxt.setText(it.toString()) }
         housingToCompare.housing.area.let { this.mView.add_housing_fragment_area_editTxt.setText(it.toString()) }
@@ -122,6 +127,29 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_number_rooms_spinner.adapter = mAdapterRooms
         this.mView.add_housing_fragment_number_bedrooms_spinner.adapter = mAdapterBedRooms
         this.mView.add_housing_fragment_number_bathrooms_spinner.adapter = mAdapterBathRooms
+    }
+
+    override fun onClickDeleteEstateAgent(position: Int) {
+        val estateAgentToDelete = this.estateAgentList[position]
+        this.estateAgentList.remove(estateAgentToDelete)
+    }
+
+    override fun onClickEditPhoto(position: Int) {
+        val photoToEdit = this.photoList[position]
+
+        Glide.with(requireContext())
+                .load(photoToEdit.uri)
+                .apply(RequestOptions.centerCropTransform())
+                .into(this.mView.add_housing_fragment_photo_image)
+
+        photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) } //TODO : Vraiment un Edit ? Ou juste Delete ? Je peux supprimer ?
+
+        this.photoList.set(position, photoToEdit)
+    }
+
+    override fun onClickDeletePhoto(position: Int) {
+        val photoToDelete = this.photoList[position]
+        this.photoList.remove(photoToDelete)
     }
 
 

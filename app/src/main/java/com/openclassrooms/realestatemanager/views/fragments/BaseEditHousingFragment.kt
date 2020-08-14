@@ -28,16 +28,14 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
-import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
+import com.openclassrooms.realestatemanager.views.adapters.*
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-abstract class BaseEditHousingFragment : BaseFragment()
+abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 {
     protected lateinit var housing : Housing
     protected lateinit var housingReference : String
@@ -46,7 +44,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
     protected lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
     protected var address : Address? = null
     protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    protected var photoUri : Uri? = null
+    private var photoUri : Uri? = null
 
     protected var photoList : MutableList<Photo> = ArrayList()
 
@@ -55,7 +53,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
     protected lateinit var mApiKey : String
     protected lateinit var placesClient : PlacesClient
 
-    protected lateinit var listAdapterTypeSpinner : ArrayAdapter<String>
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -67,8 +65,8 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key)
-        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
 
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
@@ -79,15 +77,13 @@ abstract class BaseEditHousingFragment : BaseFragment()
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
 
         this.getEstateAgentList()
-        this.configureSpinners()
+        //this.configureSpinners()
         this.getAllInfo()
         this.displayEstateAgentRcv()
         this.displayPhotoRcv()
 
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
-
-
 
         return mView
     }
@@ -119,21 +115,6 @@ abstract class BaseEditHousingFragment : BaseFragment()
 
     }
 
-    protected fun configureSpinners()
-    {
-        this.mView.add_housing_fragment_type_spinner.adapter = configureSpinnerAdapter(R.array.type_housing_spinner)
-        this.mView.add_housing_fragment_type_spinner.prompt = getString(R.string.spinners_type)
-        this.mView.add_housing_fragment_state_spinner.adapter = configureSpinnerAdapter(R.array.state_spinner)
-        this.mView.add_housing_fragment_state_spinner.prompt = getString(R.string.spinners_state)
-        this.mView.add_housing_fragment_number_rooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
-        this.mView.add_housing_fragment_number_rooms_spinner.prompt = getString(R.string.spinners_rooms)
-        this.mView.add_housing_fragment_number_bedrooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
-        this.mView.add_housing_fragment_number_bedrooms_spinner.prompt = getString(R.string.spinners_bedrooms)
-        this.mView.add_housing_fragment_number_bathrooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
-        this.mView.add_housing_fragment_number_bathrooms_spinner.prompt = getString(R.string.spinners_bathrooms)
-        //TODO : NameSpinner && Prompt ne fonctionne pas
-
-    }
 
     protected fun getAllInfo()
     {
@@ -147,7 +128,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
         this.getDateOfToday()
     }
 
-    protected fun getPrice()
+    private fun getPrice()
     {
         this.mView.add_housing_fragment_price_editTxt.doAfterTextChanged {
             if (currency== DOLLAR)
@@ -164,7 +145,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
     }
 
-    protected fun getInfoInsideHouse()
+    private fun getInfoInsideHouse()
     {
         this.mView.add_housing_fragment_area_editTxt.doAfterTextChanged {
             housing.area = it.toString().toDouble()
@@ -208,7 +189,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
     }
 
-    protected fun getTypeAndState()
+    private fun getTypeAndState()
     {
         this.mView.add_housing_fragment_type_spinner.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener
         {
@@ -248,12 +229,12 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
     }
 
-    protected fun getDescription()
+    private fun getDescription()
     {
         this.mView.add_housing_fragment_description_editTxt.doAfterTextChanged { housing.description = it.toString() }
     }
 
-    protected fun getAddress()
+    private fun getAddress()
     {
 
         val uuidAddress = UUID.randomUUID().toString()
@@ -287,7 +268,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
     }
 
-    protected fun getEstateAgents()
+    private fun getEstateAgents()
     {
         var housingEstateAgent: HousingEstateAgent? = null
 
@@ -320,7 +301,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
 
 
 
-    protected fun getPhotos()
+    private fun getPhotos()
     {
         //val photo = Photo(STRING_EMPTY, STRING_EMPTY, housingReference)
 
@@ -360,7 +341,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
         }
     }
 
-    protected fun pickImageFromGallery()
+    private fun pickImageFromGallery()
     {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -368,7 +349,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
 
     }
 
-    protected fun openCamera()
+    private fun openCamera()
     {
         val values = ContentValues()
         values.put(MediaStore.Images.Media.TITLE, "New picture")
@@ -397,7 +378,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
     /**
      * Just for ADD
      */
-    protected fun enableFinalButton()
+    private fun enableFinalButton()
     {
         if (housing.type != STRING_EMPTY && housing.price != DOUBLE_00 && housing.area != DOUBLE_00 && housing.state!= STRING_EMPTY )
         {
@@ -409,7 +390,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
     /**
      * Just for ADD
      */
-    protected fun getDateOfToday()
+    private fun getDateOfToday()
     {
         val stringDate = Utils.getTodayDateGood()
         housing.dateEntry = stringDate
@@ -444,7 +425,7 @@ abstract class BaseEditHousingFragment : BaseFragment()
 
     }
 
-    protected fun getAlertDialogPhoto()
+    private fun getAlertDialogPhoto()
     {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_photo, null)

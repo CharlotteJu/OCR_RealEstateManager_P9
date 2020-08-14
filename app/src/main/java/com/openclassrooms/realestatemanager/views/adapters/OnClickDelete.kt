@@ -4,5 +4,5 @@ import kotlinx.coroutines.runBlocking
 
 interface OnClickDelete
 {
-    fun onClickDelete(position : Int)
+    fun onClickDeleteHousing(position : Int)
 }

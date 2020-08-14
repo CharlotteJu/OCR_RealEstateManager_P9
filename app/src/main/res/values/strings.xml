@@ -45,7 +45,7 @@
     <string name="camera">CAMERA</string>
 
     <!-- DetailFragment -->
-    <string name="go_on_sale_on">Go on sale on : </string>
+    <string name="housing_add_on">Housing add on : </string>
     <string name="sold_on">Sold on : </string>
     <string name="no_photo">No photo</string>
     <string name="type">TYPE</string>

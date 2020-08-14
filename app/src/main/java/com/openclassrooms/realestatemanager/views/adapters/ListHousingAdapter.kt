@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.DOLLAR
 import com.openclassrooms.realestatemanager.utils.Utils
 import kotlinx.android.synthetic.main.item_housing.view.*
-import kotlinx.coroutines.launch
 
 class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete, private val currency : String)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
 {
@@ -47,24 +48,24 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
 
             itemView.setOnClickListener{ onItemClickListener.onItemClick(adapterPosition) }
 
-            itemView.item_housing_delete_btn.setOnClickListener { onClickDelete.onClickDelete(adapterPosition) }
+            itemView.item_housing_delete_btn.setOnClickListener { onClickDelete.onClickDeleteHousing(adapterPosition) }
         }
 
         private fun configPhoto(housing : CompleteHousing)
         {
-           /*if (housing.photoList != null)
+           if (housing.photoList != null && housing.photoList!!.isNotEmpty())
            {
                housing.photoList!![0].uri.let {
                    Glide.with(itemView)
                            .load(it)
                            .apply(RequestOptions.centerCropTransform())
-                           .into(itemView.item_photo_image)
+                           .into(itemView.item_housing_image)
                }
            }
             else
            {
-               itemView.item_photo_image.visibility = View.INVISIBLE
-           }*/
+               itemView.item_housing_image.visibility = View.INVISIBLE
+           }
 
         }
 

@@ -58,6 +58,26 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun createPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
+    private suspend fun configurePoi(housing : Housing, location: String, context: Context, key : String)
+    {
+        val listTypePoi = getTypePoi(context)
+        val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
+
+        for (place in listPoiPlaces)
+        {
+            for (type in listTypePoi)
+            {
+                if (place.types.contains(type))
+                {
+                    val housingPoi = HousingPoi(housing.ref, type)
+                    createHousingPoi(housingPoi)
+                }
+            }
+
+        }
+        //TODO : Faire un return si c'est ERROR
+    }
+
     private fun getTypePoi(context: Context) : List<String>
     {
         val list : MutableList<String> = ArrayList()
@@ -84,24 +104,9 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 if (location != null && location != ERROR_GEOCODER_ADDRESS)
                 {
                     createAddress(address)
-                    val listTypePoi = getTypePoi(context)
-
-                    val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
-
-                    for (place in listPoiPlaces)
-                    {
-                        for (type in listTypePoi)
-                        {
-                            if (place.types.contains(type))
-                            {
-                                val housingPoi = HousingPoi(housing.ref, type)
-                                createHousingPoi(housingPoi)
-                            }
-                        }
-
-                    }
+                    configurePoi(housing, location, context, key)
                 }
-                //TODO : Faire un return si c'est ERROR
+
             }
 
             if (estateAgentList != null)
@@ -149,7 +154,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.updateHousingPoi(housingPoi)
 
-    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?)
+    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String)
     {
         viewModelScope.launch (Dispatchers.IO)
         {
@@ -157,13 +162,23 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             if (housing.ref == completeHousing.housing.ref)
             {
                 if (housing != completeHousing.housing) updateHousing(housing)
-                if (address != null && completeHousing.address != null && address != completeHousing.address) updateAddress(address)
+                if (address != null && completeHousing.address != null && address != completeHousing.address) {
 
-                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
+                    val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+
+                    if (location != null && location != ERROR_GEOCODER_ADDRESS)
+                    {
+                        updateAddress(address)
+                        configurePoi(housing, location, context, key)
+                    }
+                }
+
+
+                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList) //TODO : Delete EstateAgentHousing à l'update ?
                 {
                     for (i in estateAgentList)
                     {
-                        if (!completeHousing.estateAgentList?.contains(i)!!) createHousingEstateAgent(i) // TODO-Q : Ok ?
+                        if (!completeHousing.estateAgentList!!.contains(i)) createHousingEstateAgent(i) // TODO-Q : Ok ?
                     }
 
                     for (i in completeHousing.estateAgentList!!)
@@ -172,11 +187,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     }
                 }
 
-                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
+                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList) //TODO : Delete Photo à l'update ?
                 {
                     for (i in photoList)
                     {
-                        if (!completeHousing.photoList?.contains(i)!!) createPhoto(i)
+                        if (!completeHousing.photoList!!.contains(i)) createPhoto(i) //TODO : Voir la description
                         else
                         {
                             val index = completeHousing.photoList!!.indexOf(i)

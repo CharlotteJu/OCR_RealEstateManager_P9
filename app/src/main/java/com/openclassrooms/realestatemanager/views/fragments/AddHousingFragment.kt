@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
+import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
@@ -52,8 +53,8 @@ class AddHousingFragment : BaseEditHousingFragment() {
         }
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key)
-        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
 
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
@@ -78,6 +79,47 @@ class AddHousingFragment : BaseEditHousingFragment() {
         return mView
     }
 
+    override fun onClickDeleteEstateAgent(position: Int) {
+        if (estateAgentList.size == 1)
+        {
+            photoList.clear()
+        }
+        else
+        {
+            val estateAgentToDelete = this.estateAgentList[position]
+            this.estateAgentList.remove(estateAgentToDelete)
+        }
+        this.mAdapterEstateAgentRcv.updateList(estateAgentList)
+    }
+
+    override fun onClickEditPhoto(position: Int) {
+        val photoToEdit = this.photoList[position]
+
+        Glide.with(requireContext())
+                .load(photoToEdit.uri)
+                .apply(RequestOptions.centerCropTransform())
+                .into(this.mView.add_housing_fragment_photo_image)
+
+        photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) } //TODO : Vraiment un Edit ? Ou juste Delete ? Je peux supprimer ?
+
+        this.photoList.set(position, photoToEdit)
+    }
+
+    override fun onClickDeletePhoto(position: Int) {
+
+        if (photoList.size == 1)
+        {
+            photoList.clear()
+        }
+        else
+        {
+            val photoToDelete = this.photoList[position]
+            this.photoList.remove(photoToDelete)
+        }
+        this.mAdapterPhotoAddRcv.updateList(photoList)
+    }
+
+
     private fun addFinal()
     {
         this.checkAddress()
@@ -85,6 +127,22 @@ class AddHousingFragment : BaseEditHousingFragment() {
         boolean
 
         //TODO : Si connecté à internet --> Push sur Firebase
+    }
+
+    private fun configureSpinners()
+    {
+        this.mView.add_housing_fragment_type_spinner.adapter = configureSpinnerAdapter(R.array.type_housing_spinner)
+        this.mView.add_housing_fragment_type_spinner.prompt = getString(R.string.spinners_type)
+        this.mView.add_housing_fragment_state_spinner.adapter = configureSpinnerAdapter(R.array.state_spinner)
+        this.mView.add_housing_fragment_state_spinner.prompt = getString(R.string.spinners_state)
+        this.mView.add_housing_fragment_number_rooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
+        this.mView.add_housing_fragment_number_rooms_spinner.prompt = getString(R.string.spinners_rooms)
+        this.mView.add_housing_fragment_number_bedrooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
+        this.mView.add_housing_fragment_number_bedrooms_spinner.prompt = getString(R.string.spinners_bedrooms)
+        this.mView.add_housing_fragment_number_bathrooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
+        this.mView.add_housing_fragment_number_bathrooms_spinner.prompt = getString(R.string.spinners_bathrooms)
+        //TODO : NameSpinner && Prompt ne fonctionne pas
+
     }
 
 

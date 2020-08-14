@@ -186,7 +186,7 @@ class DetailFragment : BaseFragment() {
         if (!housing.estateAgentList.isNullOrEmpty())
         {
             val estateList = housing.estateAgentList!!.toList()
-            val adapter = ListEstateAgentAdapter(estateList)
+            val adapter = ListEstateAgentAdapter(estateList, null)
             this.mView.detail_fragment_rcv_estate_agent.adapter = adapter
             this.mView.detail_fragment_rcv_estate_agent.layoutManager = LinearLayoutManager(context)
         }

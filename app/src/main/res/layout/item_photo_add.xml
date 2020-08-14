@@ -20,9 +20,40 @@
         android:layout_marginStart="@dimen/item_photo_description_margin"
         android:layout_marginEnd="@dimen/item_photo_description_margin"
         app:layout_constraintStart_toEndOf="@id/item_photo_add_image"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/item_photo_add_edit_button"
         app:layout_constraintTop_toTopOf="@id/item_photo_add_image"
         app:layout_constraintBottom_toBottomOf="@id/item_photo_add_image"/>
+
+    <ImageButton
+        android:id="@+id/item_photo_add_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:backgroundTint="@android:color/transparent"
+        android:layout_marginEnd="@dimen/item_photo_description_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/item_photo_add_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_edit_24"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@id/item_photo_add_delete_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="@dimen/view_separator_width"
+        android:layout_height="@dimen/view_separator_height"
+        android:background="@color/colorGrey"
+        android:layout_marginStart="@dimen/item_poi_margin"
+        android:layout_marginEnd="@dimen/item_poi_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
