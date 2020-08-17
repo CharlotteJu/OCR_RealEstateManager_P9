@@ -160,7 +160,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         val infoView = layoutInflater.inflate(R.layout.info_window_map, null )
                         if (housing.photoList != null && housing.photoList!!.isNotEmpty())
                         {
-                            Glide.with(infoView)
+                            Glide.with(requireContext())
                                     .load(housing.photoList!![0])
                                     .apply(RequestOptions.centerCropTransform())
                                     .into(infoView.info_window_photo)
@@ -179,7 +179,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun fetchLocation()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity()) // Faire une autre demande
 
         val task = mFusedLocationClient.lastLocation
         task.addOnSuccessListener {

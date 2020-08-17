@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -14,7 +16,10 @@ import com.google.android.libraries.places.api.Places
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
+import com.openclassrooms.realestatemanager.models.HousingEstateAgent
+import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
+import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
@@ -33,51 +38,25 @@ class EditHousingFragment : BaseEditHousingFragment() {
     private  var mAdapterBathRooms : ArrayAdapter<CharSequence>? = null
     private  var mAdapterCity : ArrayAdapter<CharSequence>? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        if (arguments!= null)
-        {
-            housingReference = requireArguments().getString(BUNDLE_REFERENCE).toString()
-            housing = Housing(ref = housingReference)
-        }
-        this.currency = getCurrencyFromSharedPreferences()
-        this.mApiKey = resources.getString(R.string.google_api_key)
-        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
-
-        Places.initialize(requireContext(), mApiKey)
-        this.placesClient = Places.createClient(requireContext())
-
-
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        this.mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
-        this.getEstateAgentList()
+        super.onCreateView(inflater, container, savedInstanceState)
+
         this.configureSpinnersEdit()
-        this.getAllInfo()
-        this.displayEstateAgentRcv()
-        this.displayPhotoRcv()
-
-        this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
-        this.mView.add_housing_fragment_final_button.isEnabled = false
-
         this.getHousing()
+
         this.mView.add_housing_fragment_final_button.setImageResource(R.drawable.ic_baseline_save_24)
         this.mView.add_housing_fragment_final_button.setOnClickListener {
             this.updateFinal()
             this.findNavController().navigate(R.id.listFragment)
         }
-
         return mView
     }
 
     private fun updateFinal()
     {
-
+        this.checkAddress()
+        context?.let { this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey) }
     }
 
     private fun getHousing()
@@ -90,6 +69,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
     private fun configureData()
     {
+        this.housing = this.housingToCompare.housing
+
         housingToCompare.housing.price.let { this.mView.add_housing_fragment_price_editTxt.setText(it.toString()) }
         housingToCompare.housing.area.let { this.mView.add_housing_fragment_area_editTxt.setText(it.toString()) }
         housingToCompare.housing.area.let { this.mView.add_housing_fragment_area_editTxt.setText(it.toString()) }
@@ -103,14 +84,22 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
         if (housingToCompare.address != null)
         {
+            this.address = this.housingToCompare.address
             housingToCompare.address!!.street?.let { this.mView.add_housing_fragment_address_editTxt.setText(it) }
             housingToCompare.address!!.zipCode?.let { this.mView.add_housing_fragment_zipCode_editTxt.setText(it) }
             housingToCompare.address!!.city?.let { this.mView.add_housing_fragment_city_editTxt.setText(it) }
             housingToCompare.address!!.country?.let {  }
         }
 
-        housingToCompare.photoList?.let { mAdapterPhotoAddRcv.updateList(it) }
-        housingToCompare.estateAgentList?.let { mAdapterEstateAgentRcv.updateList(it) }
+        housingToCompare.photoList?.let {
+            this.photoList = it as MutableList<Photo>
+            mAdapterPhotoAddRcv.updateList(this.photoList)
+
+        }
+        housingToCompare.estateAgentList?.let {
+            this.estateAgentList = it as MutableList<HousingEstateAgent>
+            mAdapterEstateAgentRcv.updateList(this.estateAgentList)
+        }
     }
 
     private fun configureSpinnersEdit()
@@ -130,8 +119,18 @@ class EditHousingFragment : BaseEditHousingFragment() {
     }
 
     override fun onClickDeleteEstateAgent(position: Int) {
-        val estateAgentToDelete = this.estateAgentList[position]
-        this.estateAgentList.remove(estateAgentToDelete)
+
+        if (estateAgentList.size <= 1)
+        {
+            estateAgentList.clear()
+        }
+        else
+        {
+            val estateAgentToDelete = this.estateAgentList[position]
+            this.estateAgentList.remove(estateAgentToDelete)
+        }
+        this.mAdapterEstateAgentRcv.updateList(estateAgentList)
+
     }
 
     override fun onClickEditPhoto(position: Int) {
@@ -142,14 +141,38 @@ class EditHousingFragment : BaseEditHousingFragment() {
                 .apply(RequestOptions.centerCropTransform())
                 .into(this.mView.add_housing_fragment_photo_image)
 
-        photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) } //TODO : Vraiment un Edit ? Ou juste Delete ? Je peux supprimer ?
+        photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
-        this.photoList.set(position, photoToEdit)
+
+        var description = STRING_EMPTY
+        this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
+
+        this.mView.add_housing_fragment_photo_button.setOnClickListener {
+            val photo = Photo(photoToEdit.uri, description, housingReference)
+            photoList.set(position, photo)
+            mAdapterPhotoAddRcv.updateList(photoList)
+
+            //Clear photo and description
+            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+
+            /* photoUri = STRING_EMPTY
+         description = STRING_EMPTY*/ //TODO-Q : Où est-ce que je peux clear ça ?
+            this.mView.add_housing_fragment_image_description_editTxt.text.clear()
+
+        }
     }
 
     override fun onClickDeletePhoto(position: Int) {
-        val photoToDelete = this.photoList[position]
-        this.photoList.remove(photoToDelete)
+        if (photoList.size <= 1)
+        {
+            photoList.clear()
+        }
+        else
+        {
+            val photoToDelete = this.photoList[position]
+            this.photoList.remove(photoToDelete)
+        }
+        this.mAdapterPhotoAddRcv.updateList(photoList)
     }
 
 

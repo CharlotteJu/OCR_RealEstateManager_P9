@@ -12,6 +12,7 @@ import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -93,9 +94,13 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String )
     {
-       val job =  viewModelScope.launch (Dispatchers.IO)
+       val job =  viewModelScope.launch  (Dispatchers.IO)
         {
-            createHousing(housing)
+
+            val thread = viewModelScope.async {  createHousing(housing) }
+            thread.await()
+            //createHousing(housing) //Mettre dans un async puis await
+            //MainThread : Voir lien
 
             if (address != null)
             {
@@ -108,6 +113,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 }
 
             }
+
 
             if (estateAgentList != null)
             {
@@ -124,7 +130,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     createPhoto(photo)
                 }
             }
-
 
 
         }
@@ -144,6 +149,8 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateAddress(address: Address) = this.addressRepository.updateAddress(address)
 
+    private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
+
     private suspend fun updatePhoto(photo: Photo) = this.photoRepository.updatePhoto(photo)
 
     private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
@@ -162,23 +169,27 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             if (housing.ref == completeHousing.housing.ref)
             {
                 if (housing != completeHousing.housing) updateHousing(housing)
-                if (address != null && completeHousing.address != null && address != completeHousing.address) {
+
+                if (address != null)
+                    if (completeHousing.address != null && address != completeHousing.address) {
 
                     val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
 
                     if (location != null && location != ERROR_GEOCODER_ADDRESS)
                     {
                         updateAddress(address)
+                        //TODO : Delete liste POI
                         configurePoi(housing, location, context, key)
                     }
                 }
+                else deleteAddress(address) //TODO : Améliorer
 
 
-                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList) //TODO : Delete EstateAgentHousing à l'update ?
+                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
                 {
                     for (i in estateAgentList)
                     {
-                        if (!completeHousing.estateAgentList!!.contains(i)) createHousingEstateAgent(i) // TODO-Q : Ok ?
+                        if (!completeHousing.estateAgentList!!.contains(i)) createHousingEstateAgent(i)
                     }
 
                     for (i in completeHousing.estateAgentList!!)
@@ -187,26 +198,32 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     }
                 }
 
-                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList) //TODO : Delete Photo à l'update ?
+                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
                 {
                     for (i in photoList)
                     {
-                        if (!completeHousing.photoList!!.contains(i)) createPhoto(i) //TODO : Voir la description
+                        if (!completeHousing.photoList!!.contains(i)) {
+                            createPhoto(i)
+                        }
+
                         else
                         {
                             val index = completeHousing.photoList!!.indexOf(i)
-                            if (completeHousing.photoList!![index] != i) updatePhoto(i) // TODO-Q : Ok ?
+                            if (completeHousing.photoList!![index].description != i.description) {
+                                updatePhoto(i)
+                            }
                         }
                     }
 
                     for (i in completeHousing.photoList!!)
                     {
-                        if (!photoList.contains(i)) deletePhoto(i) // TODO-Q : Si un attribut est différent, ça va supprimer quand même ?
+                        if (!photoList.contains(i))
+                        {
+                            deletePhoto(i)
+                        }
                     }
                 }
             }
-
-            // TODO : Voir pour les POI
         }
 
     }

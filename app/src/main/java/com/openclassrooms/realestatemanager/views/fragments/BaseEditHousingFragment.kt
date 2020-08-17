@@ -51,7 +51,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected val mViewModel : AddUpdateHousingViewModel by viewModel()
     protected lateinit var mView : View
     protected lateinit var mApiKey : String
-    protected lateinit var placesClient : PlacesClient
+    private lateinit var placesClient : PlacesClient
 
 
 
@@ -60,7 +60,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         super.onCreate(savedInstanceState)
         if (arguments!= null)
         {
-            housingReference = requireArguments().getString("reference").toString()
+            housingReference = requireArguments().getString(BUNDLE_REFERENCE).toString()
             housing = Housing(ref = housingReference)
         }
         this.currency = getCurrencyFromSharedPreferences()
@@ -77,7 +77,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
 
         this.getEstateAgentList()
-        //this.configureSpinners()
         this.getAllInfo()
         this.displayEstateAgentRcv()
         this.displayPhotoRcv()
@@ -88,13 +87,14 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         return mView
     }
 
-    protected fun getEstateAgentList()
+    private fun getEstateAgentList()
     {
         this.mViewModel.getEstateAgentList().observe(this.viewLifecycleOwner, Observer { list ->
 
             val nameList = ArrayList<String>()
 
-            if (list.isNotEmpty() && list[0].lastName != SPINNER_SELECT ) {
+            if (list.isNotEmpty() && list[0].lastName != SPINNER_SELECT )
+            {
                 nameList.add(SPINNER_SELECT)
             }
 
@@ -108,15 +108,12 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                         .also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         }
             }
-
             this.mView.add_housing_fragment_estate_agent_name_spinner.adapter = adapter
-
         })
-
     }
 
 
-    protected fun getAllInfo()
+    private fun getAllInfo()
     {
         this.getPrice()
         this.getTypeAndState()
@@ -218,11 +215,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                         enableFinalButton()
                         if (item == getString(R.string.sold_out))
                         {
-                            //housing.dateSale =  UtilsKotlin.getDatePickerDialog(requireContext())
                             getDatePickerDialog()
                         }
                     }
-
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -273,7 +268,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         var housingEstateAgent: HousingEstateAgent? = null
 
         this.mView.add_housing_fragment_estate_agent_button.isEnabled = false
-
         this.mView.add_housing_fragment_estate_agent_name_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
         {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long)
@@ -300,13 +294,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     }
 
 
-
     private fun getPhotos()
     {
-        //val photo = Photo(STRING_EMPTY, STRING_EMPTY, housingReference)
-
         var description = STRING_EMPTY
-
         this.mView.add_housing_fragment_photo_image.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
@@ -356,20 +346,18 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         values.put(MediaStore.Images.Media.DESCRIPTION, "From the camera")
         photoUri = requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
-
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         startActivityForResult(intent, IMAGE_PICK_CAMERA_CODE)
-
     }
 
-    protected fun displayEstateAgentRcv()
+    private fun displayEstateAgentRcv()
     {
         this.mView.add_housing_fragment_estate_agent_rcv.adapter = mAdapterEstateAgentRcv
         this.mView.add_housing_fragment_estate_agent_rcv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
 
-    protected fun displayPhotoRcv()
+    private fun displayPhotoRcv()
     {
         this.mView.add_housing_fragment_photo_rcv.adapter = mAdapterPhotoAddRcv
         this.mView.add_housing_fragment_photo_rcv.layoutManager = LinearLayoutManager(context)
@@ -403,7 +391,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
     }
 
-    protected fun getDatePickerDialog()
+    private fun getDatePickerDialog()
     {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
@@ -417,38 +405,26 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             else month1.toString()
 
             housing.dateSale = "$dayOfMonth/$monthString/$year"
-            //housing.dateSale = Utils.getDateFormat(calendar.time) //TODO-Q : Pourquoi ça met la Date du jour ?
         }, year, month, dayOfMonth)
-
         datePickerDialog.show()
-
-
     }
 
     private fun getAlertDialogPhoto()
     {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val dialogLayout = layoutInflater.inflate(R.layout.dialog_photo, null)
+        dialogBuilder.setView(dialogLayout).create()
+        val alertDialog : AlertDialog = dialogBuilder.show()
 
-        dialogLayout.dialog_photo_gallery_button.setOnClickListener { this.pickImageFromGallery() }
-        dialogLayout.dialog_photo_camera_button.setOnClickListener { this.openCamera() }
-
-        dialogBuilder.setView(dialogLayout).create().show()
-
-        /*dialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.gallery)) { dialog, which ->
-                    this.pickImageFromGallery() }
-                .setNegativeButton(R.string.camera) { dialog, which ->
-                    this.openCamera() }
-        val alert = dialogBuilder.create()
-        alert.show()*/
-
-        //alert.getButton(DialogInterface.BUTTON_POSITIVE).setBackgroundResource(R.drawable.ic_baseline_add_photo_gallery_48) //TODO-Q : Comment mettre des drawable ?
-        //alert.getButton(DialogInterface.BUTTON_NEGATIVE).setBackgroundResource(R.drawable.ic_baseline_add_photo_camera_48)
+        dialogLayout.dialog_photo_gallery_button.setOnClickListener {
+            this.pickImageFromGallery()
+            alertDialog.dismiss()
+        }
+        dialogLayout.dialog_photo_camera_button.setOnClickListener {
+            this.openCamera()
+            alertDialog.dismiss()
+        }
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
     {
