@@ -69,7 +69,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
     private fun configureData()
     {
-        this.housing = this.housingToCompare.housing
+        this.housing = this.housingToCompare.housing.copy()
 
         housingToCompare.housing.price.let { this.mView.add_housing_fragment_price_editTxt.setText(it.toString()) }
         housingToCompare.housing.area.let { this.mView.add_housing_fragment_area_editTxt.setText(it.toString()) }
@@ -84,7 +84,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
         if (housingToCompare.address != null)
         {
-            this.address = this.housingToCompare.address
+            this.address = this.housingToCompare.address!!.copy()
             housingToCompare.address!!.street?.let { this.mView.add_housing_fragment_address_editTxt.setText(it) }
             housingToCompare.address!!.zipCode?.let { this.mView.add_housing_fragment_zipCode_editTxt.setText(it) }
             housingToCompare.address!!.city?.let { this.mView.add_housing_fragment_city_editTxt.setText(it) }
@@ -92,12 +92,20 @@ class EditHousingFragment : BaseEditHousingFragment() {
         }
 
         housingToCompare.photoList?.let {
-            this.photoList = it as MutableList<Photo>
+            for (i in it)
+            {
+                this.photoList.add(i)
+            }
+            //this.photoList = it as MutableList<Photo>
             mAdapterPhotoAddRcv.updateList(this.photoList)
 
         }
         housingToCompare.estateAgentList?.let {
-            this.estateAgentList = it as MutableList<HousingEstateAgent>
+            for (i in it)
+            {
+                this.estateAgentList.add(i)
+            }
+            //this.estateAgentList = it as MutableList<HousingEstateAgent>
             mAdapterEstateAgentRcv.updateList(this.estateAgentList)
         }
     }

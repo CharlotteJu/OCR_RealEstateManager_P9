@@ -57,12 +57,13 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun getPoi(location : String, type : String, radius : Int, key : String) = this.placesPoiRepository.test(location, type, radius, key)
 
-    private suspend fun createPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
+    //private suspend fun createPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
     private suspend fun configurePoi(housing : Housing, location: String, context: Context, key : String)
     {
         val listTypePoi = getTypePoi(context)
         val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
+        val listToReturn : MutableList<HousingPoi> = ArrayList()
 
         for (place in listPoiPlaces)
         {
@@ -131,9 +132,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 }
             }
 
-
         }
-
 
         //TODO : Mettre un Listener pour savoir quand c'est fini
 
@@ -161,6 +160,8 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.updateHousingPoi(housingPoi)
 
+    private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
+
     fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String)
     {
         viewModelScope.launch (Dispatchers.IO)
@@ -168,21 +169,31 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (housing.ref == completeHousing.housing.ref)
             {
-                if (housing != completeHousing.housing) updateHousing(housing)
+                if (housing != completeHousing.housing)
+                {
+                    updateHousing(housing)
+                }
 
                 if (address != null)
+                { //TODO : A tester
                     if (completeHousing.address != null && address != completeHousing.address) {
 
-                    val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+                        val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
 
-                    if (location != null && location != ERROR_GEOCODER_ADDRESS)
-                    {
-                        updateAddress(address)
-                        //TODO : Delete liste POI
-                        configurePoi(housing, location, context, key)
+                        if (location != null && location != ERROR_GEOCODER_ADDRESS) {
+                            updateAddress(address)
+                            if (completeHousing.poiList != null && completeHousing.poiList!!.isNotEmpty())
+                            {
+                                for (i in completeHousing.poiList!!)
+                                {
+                                    deleteHousingPoi(i)
+                                }
+                            }
+                            configurePoi(housing, location, context, key)
+                        }
                     }
                 }
-                else deleteAddress(address) //TODO : Améliorer
+                else if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
 
 
                 if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
@@ -227,16 +238,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
         }
 
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 
