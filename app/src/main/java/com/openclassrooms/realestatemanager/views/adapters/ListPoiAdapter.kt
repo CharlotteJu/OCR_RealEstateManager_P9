@@ -35,21 +35,48 @@ class ListPoiAdapter (private val poiList : List<HousingPoi>) : RecyclerView.Ada
         fun configureDesign(poi : HousingPoi)
         {
             when(poi.poiType){
-                context.getString(R.string.poi_type_restaurant) -> {
+                context.getString(R.string.restaurant) -> {
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_restaurant_24)
-                    itemView.item_poi_description.text = context.getString(R.string.restaurants)}
-                context.getString(R.string.poi_type_school)-> {
+                    itemView.item_poi_description.text = context.getString(R.string.restaurant).capitalize()}
+                context.getString(R.string.school)-> {
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_school_24)
-                    itemView.item_poi_description.text = context.getString(R.string.schools)}
-                context.getString(R.string.poi_type_store) -> {
+                    itemView.item_poi_description.text = context.getString(R.string.school).capitalize()}
+                context.getString(R.string.store) -> {
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_store_24)
-                    itemView.item_poi_description.text = context.getString(R.string.stores)}
-                context.getString(R.string.poi_type_subway) -> {
+                    itemView.item_poi_description.text = context.getString(R.string.store).capitalize()}
+                context.getString(R.string.subway) -> {
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_subway_24)
-                    itemView.item_poi_description.text = context.getString(R.string.subways)}
-                context.getString(R.string.poi_type_park) -> {
+                    itemView.item_poi_description.text = context.getString(R.string.subway).capitalize()}
+                context.getString(R.string.park) -> {
                     itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_park_24)
-                    itemView.item_poi_description.text = context.getString(R.string.parks)}
+                    itemView.item_poi_description.text = context.getString(R.string.park).capitalize()}
+                context.getString(R.string.museum) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_museum_24)
+                    itemView.item_poi_description.text = context.getString(R.string.museum).capitalize()}
+                context.getString(R.string.doctor) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_doctor_24)
+                    itemView.item_poi_description.text = context.getString(R.string.doctor).capitalize()}
+                context.getString(R.string.bank) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_bank_24)
+                    itemView.item_poi_description.text = context.getString(R.string.bank).capitalize()}
+                context.getString(R.string.airport) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_airport_24)
+                    itemView.item_poi_description.text = context.getString(R.string.airport).capitalize()}
+                context.getString(R.string.bar) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_bar_24)
+                    itemView.item_poi_description.text = context.getString(R.string.bar).capitalize()}
+                context.getString(R.string.hospital) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_hospital_24)
+                    itemView.item_poi_description.text = context.getString(R.string.hospital).capitalize()}
+                context.getString(R.string.gym) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_gym_24)
+                    itemView.item_poi_description.text = context.getString(R.string.gym).capitalize()}
+                context.getString(R.string.spa) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_spa_24)
+                    itemView.item_poi_description.text = context.getString(R.string.spa).capitalize()}
+                context.getString(R.string.train_station) -> {
+                    itemView.item_poi_icone.setImageResource(R.drawable.ic_baseline_train_24)
+                    itemView.item_poi_description.text = context.getString(R.string.train).capitalize()}
             }
 
         }

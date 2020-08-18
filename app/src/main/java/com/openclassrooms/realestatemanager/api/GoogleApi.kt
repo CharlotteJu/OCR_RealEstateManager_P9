@@ -21,24 +21,13 @@ interface GoogleApi
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
-
-
-
     }
-
-    /*@GET("place/nearbysearch/json?")
-    fun getPoiRx (@Query ("location") location : String,
-                @Query ("radius") radius : Int,
-                @Query ("type") type : String,
-                @Query ("key") key : String) : Call<PlacesPoiPOJO>*/
 
 
     @GET("place/nearbysearch/json?")
     suspend fun getPoiCoroutine (@Query ("location") location : String,
                                         @Query ("radius") radius : Int,
-                                        @Query ("type") type : String,
                                         @Query ("key") key : String) : PlacesPoiPOJO
-
 
 
     @GET("staticmap?")

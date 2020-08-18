@@ -23,16 +23,6 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
-    fun getMap(location : String, key : String) : String {
-        var url = ""
-        viewModelScope.launch {
-            url =  staticMapRepository.getStaticMap(location, key)
-        }
-
-        return url
-    }
-
-
     private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
 
     private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)

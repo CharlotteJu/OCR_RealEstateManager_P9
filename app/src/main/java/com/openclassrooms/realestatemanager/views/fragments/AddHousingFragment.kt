@@ -55,6 +55,18 @@ class AddHousingFragment : BaseEditHousingFragment() {
         return mView
     }
 
+    private fun addFinal()
+    {
+        this.checkAddress()
+
+        context?.let {
+            this.isInternetAvailable = Utils.isInternetAvailable(it)
+            this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
+        }
+
+        //TODO : Si connecté à internet --> Push sur Firebase
+    }
+
     override fun onClickDeleteEstateAgent(position: Int) {
         if (estateAgentList.size <= 1)
         {
@@ -96,13 +108,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
     }
 
 
-    private fun addFinal()
-    {
-        this.checkAddress()
-        context?.let { this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey) }
 
-        //TODO : Si connecté à internet --> Push sur Firebase
-    }
 
     private fun configureSpinners()
     {
@@ -116,6 +122,8 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_number_bedrooms_spinner.prompt = getString(R.string.spinners_bedrooms)
         this.mView.add_housing_fragment_number_bathrooms_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
         this.mView.add_housing_fragment_number_bathrooms_spinner.prompt = getString(R.string.spinners_bathrooms)
+        this.mView.add_housing_fragment_country_spinner.adapter = configureSpinnerAdapter(R.array.country_spinner)
+        this.mView.add_housing_fragment_country_spinner.prompt = getString(R.string.spinners_country)
         //TODO : NameSpinner && Prompt ne fonctionne pas
 
     }

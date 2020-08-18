@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.models.HousingEstateAgent
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
@@ -56,7 +57,10 @@ class EditHousingFragment : BaseEditHousingFragment() {
     private fun updateFinal()
     {
         this.checkAddress()
-        context?.let { this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey) }
+        context?.let {
+            this.isInternetAvailable = Utils.isInternetAvailable(it)
+            this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
+        }
     }
 
     private fun getHousing()

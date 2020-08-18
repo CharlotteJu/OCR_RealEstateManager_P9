@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -55,45 +53,34 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
-    private suspend fun getPoi(location : String, type : String, radius : Int, key : String) = this.placesPoiRepository.test(location, type, radius, key)
+    private suspend fun getPoi(location : String, radius : Int, key : String) = this.placesPoiRepository.getPoiFromPlaces(location, radius, key)
 
-    //private suspend fun createPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
+
+
 
     private suspend fun configurePoi(housing : Housing, location: String, context: Context, key : String)
     {
-        val listTypePoi = getTypePoi(context)
-        val listPoiPlaces = getPoi(location, "park", 500, key).results //TODO : Voir pour plusieurs types
-        val listToReturn : MutableList<HousingPoi> = ArrayList()
+        val listTypePoi = UtilsKotlin.getListTypePo(context)
+        val listPoiPlaces = getPoi(location, 500, key).results
 
-        for (place in listPoiPlaces)
+        for (type in listTypePoi)
         {
-            for (type in listTypePoi)
+            var isPresent = false
+            for (place in listPoiPlaces)
             {
                 if (place.types.contains(type))
                 {
                     val housingPoi = HousingPoi(housing.ref, type)
                     createHousingPoi(housingPoi)
+                    isPresent = true
                 }
+                if (isPresent) break
             }
-
         }
-        //TODO : Faire un return si c'est ERROR
     }
 
-    private fun getTypePoi(context: Context) : List<String>
-    {
-        val list : MutableList<String> = ArrayList()
 
-        list.add(context.getString(R.string.poi_type_restaurant))
-        list.add(context.getString(R.string.poi_type_subway))
-        list.add(context.getString(R.string.poi_type_school))
-        list.add(context.getString(R.string.poi_type_park))
-        list.add(context.getString(R.string.poi_type_store))
-
-        return list
-    }
-
-    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String )
+    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean )
     {
        val job =  viewModelScope.launch  (Dispatchers.IO)
         {
@@ -110,7 +97,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 if (location != null && location != ERROR_GEOCODER_ADDRESS)
                 {
                     createAddress(address)
-                    configurePoi(housing, location, context, key)
+                    if (isInternetAvailable) configurePoi(housing, location, context, key)
                 }
 
             }
@@ -162,7 +149,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
 
-    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String)
+    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean)
     {
         viewModelScope.launch (Dispatchers.IO)
         {
@@ -189,7 +176,8 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                                     deleteHousingPoi(i)
                                 }
                             }
-                            configurePoi(housing, location, context, key)
+                            if (isInternetAvailable) configurePoi(housing, location, context, key)
+
                         }
                     }
                 }

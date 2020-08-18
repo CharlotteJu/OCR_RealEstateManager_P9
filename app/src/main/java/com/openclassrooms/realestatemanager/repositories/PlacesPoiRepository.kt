@@ -9,16 +9,13 @@ import retrofit2.Response
 
 class PlacesPoiRepository
 {
-    suspend fun test(location : String, type : String, radius : Int, key : String ) : PlacesPoiPOJO
+    suspend fun getPoiFromPlaces(location : String, radius : Int, key : String ) : PlacesPoiPOJO
     {
 
         val placesApi = GoogleApi.retrofit.create(GoogleApi::class.java)
 
-        return placesApi.getPoiCoroutine(location, radius, type, key)
+        return placesApi.getPoiCoroutine(location, radius, key)
     }
-
-
-
 
 
 }

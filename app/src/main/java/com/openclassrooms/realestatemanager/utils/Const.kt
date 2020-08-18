@@ -4,6 +4,9 @@ const val SPINNER_SELECT = "--SELECT--"
 const val STRING_EMPTY = ""
 const val DOUBLE_00 = 0.0
 
+const val TYPE_POI = "type"
+const val IC_POI = "ic"
+
 const val DOLLAR = "$"
 const val EURO = "€"
 const val CURRENCY_SHARED_PREFERENCES : String = "CURRENCY_SHARED_PREFERENCES"

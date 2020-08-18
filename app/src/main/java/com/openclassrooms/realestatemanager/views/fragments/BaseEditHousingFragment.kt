@@ -53,6 +53,8 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected lateinit var mApiKey : String
     private lateinit var placesClient : PlacesClient
 
+    protected var isInternetAvailable = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -257,9 +259,10 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
     protected fun checkAddress()
     {
-        if (address!!.street == STRING_EMPTY && address!!.city == STRING_EMPTY && address!!.country == STRING_EMPTY)
+        if (address!!.street == STRING_EMPTY || address!!.city == STRING_EMPTY || address!!.country == STRING_EMPTY)
         {
             address = null
+            Toast.makeText(context, getString(R.string.toast_invalid_address), Toast.LENGTH_LONG).show()
         }
     }
 
