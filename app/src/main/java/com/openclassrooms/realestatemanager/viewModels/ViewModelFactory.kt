@@ -11,8 +11,7 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
                         private val housingPoiRepository : HousingPoiRepository,
                         private val photoRepository: PhotoRepository,
                         private val poiRepository: PoiRepository,
-                        private val placesPoiRepository: PlacesPoiRepository,
-                        private val staticMapRepository: StaticMapRepository)
+                        private val placesPoiRepository: PlacesPoiRepository)
                         : ViewModelProvider.Factory
 {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T
@@ -23,7 +22,7 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
             modelClass.isAssignableFrom(AddUpdateHousingViewModel::class.java) ->
                 return modelClass.cast(AddUpdateHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository, estateAgentRepository, placesPoiRepository, poiRepository))!!
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->
-                return modelClass.cast(DetailViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository, staticMapRepository))!!
+                return modelClass.cast(DetailViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository))!!
             modelClass.isAssignableFrom(ListHousingViewModel::class.java) ->
                 return modelClass.cast(ListHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository,housingPoiRepository))!!
         }

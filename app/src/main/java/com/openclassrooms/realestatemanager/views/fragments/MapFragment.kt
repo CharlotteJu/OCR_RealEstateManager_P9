@@ -33,6 +33,9 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
+import com.openclassrooms.realestatemanager.views.activities.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_map_complete.view.*
 import kotlinx.android.synthetic.main.info_window_map.view.*
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -64,14 +67,18 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
-        val view: View = inflater.inflate(R.layout.fragment_map, container, false)
-        val mapFragment = FragmentManager.findFragment<SupportMapFragment>(view)
+        val view: View = inflater.inflate(R.layout.fragment_map_complete, container, false)
+        val mapFragment = FragmentManager.findFragment<SupportMapFragment>(view.fragment_map_complete_map)
         this.fetchLocation()
         this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mListHousing = it as MutableList<CompleteHousing>
             this.createMarkers()
         })
         mapFragment.getMapAsync(this)
+
+        view.fragment_map_complete_fab.setOnClickListener {
+            findNavController().navigate(R.id.listFragment)
+        }
 
         return view
     }
@@ -87,6 +94,18 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
 
             }
+        }
+    }
+
+    private fun test()
+    {
+        if (this.requireActivity() == MainActivity::class.java)
+        {
+            this.requireActivity().main_activity_toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+            this.requireActivity().main_activity_toolbar.setNavigationOnClickListener {
+                this.requireActivity().onBackPressed()
+            }
+
         }
     }
 
@@ -179,7 +198,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun fetchLocation()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity()) // Faire une autre demande
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
 
         val task = mFusedLocationClient.lastLocation
         task.addOnSuccessListener {

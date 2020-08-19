@@ -2,9 +2,7 @@ package com.openclassrooms.realestatemanager.views.fragments
 
 import android.content.Context
 import androidx.fragment.app.Fragment
-import com.openclassrooms.realestatemanager.utils.CURRENCY_SHARED_PREFERENCES
-import com.openclassrooms.realestatemanager.utils.CURRENCY_TAG
-import com.openclassrooms.realestatemanager.utils.DOLLAR
+import com.openclassrooms.realestatemanager.utils.*
 
 abstract class BaseFragment : Fragment()
 {
@@ -12,6 +10,12 @@ abstract class BaseFragment : Fragment()
     {
         val sharedPreferences = requireContext().getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         return sharedPreferences.getString(CURRENCY_TAG, DOLLAR).toString()
+    }
+
+    protected fun getIsTabletFromSharedPreferences() : Boolean
+    {
+        val sharedPreferences = requireContext().getSharedPreferences(IS_TABLET_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(IS_TABLET_TAG, false)
     }
 
 }

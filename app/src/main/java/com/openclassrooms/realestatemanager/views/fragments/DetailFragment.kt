@@ -42,6 +42,7 @@ class DetailFragment : BaseFragment() {
         if (arguments!= null)
         {
             ref = requireArguments().getString(BUNDLE_REFERENCE).toString()
+            this.getDataFromLiveData()
         }
         notSpecify = getString(R.string.not_specify)
         currency = getCurrencyFromSharedPreferences()
@@ -52,12 +53,12 @@ class DetailFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_detail, container, false)
-        this.getDataFromLiveData()
+
 
         mView.detail_fragment_edit_button.setOnClickListener {
             val bundle  = Bundle()
             bundle.putString(BUNDLE_REFERENCE, housing.housing.ref)
-            findNavController().navigate(R.id.editHousingFragment, bundle) //TODO : Trouver comment choisir la classe chargée
+            findNavController().navigate(R.id.editHousingFragment, bundle)
         }
         return mView
     }
@@ -124,7 +125,7 @@ class DetailFragment : BaseFragment() {
         if (housing.address != null)
         {
             this.mView.detail_fragment_address_txt.text = housing.address.toString()
-            val location = UtilsKotlin.getGeocoderAddress(housing.address.toString(), requireContext()) // TODO : Plante en mode avion : Caused by: java.io.IOException: grpc failed
+            val location = UtilsKotlin.getGeocoderAddress(housing.address.toString(), requireContext())
 
             if (location != null && location != ERROR_GEOCODER_ADDRESS)
             {

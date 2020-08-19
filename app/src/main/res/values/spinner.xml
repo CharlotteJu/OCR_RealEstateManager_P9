@@ -125,10 +125,6 @@
         <item>WV</item>
         <item>WI</item>
         <item>WY</item>
-
-
     </string-array>
-
-    <!--TODO : OK pour les spinners ? District automatique ? -->
 
 </resources>

@@ -238,8 +238,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
         address = Address(uuidAddress, street = STRING_EMPTY, city = STRING_EMPTY, country = STRING_EMPTY, housingReference = this.housingReference)
 
-        //TODO-Q : Si champs vide, que faire ?
-
         this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { address!!.street = it.toString() }
         this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged { address!!.zipCode = it.toString().toInt() }
         this.mView.add_housing_fragment_city_editTxt.doAfterTextChanged { address!!.city = it.toString() }

@@ -29,11 +29,4 @@ interface GoogleApi
                                         @Query ("radius") radius : Int,
                                         @Query ("key") key : String) : PlacesPoiPOJO
 
-
-    @GET("staticmap?")
-    suspend fun getStaticMapRx(@Query ("center") address : String,
-                        @Query("zoom") zoom : Int,
-                        @Query("size") size : String,
-                        @Query("key") key : String)  : String
-
 }

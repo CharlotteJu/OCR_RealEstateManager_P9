@@ -45,8 +45,6 @@
             app:layout_constraintTop_toBottomOf="@id/main_activity_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- TODO : Bottom ou View Pager -->
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

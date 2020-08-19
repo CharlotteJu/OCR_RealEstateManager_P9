@@ -13,8 +13,7 @@ class DetailViewModel constructor(private val housingRepository: HousingReposito
                                   private val addressRepository: AddressRepository,
                                   private val photoRepository: PhotoRepository,
                                   private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                                  private val housingPoiRepository: HousingPoiRepository,
-                                  private val staticMapRepository: StaticMapRepository)
+                                  private val housingPoiRepository: HousingPoiRepository)
                                     : ViewModel()
 {
 

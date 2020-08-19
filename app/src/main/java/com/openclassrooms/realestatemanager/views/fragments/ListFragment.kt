@@ -11,6 +11,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
+import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
@@ -64,6 +65,19 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         val bundle  = Bundle()
         bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
         findNavController().navigate(R.id.detailFragment, bundle)
+
+       /* if (!this.getIsTabletFromSharedPreferences())
+       {
+           val bundle  = Bundle()
+           bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
+           findNavController().navigate(R.id.detailFragment, bundle)
+       }
+        else
+       {
+           val detailFragment = DetailFragment()
+           detailFragment.updateRef(this.mListHousing[position].housing.ref)
+       }*/
+
     }
 
     override fun onClickDeleteHousing(position: Int)

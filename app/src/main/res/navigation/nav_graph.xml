@@ -53,7 +53,7 @@
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.views.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" >
+        tools:layout="@layout/container_map" >
         <action
             android:id="@+id/action_mapFragment_to_filterDialogFragment"
             app:destination="@id/filterDialogFragment" />
