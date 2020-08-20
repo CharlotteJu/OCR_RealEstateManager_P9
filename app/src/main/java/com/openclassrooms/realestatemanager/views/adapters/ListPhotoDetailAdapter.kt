@@ -25,12 +25,6 @@ class ListPhotoDetailAdapter(private var photoList : List<Photo>) : RecyclerView
 
     override fun getItemCount(): Int = this.photoList.size
 
-    fun updateList(photoList: List<Photo>)
-    {
-        this.photoList = photoList
-        this.notifyDataSetChanged()
-    }
-
     class ListPhotoViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(photo : Photo)

@@ -39,7 +39,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 {
     protected lateinit var housing : Housing
     protected lateinit var housingReference : String
-    protected lateinit var currency : String
+    private lateinit var currency : String
     protected lateinit var mAdapterEstateAgentRcv : ListEstateAgentAdapter
     protected lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
     protected var address : Address? = null
@@ -239,7 +239,8 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         address = Address(uuidAddress, street = STRING_EMPTY, city = STRING_EMPTY, country = STRING_EMPTY, housingReference = this.housingReference)
 
         this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { address!!.street = it.toString() }
-        this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged { address!!.zipCode = it.toString().toInt() }
+        this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged{
+            if (it.toString() != STRING_EMPTY) address!!.zipCode = it.toString().toInt() }
         this.mView.add_housing_fragment_city_editTxt.doAfterTextChanged { address!!.city = it.toString() }
 
         this.mView.add_housing_fragment_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
@@ -260,7 +261,10 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         if (address!!.street == STRING_EMPTY || address!!.city == STRING_EMPTY || address!!.country == STRING_EMPTY)
         {
             address = null
-            Toast.makeText(context, getString(R.string.toast_invalid_address), Toast.LENGTH_LONG).show()
+            if (address!!.street != STRING_EMPTY || address!!.city != STRING_EMPTY || address!!.country != STRING_EMPTY)
+            {
+                Toast.makeText(context, getString(R.string.toast_invalid_address), Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -297,11 +301,11 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
     private fun getPhotos()
     {
-        var description = STRING_EMPTY
+        var description : String? = null
         this.mView.add_housing_fragment_photo_image.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                UtilsPermissions.checkCameraPermission(requireActivity()) //TODO : Attention, ça plante la 1ère fois
+                UtilsPermissions.checkCameraPermission(requireActivity())
                 UtilsPermissions.checkReadPermission(requireActivity())
                 UtilsPermissions.checkWritePermission(requireActivity())
                 getAlertDialogPhoto()

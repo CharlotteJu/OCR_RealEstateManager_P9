@@ -64,11 +64,11 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     override fun onItemClick(position : Int)
     {
-        val bundle  = Bundle()
+        /*val bundle  = Bundle()
         bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
-        findNavController().navigate(R.id.detailFragment, bundle)
+        findNavController().navigate(R.id.detailFragment, bundle)*/
 
-       /* if (!this.getIsTabletFromSharedPreferences())
+       if (!this.getIsTabletFromSharedPreferences())
        {
            val bundle  = Bundle()
            bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
@@ -78,7 +78,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
        {
            val detailFragment = DetailFragment()
            detailFragment.updateRef(this.mListHousing[position].housing.ref)
-       }*/
+       }
 
     }
 

@@ -58,7 +58,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
     {
         this.checkAddress()
         context?.let {
-            this.isInternetAvailable = Utils.isInternetAvailable(it)
+            //this.isInternetAvailable = Utils.isInternetAvailable(it)
+            this.isInternetAvailable = true
             this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
     }
@@ -90,7 +91,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         {
             this.address = this.housingToCompare.address!!.copy()
             housingToCompare.address!!.street.let { this.mView.add_housing_fragment_address_editTxt.setText(it) }
-            housingToCompare.address!!.zipCode?.let { this.mView.add_housing_fragment_zipCode_editTxt.setText(it) }
+            housingToCompare.address!!.zipCode?.let { this.mView.add_housing_fragment_zipCode_editTxt.setText(it.toString()) }
             housingToCompare.address!!.city.let { this.mView.add_housing_fragment_city_editTxt.setText(it) }
             housingToCompare.address!!.country.let { this.mView.add_housing_fragment_country_spinner.setSelection(mAdapterCountry!!.getPosition(it)) }
         }

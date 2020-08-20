@@ -45,6 +45,8 @@
 
     <!-- DETAIL FRAGMENT -->
     <dimen name="detail_fragment_margin">8dp</dimen>
+    <dimen name="detail_fragment_container_rcv_photo_width">336dp</dimen>
+    <dimen name="detail_fragment_container_rcv_photo_height">360dp</dimen>
     <dimen name="detail_fragment_separator_margin">8dp</dimen>
     <dimen name="detail_fragment_text_type_price_size">24sp</dimen>
     <dimen name="detail_fragment_rcv_poi_size">380dp</dimen>

@@ -48,6 +48,12 @@ tools:openDrawer="start">
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <FrameLayout
+            android:id="@+id/tabMode_list_map_frame_layout"
+            android:layout_weight="50"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
             android:id="@+id/tabMode_detail_frame_layout"
             android:layout_weight="50"
             android:layout_width="0dp"

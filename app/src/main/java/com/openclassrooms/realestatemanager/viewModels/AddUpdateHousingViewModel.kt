@@ -124,8 +124,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             thread.await()
 
             // Launch function on the MainThread !!
-            withContext(Dispatchers.Main) {NotificationWorker.showNotification(context)} //TODO : Lancer notif
-                //Toast.makeText(context, "OK", Toast.LENGTH_LONG).show()
+            withContext(Dispatchers.Main) {NotificationWorker.showNotification(context)}
         }
 
     }
@@ -148,7 +147,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateGlobalAddress(address: Address?, completeHousing: CompleteHousing, context: Context, ref : String, isInternetAvailable: Boolean, key: String)
     {
-        //TODO : A tester
         if (address != null)
         {
             if (completeHousing.address != null && address != completeHousing.address) {
@@ -190,18 +188,23 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateAllPhoto(photoList: List<Photo>?, completeHousing: CompleteHousing)
     {
-        if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
+        val test = photoList
+        val test2 = completeHousing.photoList
+
+        if (photoList != null && completeHousing.photoList != null)
         {
             for (i in photoList)
             {
-                if (!completeHousing.photoList!!.contains(i)) {
+                if (!completeHousing.photoList!!.contains(i))
+                {
                     createPhoto(i)
                 }
 
                 else
                 {
                     val index = completeHousing.photoList!!.indexOf(i)
-                    if (completeHousing.photoList!![index].description != i.description) {
+                    if (completeHousing.photoList!![index].description != i.description)
+                    {
                         updatePhoto(i)
                     }
                 }
@@ -213,6 +216,20 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                 {
                     deletePhoto(i)
                 }
+            }
+        }
+        else if (photoList == null && completeHousing.photoList != null)
+        {
+            for (photo in completeHousing.photoList!!) //TODO-Q : Pourquoi besoin de l'assert ici et pas en dessous ?
+            {
+                deletePhoto(photo)
+            }
+        }
+        else if (photoList != null && completeHousing.photoList == null)
+        {
+            for (photo in photoList)
+            {
+                createPhoto(photo)
             }
         }
     }

@@ -13,11 +13,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.utils.*
-import com.openclassrooms.realestatemanager.views.fragments.DetailFragment
+import com.openclassrooms.realestatemanager.views.fragments.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
@@ -38,7 +40,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureToolbar()
         this.configureNavigationView()
         this.configureNavigationController()
-        this.configureTabMode()
+        //this.configureTabMode()
+        this.isTablet = resources.getBoolean(R.bool.isTablet)
+        if (isTablet) showDetailFragment()
     }
 
     private fun configureToolbar()
@@ -70,7 +74,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun configureNavigationController()
     {
         mNavigationController = findNavController(R.id.main_activity_navHost)
-
     }
 
 
@@ -83,13 +86,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         if (isTablet)
         {
-            val detailFragment = supportFragmentManager.findFragmentById(R.id.tabMode_detail_frame_layout)
-            if (detailFragment == null && findViewById<View>(R.id.tabMode_detail_frame_layout) != null)
+            if (findViewById<View>(R.id.tabMode_detail_frame_layout) != null)
             {
                 mDetailFragment = DetailFragment()
-                supportFragmentManager.beginTransaction().add(R.id.tabMode_detail_frame_layout, mDetailFragment!!).commit()
                 val param = mView.tabMode_detail_frame_layout.layoutParams as LinearLayout.LayoutParams
-                param.weight = 0.5f
+                param.weight = 50f
+                supportFragmentManager.beginTransaction().add(R.id.tabMode_detail_frame_layout, mDetailFragment!!).commit()
                 mView.tabMode_detail_frame_layout.layoutParams = param
 
                 val sharedPreferences = applicationContext.getSharedPreferences(IS_TABLET_SHARED_PREFERENCES, Context.MODE_PRIVATE)
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             if (supportFragmentManager.findFragmentById(R.id.listFragment) == null && supportFragmentManager.findFragmentById(R.id.map) == null && mDetailFragment != null)
             {
-                supportFragmentManager.beginTransaction().detach(mDetailFragment!!)
+                //supportFragmentManager.beginTransaction().detach(mDetailFragment!!)
                 if (mView.tabMode_detail_frame_layout != null)
                 {
                     val param = mView.tabMode_detail_frame_layout.layoutParams as LinearLayout.LayoutParams
@@ -126,7 +128,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this.mNavigationController.navigate(R.id.listFragment)
             }
             R.id.menu_drawer_settings -> {
-                applicationContext.let { NotificationWorker.showNotification(it) }
                 this.hideDetailFragment()
                 this.mNavigationController.navigate(R.id.settingsFragment)
             }
@@ -168,6 +169,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         else
         {
             super.onBackPressed()
+           /* val test = main_activity_navHost.childFragmentManager.fragments.get(1)
+            val test2 = ""
+            when (main_activity_navHost.childFragmentManager.fragments.get(2))
+            {
+                is ListFragment -> showDetailFragment()
+                is MapFragment -> showDetailFragment()
+                is AddEstateAgentFragment -> hideDetailFragment()
+                is AddHousingFragment -> hideDetailFragment()
+                is EditHousingFragment -> hideDetailFragment()
+                is SettingsFragment -> hideDetailFragment()
+            }*/
         }
     }
 

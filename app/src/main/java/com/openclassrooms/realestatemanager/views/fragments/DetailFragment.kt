@@ -1,13 +1,16 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -39,21 +42,22 @@ class DetailFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
+
         if (arguments!= null)
         {
             ref = requireArguments().getString(BUNDLE_REFERENCE).toString()
-            this.getDataFromLiveData()
         }
+
         notSpecify = getString(R.string.not_specify)
         currency = getCurrencyFromSharedPreferences()
     }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_detail, container, false)
 
+        if (ref != null) this.getDataFromLiveData()
 
         mView.detail_fragment_edit_button.setOnClickListener {
             val bundle  = Bundle()
@@ -61,6 +65,11 @@ class DetailFragment : BaseFragment() {
             findNavController().navigate(R.id.editHousingFragment, bundle)
         }
         return mView
+    }
+
+    fun updateRef(ref : String)
+    {
+        this.ref = ref
     }
 
     private fun getDataFromLiveData()
@@ -208,11 +217,14 @@ class DetailFragment : BaseFragment() {
             this.mView.detail_fragment_no_photo.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList)
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
             this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
         else
         {
+            this.mView.detail_fragment_rcv_photo_card_view.visibility = View.GONE
             this.mView.detail_fragment_rcv_photo.visibility = View.GONE
         }
     }

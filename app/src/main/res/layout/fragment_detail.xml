@@ -43,17 +43,24 @@
 
             <!-- PHOTOS -->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/detail_fragment_rcv_photo"
-                android:layout_width="@dimen/detail_fragment_rcv_photo_size"
-                android:layout_height="@dimen/detail_fragment_rcv_photo_size"
-                android:orientation="horizontal"
-                android:background="@color/colorPrimary"
-                tools:listitem="@layout/item_photo_detail"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/detail_fragment_rcv_photo_card_view"
+                android:layout_width="@dimen/detail_fragment_container_rcv_photo_width"
+                android:layout_height="@dimen/detail_fragment_container_rcv_photo_height"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
+                android:padding="8dp"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_type_txt"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/detail_fragment_rcv_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/item_photo_detail"/>
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/detail_fragment_no_photo"
@@ -73,7 +80,7 @@
                 android:src="@drawable/ic_baseline_area_24"
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="@dimen/detail_fragment_margin"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_rcv_photo"
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_rcv_photo_card_view"
                 app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
