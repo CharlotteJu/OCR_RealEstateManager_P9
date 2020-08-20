@@ -37,7 +37,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     private  var mAdapterRooms : ArrayAdapter<CharSequence>? = null
     private  var mAdapterBedRooms : ArrayAdapter<CharSequence>? = null
     private  var mAdapterBathRooms : ArrayAdapter<CharSequence>? = null
-    private  var mAdapterCity : ArrayAdapter<CharSequence>? = null
+    private  var mAdapterCountry : ArrayAdapter<CharSequence>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -89,10 +89,10 @@ class EditHousingFragment : BaseEditHousingFragment() {
         if (housingToCompare.address != null)
         {
             this.address = this.housingToCompare.address!!.copy()
-            housingToCompare.address!!.street?.let { this.mView.add_housing_fragment_address_editTxt.setText(it) }
+            housingToCompare.address!!.street.let { this.mView.add_housing_fragment_address_editTxt.setText(it) }
             housingToCompare.address!!.zipCode?.let { this.mView.add_housing_fragment_zipCode_editTxt.setText(it) }
-            housingToCompare.address!!.city?.let { this.mView.add_housing_fragment_city_editTxt.setText(it) }
-            housingToCompare.address!!.country?.let {  }
+            housingToCompare.address!!.city.let { this.mView.add_housing_fragment_city_editTxt.setText(it) }
+            housingToCompare.address!!.country.let { this.mView.add_housing_fragment_country_spinner.setSelection(mAdapterCountry!!.getPosition(it)) }
         }
 
         housingToCompare.photoList?.let {
@@ -100,7 +100,6 @@ class EditHousingFragment : BaseEditHousingFragment() {
             {
                 this.photoList.add(i)
             }
-            //this.photoList = it as MutableList<Photo>
             mAdapterPhotoAddRcv.updateList(this.photoList)
 
         }
@@ -109,7 +108,6 @@ class EditHousingFragment : BaseEditHousingFragment() {
             {
                 this.estateAgentList.add(i)
             }
-            //this.estateAgentList = it as MutableList<HousingEstateAgent>
             mAdapterEstateAgentRcv.updateList(this.estateAgentList)
         }
     }
@@ -128,6 +126,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_number_rooms_spinner.adapter = mAdapterRooms
         this.mView.add_housing_fragment_number_bedrooms_spinner.adapter = mAdapterBedRooms
         this.mView.add_housing_fragment_number_bathrooms_spinner.adapter = mAdapterBathRooms
+        configureSpinnerAdapter(R.array.country_spinner)?.let { this.mAdapterCountry = it }
+        this.mView.add_housing_fragment_country_spinner.adapter = mAdapterCountry
     }
 
     override fun onClickDeleteEstateAgent(position: Int) {

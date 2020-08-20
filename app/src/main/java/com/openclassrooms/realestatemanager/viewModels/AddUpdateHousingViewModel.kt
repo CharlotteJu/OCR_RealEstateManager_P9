@@ -1,17 +1,20 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
+import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -32,16 +35,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     fun getEstateAgentList() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
 
-    fun getHousing(reference : String) : LiveData<Housing> = this.housingRepository.getHousing(reference)
-
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
 
     fun getPoiList() : LiveData<List<Poi>> = this.poiRepository.getAllPoi()
 
-
-
     //////////////////// CREATE ////////////////////
-
 
     private suspend fun createHousing(housing : Housing) = this.housingRepository.createHousing(housing)
 
@@ -55,12 +53,9 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun getPoi(location : String, radius : Int, key : String) = this.placesPoiRepository.getPoiFromPlaces(location, radius, key)
 
-
-
-
-    private suspend fun configurePoi(housing : Housing, location: String, context: Context, key : String)
+    private suspend fun configurePoi(ref : String, location: String, context: Context, key : String)
     {
-        val listTypePoi = UtilsKotlin.getListTypePo(context)
+        val listTypePoi = UtilsKotlin.getListTypePo(context) //TODO : Ok ? Sinon LiveData -> .observe dans VM ?
         val listPoiPlaces = getPoi(location, 500, key).results
 
         for (type in listTypePoi)
@@ -70,7 +65,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             {
                 if (place.types.contains(type))
                 {
-                    val housingPoi = HousingPoi(housing.ref, type)
+                    val housingPoi = HousingPoi(ref, type)
                     createHousingPoi(housingPoi)
                     isPresent = true
                 }
@@ -79,55 +74,61 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
         }
     }
 
+    private suspend fun createGlobalAddress(address: Address?, context: Context, ref: String, isInternetAvailable: Boolean, key: String)
+    {
+        if (address != null)
+        {
+            val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+            if (location != null && location != ERROR_GEOCODER_ADDRESS)
+            {
+                createAddress(address)
+                if (isInternetAvailable) configurePoi(ref, location, context, key)
+            }
+        }
+    }
+
+    private suspend fun createAllHousingEstateAgent(estateAgentList: List<HousingEstateAgent>?)
+    {
+        if (estateAgentList != null)
+        {
+            for (estate in estateAgentList)
+            {
+                createHousingEstateAgent(estate)
+            }
+        }
+    }
+
+    private suspend fun createAllPhoto(photoList: List<Photo>?)
+    {
+        if (photoList != null)
+        {
+            for (photo in photoList)
+            {
+                createPhoto(photo)
+            }
+        }
+    }
+
 
     fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean )
     {
-       val job =  viewModelScope.launch  (Dispatchers.IO)
+       viewModelScope.launch  (Dispatchers.IO)
         {
 
-            val thread = viewModelScope.async {  createHousing(housing) }
+            val thread = viewModelScope.async {
+                createHousing(housing)
+                createGlobalAddress(address, context, housing.ref, isInternetAvailable, key)
+                createAllPhoto(photoList)
+                createAllHousingEstateAgent(estateAgentList)
+            }
             thread.await()
-            //createHousing(housing) //Mettre dans un async puis await
-            //MainThread : Voir lien
 
-            if (address != null)
-            {
-                val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-
-                if (location != null && location != ERROR_GEOCODER_ADDRESS)
-                {
-                    createAddress(address)
-                    if (isInternetAvailable) configurePoi(housing, location, context, key)
-                }
-
-            }
-
-
-            if (estateAgentList != null)
-            {
-                for (estate in estateAgentList)
-                {
-                    createHousingEstateAgent(estate)
-                }
-            }
-
-            if (photoList != null)
-            {
-                for (photo in photoList)
-                {
-                    createPhoto(photo)
-                }
-            }
-
+            // Launch function on the MainThread !!
+            withContext(Dispatchers.Main) {NotificationWorker.showNotification(context)} //TODO : Lancer notif
+                //Toast.makeText(context, "OK", Toast.LENGTH_LONG).show()
         }
 
-        //TODO : Mettre un Listener pour savoir quand c'est fini
-
-       // Toast.makeText(context, "OK", Toast.LENGTH_LONG).show()
-        //test1.join()
-
     }
-
 
     //////////////////// UPDATE ////////////////////
 
@@ -141,13 +142,81 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
 
-    private suspend fun updateHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.updateHousingEstateAgent(housingEstateAgent)
-
     private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
 
-    private suspend fun updateHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.updateHousingPoi(housingPoi)
-
     private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
+
+    private suspend fun updateGlobalAddress(address: Address?, completeHousing: CompleteHousing, context: Context, ref : String, isInternetAvailable: Boolean, key: String)
+    {
+        //TODO : A tester
+        if (address != null)
+        {
+            if (completeHousing.address != null && address != completeHousing.address) {
+
+                val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+
+                if (location != null && location != ERROR_GEOCODER_ADDRESS) {
+                    updateAddress(address)
+                    if (completeHousing.poiList != null && completeHousing.poiList!!.isNotEmpty())
+                    {
+                        for (i in completeHousing.poiList!!)
+                        {
+                            deleteHousingPoi(i)
+                        }
+                    }
+                    if (isInternetAvailable) configurePoi(ref, location, context, key)
+                }
+            }
+        }
+
+        else if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
+    }
+
+    private suspend fun updateAllEstateHousingEstateAgent(estateAgentList: List<HousingEstateAgent>?, completeHousing: CompleteHousing)
+    {
+        if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
+        {
+            for (i in estateAgentList)
+            {
+                if (!completeHousing.estateAgentList!!.contains(i)) createHousingEstateAgent(i)
+            }
+
+            for (i in completeHousing.estateAgentList!!)
+            {
+                if (!estateAgentList.contains(i)) deleteHousingEstateAgent(i)
+            }
+        }
+    }
+
+    private suspend fun updateAllPhoto(photoList: List<Photo>?, completeHousing: CompleteHousing)
+    {
+        if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
+        {
+            for (i in photoList)
+            {
+                if (!completeHousing.photoList!!.contains(i)) {
+                    createPhoto(i)
+                }
+
+                else
+                {
+                    val index = completeHousing.photoList!!.indexOf(i)
+                    if (completeHousing.photoList!![index].description != i.description) {
+                        updatePhoto(i)
+                    }
+                }
+            }
+
+            for (i in completeHousing.photoList!!)
+            {
+                if (!photoList.contains(i))
+                {
+                    deletePhoto(i)
+                }
+            }
+        }
+    }
+
 
     fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean)
     {
@@ -156,77 +225,12 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (housing.ref == completeHousing.housing.ref)
             {
-                if (housing != completeHousing.housing)
-                {
-                    updateHousing(housing)
-                }
+                if (housing != completeHousing.housing) updateHousing(housing)
+                updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
+                updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
+                updateAllPhoto(photoList, completeHousing)
 
-                if (address != null)
-                { //TODO : A tester
-                    if (completeHousing.address != null && address != completeHousing.address) {
-
-                        val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-
-                        if (location != null && location != ERROR_GEOCODER_ADDRESS) {
-                            updateAddress(address)
-                            if (completeHousing.poiList != null && completeHousing.poiList!!.isNotEmpty())
-                            {
-                                for (i in completeHousing.poiList!!)
-                                {
-                                    deleteHousingPoi(i)
-                                }
-                            }
-                            if (isInternetAvailable) configurePoi(housing, location, context, key)
-
-                        }
-                    }
-                }
-                else if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
-
-
-                if (estateAgentList != null && completeHousing.estateAgentList != null && estateAgentList != completeHousing.estateAgentList)
-                {
-                    for (i in estateAgentList)
-                    {
-                        if (!completeHousing.estateAgentList!!.contains(i)) createHousingEstateAgent(i)
-                    }
-
-                    for (i in completeHousing.estateAgentList!!)
-                    {
-                        if (!estateAgentList.contains(i)) deleteHousingEstateAgent(i)
-                    }
-                }
-
-                if (photoList != null && completeHousing.photoList != null && photoList != completeHousing.photoList)
-                {
-                    for (i in photoList)
-                    {
-                        if (!completeHousing.photoList!!.contains(i)) {
-                            createPhoto(i)
-                        }
-
-                        else
-                        {
-                            val index = completeHousing.photoList!!.indexOf(i)
-                            if (completeHousing.photoList!![index].description != i.description) {
-                                updatePhoto(i)
-                            }
-                        }
-                    }
-
-                    for (i in completeHousing.photoList!!)
-                    {
-                        if (!photoList.contains(i))
-                        {
-                            deletePhoto(i)
-                        }
-                    }
-                }
             }
         }
-
     }
-
 }
-
-

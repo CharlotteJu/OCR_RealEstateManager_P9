@@ -67,6 +67,8 @@
     <string name="train_station">train_station</string>
     <string name="train">train</string>
 
+    <!-- Notification -->
+    <string name="notification_housing_add">Added successfully !</string>
 
     <!-- Toast -->
     <string name="toast_no_photo">You have not add photo</string>

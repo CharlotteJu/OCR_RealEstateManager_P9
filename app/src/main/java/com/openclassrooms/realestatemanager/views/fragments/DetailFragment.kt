@@ -28,11 +28,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DetailFragment : BaseFragment() {
 
 
-    private lateinit var ref : String// = DetailFragmentArgs.fromBundle(this.requireArguments()).reference
+    private var ref : String? = null
     private val mViewModel : DetailViewModel  by viewModel()
     private lateinit var housing : CompleteHousing
     private lateinit var mView : View
-    private lateinit var notSpecify : String // = getString(R.string.not_specify)
+    private lateinit var notSpecify : String
     private lateinit var currency: String
 
 
@@ -65,7 +65,7 @@ class DetailFragment : BaseFragment() {
 
     private fun getDataFromLiveData()
     {
-        mViewModel.getCompleteHousing(ref).observe(viewLifecycleOwner, Observer {
+        mViewModel.getCompleteHousing(ref!!).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
         })

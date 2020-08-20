@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.app.Notification
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
@@ -83,6 +85,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     override fun onClickDeleteHousing(position: Int)
     {
         val completeHousing = this.mListHousing[position]
+        this.mListHousing.removeAt(position)
         this.mViewModel.deleteGlobal(completeHousing)
         this.mAdapter.updateList(mListHousing)
 
