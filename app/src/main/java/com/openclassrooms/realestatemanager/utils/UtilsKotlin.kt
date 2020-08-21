@@ -63,7 +63,7 @@ class UtilsKotlin
             list.add(context.getString(R.string.spa))
             list.add(context.getString(R.string.train_station))
 
-            return list
+            return list //TODO : Faire une listOf et array dans values
         }
     }
 }

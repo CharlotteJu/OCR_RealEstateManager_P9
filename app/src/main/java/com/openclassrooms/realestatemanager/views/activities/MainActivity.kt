@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureToolbar()
         this.configureNavigationView()
         this.configureNavigationController()
-        //this.configureTabMode()
-        this.isTablet = resources.getBoolean(R.bool.isTablet)
+        this.configureTabMode()
+
         if (isTablet) showDetailFragment()
     }
 
@@ -76,13 +76,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mNavigationController = findNavController(R.id.main_activity_navHost)
     }
 
-
-    private fun configureTabMode()
+    fun configureTabMode()
     {
-        isTablet = findViewById<View>(R.id.tabMode_detail_frame_layout) != null
+        //isTablet = findViewById<View>(R.id.tabMode_detail_frame_layout) != null
+        this.isTablet = resources.getBoolean(R.bool.isTablet)
+        mNavigationController.addOnDestinationChangedListener { controller, destination, _ ->
+            when (destination.id)
+            {
+                R.id.listFragment -> showDetailFragment()
+                R.id.mapFragment -> showDetailFragment()
+                R.id.addEstateAgentFragment -> hideDetailFragment()
+                R.id.addHousingFragment -> hideDetailFragment()
+                R.id.editHousingFragment -> hideDetailFragment()
+                R.id.settingsFragment -> hideDetailFragment()
+            }
+        }
     }
 
-    private fun showDetailFragment()
+     fun showDetailFragment()
     {
         if (isTablet)
         {
@@ -91,12 +102,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 mDetailFragment = DetailFragment()
                 val param = mView.tabMode_detail_frame_layout.layoutParams as LinearLayout.LayoutParams
                 param.weight = 50f
-                supportFragmentManager.beginTransaction().add(R.id.tabMode_detail_frame_layout, mDetailFragment!!).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.tabMode_detail_frame_layout, mDetailFragment!!).commit()
                 mView.tabMode_detail_frame_layout.layoutParams = param
 
-                val sharedPreferences = applicationContext.getSharedPreferences(IS_TABLET_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                val editor = sharedPreferences.edit()
-                editor.putBoolean(IS_TABLET_TAG, isTablet).apply()
             }
         }
 
@@ -124,21 +132,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId)
         {
             R.id.menu_drawer_home -> {
-                this.showDetailFragment()
+                //this.showDetailFragment()
                 this.mNavigationController.navigate(R.id.listFragment)
             }
             R.id.menu_drawer_settings -> {
-                this.hideDetailFragment()
+                //this.hideDetailFragment()
                 this.mNavigationController.navigate(R.id.settingsFragment)
             }
             R.id.menu_drawer_add_housing -> {
-                this.hideDetailFragment()
+                //this.hideDetailFragment()
                 val bundle = Bundle()
                 bundle.putString(BUNDLE_REFERENCE, UUID.randomUUID().toString())
                 this.mNavigationController.navigate(R.id.addHousingFragment, bundle)
             }
             R.id.menu_drawer_add_estate_agent -> {
-                this.hideDetailFragment()
+               // this.hideDetailFragment()
                 this.mNavigationController.navigate(R.id.addEstateAgentFragment)
             }
         }

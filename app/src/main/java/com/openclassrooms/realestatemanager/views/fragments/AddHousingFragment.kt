@@ -60,8 +60,8 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.checkAddress()
 
         context?.let {
-            //this.isInternetAvailable = Utils.isInternetAvailable(it)
-            this.isInternetAvailable = true //TODO-Q : Pourquoi ça renvoie false ?
+            this.isInternetAvailable = Utils.isInternetAvailableGood(it)
+           // this.isInternetAvailable = true //TODO-Q : Pourquoi ça renvoie false ?
             this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
 

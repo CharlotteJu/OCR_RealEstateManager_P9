@@ -318,14 +318,15 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.mView.add_housing_fragment_photo_button.setOnClickListener{
             if (photoUri != null)
             {
-                val photo = Photo(photoUri!!.toString(), description, housingReference)
+                var photo = Photo(photoUri!!.toString(), description, housingReference)
                 photoList.add(photo)
+                photo = photo.copy() //TODO : Regarder pour clear
                 mAdapterPhotoAddRcv.updateList(photoList)
 
                 //Clear photo and description
                 this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
 
-                /* photoUri = STRING_EMPTY
+                 /*photoUri = STRING_EMPTY
                  description = STRING_EMPTY*/ //TODO-Q : Où est-ce que je peux clear ça ?
                 this.mView.add_housing_fragment_image_description_editTxt.text.clear()
             }
@@ -391,7 +392,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
     protected fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
     {
-        //TODO : Quand est-ce que ça peut être null ?
         return context?.let { ArrayAdapter.createFromResource(it, res, android.R.layout.simple_spinner_item).
         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
     }
@@ -403,7 +403,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
 
             val month1 = month+1
             val monthString = if (month1 < 10) "0$month1"

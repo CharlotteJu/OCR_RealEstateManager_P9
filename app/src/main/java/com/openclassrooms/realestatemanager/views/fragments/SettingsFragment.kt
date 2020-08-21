@@ -42,7 +42,7 @@ class SettingsFragment : Fragment() {
     private fun getRadioButton()
     {
         this.mView.settings_fragment_radio_group.setOnCheckedChangeListener {
-            group, checkedId ->
+            _, checkedId ->
             when (checkedId) {
             R.id.settings_fragment_dollar_radio_button -> currency = DOLLAR
             R.id.settings_fragment_euro_radio_button -> currency = EURO

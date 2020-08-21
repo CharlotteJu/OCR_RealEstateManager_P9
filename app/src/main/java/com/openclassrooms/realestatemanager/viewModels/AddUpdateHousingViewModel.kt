@@ -188,9 +188,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateAllPhoto(photoList: List<Photo>?, completeHousing: CompleteHousing)
     {
-        val test = photoList
-        val test2 = completeHousing.photoList
-
         if (photoList != null && completeHousing.photoList != null)
         {
             for (i in photoList)

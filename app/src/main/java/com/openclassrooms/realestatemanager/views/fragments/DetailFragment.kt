@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -67,9 +69,17 @@ class DetailFragment : BaseFragment() {
         return mView
     }
 
-    fun updateRef(ref : String)
+    fun updateRef(ref : String, context: Context)
     {
+
         this.ref = ref
+        this.onAttach(context)
+        this.getDataFromLiveData()
+
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
     }
 
     private fun getDataFromLiveData()

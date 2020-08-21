@@ -7,9 +7,6 @@ const val DOUBLE_00 = 0.0
 const val TYPE_POI = "type"
 const val IC_POI = "ic"
 
-const val IS_TABLET_SHARED_PREFERENCES : String = "IS_TABLET_SHARED_PREFERENCES"
-const val IS_TABLET_TAG : String = "IS_TABLET_TAG"
-
 const val DOLLAR = "$"
 const val EURO = "€"
 const val CURRENCY_SHARED_PREFERENCES : String = "CURRENCY_SHARED_PREFERENCES"

@@ -77,7 +77,8 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         else
        {
            val detailFragment = DetailFragment()
-           detailFragment.updateRef(this.mListHousing[position].housing.ref)
+           (activity as MainActivity).showDetailFragment() //TODO : Faire une méthode pour récupérer DetailFragment
+           detailFragment.updateRef(this.mListHousing[position].housing.ref, requireContext())
        }
 
     }
