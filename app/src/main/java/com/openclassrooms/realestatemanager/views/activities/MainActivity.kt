@@ -49,15 +49,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         mToolbar = findViewById(R.id.main_activity_toolbar)
         setSupportActionBar(mToolbar)
-        /*if (supportActionBar != null)
-        {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
-
-        mToolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
-        mToolbar.setNavigationOnClickListener {
-            this.onBackPressed()
-        }*/
     }
 
     private fun configureNavigationView()
@@ -76,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mNavigationController = findNavController(R.id.main_activity_navHost)
     }
 
-    fun configureTabMode()
+    private fun configureTabMode()
     {
         //isTablet = findViewById<View>(R.id.tabMode_detail_frame_layout) != null
         this.isTablet = resources.getBoolean(R.bool.isTablet)
@@ -93,7 +84,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-     fun showDetailFragment()
+    fun getDetailFragment() : DetailFragment?
+    {
+        return mDetailFragment
+    }
+
+    private fun showDetailFragment()
     {
         if (isTablet)
         {
@@ -132,21 +128,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId)
         {
             R.id.menu_drawer_home -> {
-                //this.showDetailFragment()
                 this.mNavigationController.navigate(R.id.listFragment)
             }
             R.id.menu_drawer_settings -> {
-                //this.hideDetailFragment()
                 this.mNavigationController.navigate(R.id.settingsFragment)
             }
             R.id.menu_drawer_add_housing -> {
-                //this.hideDetailFragment()
                 val bundle = Bundle()
                 bundle.putString(BUNDLE_REFERENCE, UUID.randomUUID().toString())
                 this.mNavigationController.navigate(R.id.addHousingFragment, bundle)
             }
             R.id.menu_drawer_add_estate_agent -> {
-               // this.hideDetailFragment()
                 this.mNavigationController.navigate(R.id.addEstateAgentFragment)
             }
         }
@@ -177,17 +169,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         else
         {
             super.onBackPressed()
-           /* val test = main_activity_navHost.childFragmentManager.fragments.get(1)
-            val test2 = ""
-            when (main_activity_navHost.childFragmentManager.fragments.get(2))
-            {
-                is ListFragment -> showDetailFragment()
-                is MapFragment -> showDetailFragment()
-                is AddEstateAgentFragment -> hideDetailFragment()
-                is AddHousingFragment -> hideDetailFragment()
-                is EditHousingFragment -> hideDetailFragment()
-                is SettingsFragment -> hideDetailFragment()
-            }*/
         }
     }
 

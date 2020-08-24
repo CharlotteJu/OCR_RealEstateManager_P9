@@ -64,10 +64,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     override fun onItemClick(position : Int)
     {
-        /*val bundle  = Bundle()
-        bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
-        findNavController().navigate(R.id.detailFragment, bundle)*/
-
        if (!this.getIsTabletFromSharedPreferences())
        {
            val bundle  = Bundle()
@@ -76,9 +72,8 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
        }
         else
        {
-           val detailFragment = DetailFragment()
-           (activity as MainActivity).showDetailFragment() //TODO : Faire une méthode pour récupérer DetailFragment
-           detailFragment.updateRef(this.mListHousing[position].housing.ref, requireContext())
+           val detailFragment = (activity as MainActivity).getDetailFragment()
+           detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
        }
 
     }

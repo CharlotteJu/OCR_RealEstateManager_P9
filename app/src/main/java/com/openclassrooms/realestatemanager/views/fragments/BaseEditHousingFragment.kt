@@ -55,8 +55,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
     protected var isInternetAvailable = false
 
-
-
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -260,11 +258,12 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     {
         if (address!!.street == STRING_EMPTY || address!!.city == STRING_EMPTY || address!!.country == STRING_EMPTY)
         {
+            //TODO : Refaire en dessous 
             address = null
-            if (address!!.street != STRING_EMPTY || address!!.city != STRING_EMPTY || address!!.country != STRING_EMPTY)
+            /*if (address!!.street != STRING_EMPTY || address!!.city != STRING_EMPTY || address!!.country != STRING_EMPTY)
             {
                 Toast.makeText(context, getString(R.string.toast_invalid_address), Toast.LENGTH_LONG).show()
-            }
+            }*/
         }
     }
 
@@ -426,6 +425,10 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             alertDialog.dismiss()
         }
         dialogLayout.dialog_photo_camera_button.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                UtilsPermissions.checkCameraPermission(requireActivity())
+                UtilsPermissions.checkWritePermission(requireActivity())
+            }
             this.openCamera()
             alertDialog.dismiss()
         }

@@ -39,6 +39,7 @@ class DetailFragment : BaseFragment() {
     private lateinit var mView : View
     private lateinit var notSpecify : String
     private lateinit var currency: String
+    private lateinit var snapHelper : LinearSnapHelper
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -58,6 +59,7 @@ class DetailFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_detail, container, false)
+        this.snapHelper = LinearSnapHelper()
 
         if (ref != null) this.getDataFromLiveData()
 
@@ -71,16 +73,11 @@ class DetailFragment : BaseFragment() {
 
     fun updateRef(ref : String, context: Context)
     {
-
         this.ref = ref
         this.onAttach(context)
         this.getDataFromLiveData()
-
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     private fun getDataFromLiveData()
     {
@@ -135,7 +132,6 @@ class DetailFragment : BaseFragment() {
             this.mView.detail_fragment_date_sale_txt.visibility = View.INVISIBLE
             this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
         }
-
     }
 
     private fun showAddress()
@@ -227,8 +223,7 @@ class DetailFragment : BaseFragment() {
             this.mView.detail_fragment_no_photo.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList)
-            val snapHelper = LinearSnapHelper()
-            snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
+            this.snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
             this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }

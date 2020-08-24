@@ -152,9 +152,18 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
                 this.mMap.setOnInfoWindowClickListener {
 
-                   val bundle = Bundle ()
-                    bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
-                    findNavController().navigate(R.id.detailFragment, bundle)
+                    if (!this.getIsTabletFromSharedPreferences())
+                    {
+                        val bundle = Bundle ()
+                        bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
+                        findNavController().navigate(R.id.detailFragment, bundle)
+                    }
+                    else
+                    {
+                        val detailFragment = (activity as MainActivity).getDetailFragment()
+                        detailFragment?.updateRef(it.tag.toString(), requireContext())
+                    }
+
                 }
 
                 this.mMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {

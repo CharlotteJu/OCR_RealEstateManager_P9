@@ -7,45 +7,80 @@ import android.database.Cursor
 import android.net.Uri
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.models.Housing
+import kotlinx.coroutines.runBlocking
 import java.lang.IllegalArgumentException
 
 class MyContentProvider : ContentProvider() {
 
-    private val authority = "com.openclassrooms.realestatemanager.providers"
-    private val tableName = CompleteHousing::class.java.simpleName
-    private val uri = Uri.parse("content://$authority/$tableName")
+    companion object{
+        val authority = "com.openclassrooms.realestatemanager.providers"
+        val tableName = Housing::class.java.simpleName
+        val uri = Uri.parse("content://$authority/$tableName")
+    }
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Not yet implemented")
+
+
+    override fun insert(uri: Uri, values: ContentValues?): Uri? = runBlocking {
+
+       if (context != null)
+       {
+           val id = values?.let { Housing.fromContentValues(it) }?.let { AppDatabase.getDatabase(context!!).housingDao().createHousing(it) }
+           if (id!= 0L && id != null)
+           {
+               context!!.contentResolver.notifyChange(uri, null)
+               return@runBlocking ContentUris.withAppendedId(uri, id)
+           }
+       }
+       throw IllegalArgumentException("Failed to insert uri : $uri")
     }
 
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        if (context != null)
+        return if (context != null)
         {
-            val reference = ContentUris.parseId(uri).toString()//TODO-Q : Récupérer String
-            val cursor = AppDatabase.getDatabase(context!!).housingDao().getCompleteHousingCursor(reference)
+            /*val index = ContentUris.parseId(uri)
+            val reference = ContentUris.withAppendedId(uri, index).toString()
+
+            val cursorHousing = AppDatabase.getDatabase(context!!).housingDao().getHousingWithCursor(reference)*/
+
+            val cursor = AppDatabase.getDatabase(context!!).housingDao().getAllHousingWithCursor()
             cursor.setNotificationUri(context!!.contentResolver, uri)
-            return cursor
+            cursor
         }
-        else return null
-
-       // throw object : IllegalArgumentException("FAILED TO QUERY ROW FOR URI $uri")//TODO-Q : Ne suffit pas sans else ?
-
+        else null
     }
 
     override fun onCreate(): Boolean {
        return true
     }
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("Not yet implemented")
-    }
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int = runBlocking {
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("Not yet implemented")
+        if (context != null) {
+            val count = values?.let { Housing.fromContentValues(it) }?.let { AppDatabase.getDatabase(context!!).housingDao().updateHousing(it) }
+            context!!.contentResolver.notifyChange(uri, null)
+            return@runBlocking count
+        }
+        throw IllegalArgumentException("Failed to update uri : $uri")
+    }!!
+
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int  {
+
+        if (context!= null)
+        {
+            val index = ContentUris.parseId(uri)
+            val reference = ContentUris.withAppendedId(uri, index).toString()
+
+            val cursor = AppDatabase.getDatabase(context!!).housingDao().getHousingWithCursor(reference)
+            //val count = AppDatabase.getDatabase(context!!).housingDao().deleteHousing()
+        }
+
+
+
+        throw IllegalArgumentException("Failed to delete uri : $uri")
     }
 
     override fun getType(uri: Uri): String? {
-        TODO("Not yet implemented")
+        return "vnd.android.cursor.item/$authority.$tableName"
     }
 }

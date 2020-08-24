@@ -54,7 +54,7 @@ class AppDatabaseTest
     private var photo = Photo("URI", null, reference)
     private var poi = Poi(typePoi, "IC")
     private var housingEstateAgent = HousingEstateAgent(reference, name)
-    private var housingPoi = HousingPoi(reference, typePoi, 2)
+    private var housingPoi = HousingPoi(reference, typePoi)
 
     @get:Rule var rule  = InstantTaskExecutorRule()
 
@@ -251,7 +251,7 @@ class AppDatabaseTest
         assertEquals(housingEstateAgentFromEstateAgentTest!![0], (housingEstateAgent))
     }
 
-    @Test
+    @Test //TODO : Changer pour POI
     @Throws(Exception::class)
     fun test7_createHousingPoiAndGetIt() = runBlocking {
 
@@ -280,11 +280,11 @@ class AppDatabaseTest
         assertEquals(housingPoiFromPoiTest!![0], housingPoi)
 
         //UPDATE
-        housingPoi.numberOfPoi = 10
+        /*housingPoi.numberOfPoi = 10
         housingPoiDAO.updateHousingPoi(housingPoi)
         val housingPoiUpdate = LiveDataTestUtil.getValue(housingPoiDAO.getHousingPoi(reference = reference, type = typePoi))
         assertNotSame(housingPoiUpdate, housingPoiFromPoiTest)
-        assertEquals(housingPoiUpdate, housingPoi)
+        assertEquals(housingPoiUpdate, housingPoi)*/
     }
 
 
