@@ -51,6 +51,14 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <!-- ADD ESTATE HOUSING FRAGMENT -->
+    <style name="add_estate_housing_title">
+        <item name="android:layout_marginTop">@dimen/add_housing_fragment_text_margin</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/add_estate_housing_fragment_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
     <!-- SETTINGS FRAGMENT -->
     <style name="settings_fragment_txt">
         <item name="android:layout_width">@dimen/constraint_width_0</item>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,7 @@ import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapte
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.add_housing_fragment_zipCode_editTxt
+import kotlinx.android.synthetic.main.progress_bar.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -43,6 +45,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        this.mView.progress_bar_layout.visibility = View.VISIBLE
+
         this.configureSpinnersEdit()
         this.getHousing()
 
@@ -58,8 +62,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     {
         this.checkAddress()
         context?.let {
-            //this.isInternetAvailable = Utils.isInternetAvailable(it)
-            this.isInternetAvailable = true
+            this.isInternetAvailable = Utils.isInternetAvailableGood(it)
             this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
     }
@@ -69,6 +72,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mViewModel.getCompleteHousing(housingReference).observe(this.viewLifecycleOwner, Observer {
             housingToCompare = it
             configureData()
+            this.mView.progress_bar_layout.visibility = View.GONE
         })
     }
 
@@ -156,20 +160,19 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
+        this.mView.add_housing_fragment_photo_image.isEnabled = false
 
         var description = STRING_EMPTY
         this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
 
         this.mView.add_housing_fragment_photo_button.setOnClickListener {
             val photo = Photo(photoToEdit.uri, description, housingReference)
-            photoList.set(position, photo)
+            photoList[position] = photo
             mAdapterPhotoAddRcv.updateList(photoList)
 
             //Clear photo and description
             this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
-
-            /* photoUri = STRING_EMPTY
-         description = STRING_EMPTY*/ //TODO-Q : Où est-ce que je peux clear ça ?
+            description = STRING_EMPTY
             this.mView.add_housing_fragment_image_description_editTxt.text.clear()
 
         }

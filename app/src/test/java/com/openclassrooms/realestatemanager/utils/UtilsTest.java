@@ -27,14 +27,16 @@ public class UtilsTest
     @Test
     public void convertDollarToEuroDouble_Success()
     {
-        double zero = Utils.convertDollarToEuroDouble(0); //TODO : Tester avec d'autres valeurs
-        assertEquals(0, zero, 0.0);
+        assertEquals(0.00, Utils.convertDollarToEuroDouble(0), 0.01);
+        assertEquals(81, Utils.convertDollarToEuroDouble(100), 0.01);
+        assertEquals(-81, Utils.convertDollarToEuroDouble(-100), 0.01);
     }
     @Test
     public void convertEuroToDollarDouble_Success()
     {
-        double zero = Utils.convertEuroToDollar(0);  //TODO : Tester avec d'autres valeurs
-        assertEquals(0, zero, 0.0);
+        assertEquals(0, Utils.convertEuroToDollarDouble(0), 0.01);
+        assertEquals(100, Utils.convertEuroToDollarDouble(81), 0.01);
+        assertEquals(-100, Utils.convertEuroToDollarDouble(-81), 0.01);
     }
     @Test
     public void getPriceString_Success()
@@ -51,7 +53,7 @@ public class UtilsTest
     {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
-        assertEquals("24/08/2020", Utils.getDateFormat(date));
+        assertEquals("25/08/2020", Utils.getDateFormat(date)); //Think to change with the date of today
     }
     @Test
     public void getTodayDateGood_Success()
@@ -72,7 +74,7 @@ public class UtilsTest
 
 
    @Test
-    public void connectivyManager()
+    public void isInternetAvailableGood_Success()
     {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isConnected()).thenReturn(true);

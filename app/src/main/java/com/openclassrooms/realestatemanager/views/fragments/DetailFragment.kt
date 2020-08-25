@@ -25,6 +25,7 @@ import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapte
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -59,9 +60,13 @@ class DetailFragment : BaseFragment() {
                               savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_detail, container, false)
+        this.mView.progress_bar.visibility = View.VISIBLE
+        this.mView.detail_fragment_edit_button.visibility = View.GONE
+
         this.snapHelper = LinearSnapHelper()
 
         if (ref != null) this.getDataFromLiveData()
+        else this.displayNoHousingSelected()
 
         mView.detail_fragment_edit_button.setOnClickListener {
             val bundle  = Bundle()
@@ -69,6 +74,16 @@ class DetailFragment : BaseFragment() {
             findNavController().navigate(R.id.editHousingFragment, bundle)
         }
         return mView
+    }
+
+    private fun displayNoHousingSelected()
+    {
+        if (ref == null)
+        {
+            this.mView.detail_fragment_scrool_view.visibility = View.GONE
+            this.mView.progress_bar_layout.visibility = View.INVISIBLE
+            this.mView.detail_fragment_edit_button.visibility = View.GONE
+        }
     }
 
     fun updateRef(ref : String, context: Context)
@@ -84,6 +99,11 @@ class DetailFragment : BaseFragment() {
         mViewModel.getCompleteHousing(ref!!).observe(viewLifecycleOwner, Observer {
                 housing = it
                 showDesign()
+                this.mView.detail_fragment_no_housing_txt.visibility = View.GONE
+                this.mView.detail_fragment_scrool_view.visibility = View.VISIBLE
+                this.mView.detail_fragment_edit_button.visibility = View.VISIBLE
+                this.mView.progress_bar_layout.visibility = View.INVISIBLE
+
         })
     }
 

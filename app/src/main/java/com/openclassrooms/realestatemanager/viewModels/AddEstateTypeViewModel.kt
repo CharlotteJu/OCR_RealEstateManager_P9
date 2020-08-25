@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.models.Poi
 import com.openclassrooms.realestatemanager.repositories.EstateAgentRepository
 import com.openclassrooms.realestatemanager.repositories.PoiRepository
+import kotlinx.coroutines.launch
 
 /**
  * View Model to add [EstateAgent] and types of [Poi] --> AddEstateAgentFragment
@@ -15,15 +17,29 @@ class AddEstateTypeViewModel (private val estateAgentRepository: EstateAgentRepo
 {
     //////////////////// CREATE ////////////////////
 
-    suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgent(estateAgent)
+    private suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgent(estateAgent)
 
-    suspend fun createPoi(poi: Poi) = this.poiRepository.createPoi(poi)
+    private suspend fun createPoi(poi: Poi) = this.poiRepository.createPoi(poi)
+
+    fun createGlobalEstateAgent(estateAgent: EstateAgent)
+    {
+        viewModelScope.launch {
+            createEstateAgent(estateAgent)
+        }
+    }
 
 
     //////////////////// UPDATE ////////////////////
 
 
-    suspend fun updateEstateAgent(estateAgent: EstateAgent) = this.estateAgentRepository.updateEstateAgent(estateAgent)
+    private suspend fun updateEstateAgent (estateAgent: EstateAgent) = this.estateAgentRepository.updateEstateAgent(estateAgent)
 
-    suspend fun updatePoi(poi: Poi) = this.poiRepository.updatePoi(poi)
+    private suspend fun updatePoi(poi: Poi) = this.poiRepository.updatePoi(poi)
+
+    fun updateGlobalEstateAgent(estateAgent: EstateAgent)
+    {
+        viewModelScope.launch {
+            updateEstateAgent(estateAgent)
+        }
+    }
 }

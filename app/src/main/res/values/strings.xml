@@ -44,11 +44,18 @@
     <string name="gallery">GALLERY</string>
     <string name="camera">CAMERA</string>
 
+    <!-- Add Estate Housing Fragment -->
+    <string name="last_name">LAST NAME</string>
+    <string name="first_name">FIRST NAME</string>
+    <string name="email">EMAIL</string>
+    <string name="phone_number">PHONE NUMBER</string>
+
     <!-- DetailFragment -->
     <string name="housing_add_on">Housing add on : </string>
     <string name="sold_on">Sold on : </string>
     <string name="no_photo">No photo</string>
     <string name="type">TYPE</string>
+    <string name="no_housing_selected">No Housing Selected</string>     <!-- TODO : Vérif traduc -->
 
     <!-- Poi Type -->
     <string name="restaurant">restaurant</string>

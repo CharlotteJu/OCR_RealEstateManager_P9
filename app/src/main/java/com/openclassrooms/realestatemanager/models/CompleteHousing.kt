@@ -35,7 +35,7 @@ data class CompleteHousing (@Embedded var housing: Housing,
             if (contentValues.containsKey("zip_code")) address.zipCode = contentValues.getAsInteger("zip_code")
             if (contentValues.containsKey("city")) address.city = contentValues.getAsString("city")
             if (contentValues.containsKey("country")) address.country = contentValues.getAsString("country")
-            if (contentValues.containsKey("housing_reference")) address.housingReference = contentValues.getAsString("housing_reference") //TODO : Housing_reference pour plusieurs objets ?
+            if (contentValues.containsKey("housing_reference")) address.housingReference = contentValues.getAsString("housing_reference")
 
             val poi = HousingPoi()
             if (contentValues.containsKey("poi_type")) poi.poiType = contentValues.getAsString("poi_type")

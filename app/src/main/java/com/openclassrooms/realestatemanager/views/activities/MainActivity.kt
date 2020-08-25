@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.views.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,13 +12,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.views.fragments.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import java.util.*
 
@@ -71,7 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         //isTablet = findViewById<View>(R.id.tabMode_detail_frame_layout) != null
         this.isTablet = resources.getBoolean(R.bool.isTablet)
-        mNavigationController.addOnDestinationChangedListener { controller, destination, _ ->
+        mNavigationController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id)
             {
                 R.id.listFragment -> showDetailFragment()
@@ -93,13 +89,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         if (isTablet)
         {
-            if (findViewById<View>(R.id.tabMode_detail_frame_layout) != null)
+            if (findViewById<View>(R.id.tabMode_detail_fragment_container) != null)
             {
                 mDetailFragment = DetailFragment()
-                val param = mView.tabMode_detail_frame_layout.layoutParams as LinearLayout.LayoutParams
+                val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
                 param.weight = 50f
-                supportFragmentManager.beginTransaction().replace(R.id.tabMode_detail_frame_layout, mDetailFragment!!).commit()
-                mView.tabMode_detail_frame_layout.layoutParams = param
+                supportFragmentManager.beginTransaction().replace(R.id.tabMode_detail_fragment_container, mDetailFragment!!).commit()
+                mView.tabMode_detail_fragment_container.layoutParams = param
 
             }
         }
@@ -113,11 +109,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (supportFragmentManager.findFragmentById(R.id.listFragment) == null && supportFragmentManager.findFragmentById(R.id.map) == null && mDetailFragment != null)
             {
                 //supportFragmentManager.beginTransaction().detach(mDetailFragment!!)
-                if (mView.tabMode_detail_frame_layout != null)
+                if (mView.tabMode_detail_fragment_container != null)
                 {
-                    val param = mView.tabMode_detail_frame_layout.layoutParams as LinearLayout.LayoutParams
+                    val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
                     param.weight = 0f
-                    mView.tabMode_detail_frame_layout.layoutParams = param
+                    mView.tabMode_detail_fragment_container.layoutParams = param
                 }
             }
         }

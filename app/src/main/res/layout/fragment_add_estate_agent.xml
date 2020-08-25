@@ -4,18 +4,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="24dp"
     tools:context=".views.fragments.AddEstateAgentFragment">
 
 
     <TextView
-        android:layout_width="0dp"
+        android:id="@+id/add_estate_agent_last_name_txt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="48sp"
-        android:text="ADD ESTATE AGENT"
-        android:textAlignment="center"
+        style="@style/add_estate_housing_title"
+        android:text="@string/last_name"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/add_estate_agent_last_name_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_last_name_txt"/>
+
+    <TextView
+        android:id="@+id/add_estate_agent_first_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/add_estate_housing_title"
+        android:text="@string/first_name"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_last_name_edit_txt"/>
+
+    <EditText
+        android:id="@+id/add_estate_agent_first_name_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_first_name_txt"/>
+
+    <TextView
+        android:id="@+id/add_estate_agent_email_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/add_estate_housing_title"
+        android:text="@string/email"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_first_name_edit_txt"/>
+
+    <EditText
+        android:id="@+id/add_estate_agent_email_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_email_txt"/>
+
+    <TextView
+        android:id="@+id/add_estate_agent_phone_number_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/add_estate_housing_title"
+        android:text="@string/phone_number"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_email_edit_txt"/>
+
+    <EditText
+        android:id="@+id/add_estate_agent_phone_number_edit_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_txt"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        app:fabSize="mini"
+        android:src="@drawable/ic_baseline_add_48"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_marginBottom="@dimen/add_estate_housing_fragment_fab_margin"
+        android:layout_marginEnd="@dimen/add_estate_housing_fragment_fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

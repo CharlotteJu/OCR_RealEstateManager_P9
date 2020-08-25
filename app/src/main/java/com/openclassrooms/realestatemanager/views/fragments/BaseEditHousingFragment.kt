@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -44,7 +45,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
     protected var address : Address? = null
     protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    private var photoUri : Uri? = null
+    protected var photoUri : Uri? = null
 
     protected var photoList : MutableList<Photo> = ArrayList()
 
@@ -258,12 +259,11 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     {
         if (address!!.street == STRING_EMPTY || address!!.city == STRING_EMPTY || address!!.country == STRING_EMPTY)
         {
-            //TODO : Refaire en dessous 
-            address = null
-            /*if (address!!.street != STRING_EMPTY || address!!.city != STRING_EMPTY || address!!.country != STRING_EMPTY)
+            if (address!!.street != STRING_EMPTY || address!!.city != STRING_EMPTY || address!!.country != STRING_EMPTY)
             {
                 Toast.makeText(context, getString(R.string.toast_invalid_address), Toast.LENGTH_LONG).show()
-            }*/
+            }
+            address = null
         }
     }
 
@@ -315,18 +315,18 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
 
         this.mView.add_housing_fragment_photo_button.setOnClickListener{
-            if (photoUri != null)
+            if (photoUri != null && photoUri != STRING_EMPTY.toUri())
             {
-                var photo = Photo(photoUri!!.toString(), description, housingReference)
+                val photo = Photo(photoUri!!.toString(), description, housingReference)
+                //val photoCopy = photo.copy()
                 photoList.add(photo)
-                photo = photo.copy() //TODO : Regarder pour clear
                 mAdapterPhotoAddRcv.updateList(photoList)
 
                 //Clear photo and description
                 this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
 
-                 /*photoUri = STRING_EMPTY
-                 description = STRING_EMPTY*/ //TODO-Q : Où est-ce que je peux clear ça ?
+                 photoUri = STRING_EMPTY.toUri()
+                 description = STRING_EMPTY
                 this.mView.add_housing_fragment_image_description_editTxt.text.clear()
             }
             else

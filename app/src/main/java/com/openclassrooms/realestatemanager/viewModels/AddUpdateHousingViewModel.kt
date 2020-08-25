@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.repositories.*
@@ -55,7 +53,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun configurePoi(ref : String, location: String, context: Context, key : String)
     {
-        val listTypePoi = UtilsKotlin.getListTypePo(context) //TODO : Ok ? Sinon LiveData -> .observe dans VM ?
+        val listTypePoi = UtilsKotlin.getListTypePoi(context)
         val listPoiPlaces = getPoi(location, 500, key).results
 
         for (type in listTypePoi)
@@ -147,7 +145,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun updateGlobalAddress(address: Address?, completeHousing: CompleteHousing, context: Context, ref : String, isInternetAvailable: Boolean, key: String)
     {
-        if (address != null)
+       if (address != null)
         {
             if (completeHousing.address != null && address != completeHousing.address) {
 

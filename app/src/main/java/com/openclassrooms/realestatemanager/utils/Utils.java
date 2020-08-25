@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,10 +47,13 @@ public class Utils {
      */
     public static Double convertDollarToEuroDouble(double dollars)
     {
+       /* DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        double result = dollars * 0.812;
+        String resultString = decimalFormat.format(result);
+        return Double.valueOf(resultString);*/
         return (double) Math.round(dollars * 0.812);
+
     }
-
-
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -128,7 +132,7 @@ public class Utils {
         else
         {
             NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET); //TODO : OK ?
+            return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
         }
     }
 

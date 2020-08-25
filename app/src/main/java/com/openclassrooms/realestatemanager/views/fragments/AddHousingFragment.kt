@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -35,6 +36,7 @@ import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -47,6 +49,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
                               savedInstanceState: Bundle?): View?
     {
         super.onCreateView(inflater, container, savedInstanceState)
+        this.mView.progress_bar_layout.visibility = View.GONE
         this.configureSpinners()
         this.mView.add_housing_fragment_final_button.setOnClickListener{
             this.addFinal()
@@ -61,7 +64,6 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         context?.let {
             this.isInternetAvailable = Utils.isInternetAvailableGood(it)
-           // this.isInternetAvailable = true //TODO-Q : Pourquoi ça renvoie false ?
             this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
 
@@ -91,7 +93,21 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
-        this.photoList.set(position, photoToEdit)
+        this.mView.add_housing_fragment_photo_image.isEnabled = false
+        var description = STRING_EMPTY
+
+        this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
+
+        this.mView.add_housing_fragment_photo_button.setOnClickListener {
+            val photo = Photo(photoToEdit.uri, description, housingReference)
+            photoList[position] = photo
+            mAdapterPhotoAddRcv.updateList(photoList)
+            //Clear photo and description
+            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+            description = STRING_EMPTY
+            this.mView.add_housing_fragment_image_description_editTxt.text.clear()
+
+        }
     }
 
     override fun onClickDeletePhoto(position: Int) {

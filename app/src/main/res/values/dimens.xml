@@ -18,6 +18,11 @@
     <dimen name="add_housing_fragment_spinner_width_little">80dp</dimen>
     <dimen name="add_housing_fragment_edit_text_height">40dp</dimen>
 
+    <!-- ADD ESTATE HOUSING FRAGMENT -->
+    <dimen name="add_estate_housing_fragment_text_size">24sp</dimen>
+    <dimen name="add_estate_housing_fragment_text_margin">48dp</dimen>
+    <dimen name="add_estate_housing_fragment_fab_margin">16dp</dimen>
+
     <!-- ITEM HOUSING -->
     <dimen name="item_housing_text_type_size">16sp</dimen>
     <dimen name="item_housing_text_district_size">16sp</dimen>
@@ -53,6 +58,7 @@
     <dimen name="detail_fragment_rcv_estate_agent_size">380dp</dimen>
     <dimen name="detail_fragment_rcv_photo_size">320dp</dimen>
     <dimen name="detail_fragment_map_image_size">260dp</dimen>
+    <dimen name="detail_fragment_no_housing_txt_size">64sp</dimen>
 
     <!-- SETTINGS FRAGMENT -->
     <dimen name="settings_fragment_text_size">16sp</dimen>

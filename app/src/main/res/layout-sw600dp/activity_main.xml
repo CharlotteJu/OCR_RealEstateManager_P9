@@ -49,8 +49,8 @@ tools:openDrawer="start">
             app:backgroundTint="@color/colorPrimary"/>
 
 
-        <FrameLayout
-            android:id="@+id/tabMode_detail_frame_layout"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/tabMode_detail_fragment_container"
             android:layout_weight="50"
             android:layout_width="0dp"
             android:layout_height="match_parent"/>
