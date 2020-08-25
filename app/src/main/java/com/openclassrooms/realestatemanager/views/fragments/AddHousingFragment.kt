@@ -58,6 +58,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
         return mView
     }
 
+
     private fun addFinal()
     {
         this.checkAddress()
@@ -73,7 +74,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
     override fun onClickDeleteEstateAgent(position: Int) {
         if (estateAgentList.size <= 1)
         {
-            photoList.clear()
+            estateAgentList.clear()
         }
         else
         {

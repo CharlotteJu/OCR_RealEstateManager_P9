@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="24dp"
+    android:padding="@dimen/add_estate_housing_fragment_container_padding"
     tools:context=".views.fragments.AddEstateAgentFragment">
 
 
@@ -71,7 +71,28 @@
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
         app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_txt"/>
 
+    <View
+        android:id="@+id/add_estate_agent_separator_view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="@dimen/add_estate_housing_fragment_view_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_edit_txt"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/add_estate_agent_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="272dp"
+        tools:listitem="@layout/item_estate_agent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_separator_view"/>
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_estate_agent_add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
@@ -82,6 +103,7 @@
         android:layout_marginEnd="@dimen/add_estate_housing_fragment_fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

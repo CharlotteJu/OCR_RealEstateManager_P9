@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/item_estate_agent_name"
@@ -12,7 +13,7 @@
         android:layout_marginBottom="@dimen/item_estate_agent_margin"
         android:layout_marginStart="@dimen/item_estate_agent_margin"
         android:textSize="@dimen/item_estate_agent_text_size"
-        android:text="NAME"
+        tools:text="NAME"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +27,16 @@
         app:backgroundTint="@android:color/transparent"
         android:layout_marginEnd="@dimen/item_estate_agent_margin"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/item_estate_agent_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_edit_24"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@id/item_estate_agent_delete_button"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

@@ -15,6 +15,13 @@ class AddEstateTypeViewModel (private val estateAgentRepository: EstateAgentRepo
                               private val poiRepository: PoiRepository)
                                 : ViewModel()
 {
+
+    //////////////////// GET ////////////////////
+
+    fun getAllEstateAgent() = this.estateAgentRepository.getAllEstateAgent()
+
+    fun getEstateAgent(lastName : String) = this.estateAgentRepository.getEstateAgent(lastName)
+
     //////////////////// CREATE ////////////////////
 
     private suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgent(estateAgent)

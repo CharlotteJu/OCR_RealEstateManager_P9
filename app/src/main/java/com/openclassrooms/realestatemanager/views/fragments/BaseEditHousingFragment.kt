@@ -45,7 +45,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected lateinit var mAdapterPhotoAddRcv : ListPhotoAddAdapter
     protected var address : Address? = null
     protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
-    protected var photoUri : Uri? = null
+    private var photoUri : Uri? = null
 
     protected var photoList : MutableList<Photo> = ArrayList()
 
