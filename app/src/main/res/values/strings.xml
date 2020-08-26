@@ -77,9 +77,20 @@
     <!-- Notification -->
     <string name="notification_housing_add">Added successfully !</string>
 
+    <!-- Menu Drawer -->
+    <string name="home">HOME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="add_housing">ADD HOUSING</string>
+    <string name="manage_estate_agent">MANAGE ESTATE AGENT</string>
+
     <!-- Toast -->
     <string name="toast_no_photo">You have not add photo</string>
     <string name="toast_invalid_address">Invalid address</string>
+    <string name="toast_estate_agent_same_name">An Estate Agent has already the same last name</string>
+    <string name="toast_estate_agent_no_name">Please put the last name</string>
+    <string name="toast_internet_no_available">Internet no available</string>
+
+
 
 
 

@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
@@ -13,6 +16,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -94,18 +98,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
 
             }
-        }
-    }
-
-    private fun test()
-    {
-        if (this.requireActivity() == MainActivity::class.java)
-        {
-            this.requireActivity().main_activity_toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
-            this.requireActivity().main_activity_toolbar.setNavigationOnClickListener {
-                this.requireActivity().onBackPressed()
-            }
-
         }
     }
 
@@ -207,8 +199,14 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun fetchLocation()
     {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
-
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (requireActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED)
+            {
+                val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+                requireActivity().requestPermissions(permissions, LOCATION_PERMISSION_CODE)
+            }
+        }
         val task = mFusedLocationClient.lastLocation
         task.addOnSuccessListener {
             if (it != null) {
@@ -218,36 +216,48 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                     addMarker(MarkerOptions().position(marker))
                     moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
                 }
-            } else
-            {
-                val locationManager : LocationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
+            } else {
+                val locationManager: LocationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
 
-                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-                {
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
                     this.fetchLocation()
-                }
-                else
-                {
-                   locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
-                       override fun onLocationChanged(location: Location?) {
-                           mCurrentLocation = location
-                           mMap.apply {
-                               val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-                               addMarker(MarkerOptions().position(marker))
-                               moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-                           }
-                       }
+                } else {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0f, object : LocationListener {
+                        override fun onLocationChanged(location: Location?) {
+                            mCurrentLocation = location
+                            mMap.apply {
+                                val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
+                                addMarker(MarkerOptions().position(marker))
+                                moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
+                            }
+                        }
 
-                       override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+                        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
 
-                       override fun onProviderEnabled(provider: String?) {}
+                        override fun onProviderEnabled(provider: String?) {}
 
-                       override fun onProviderDisabled(provider: String?) {}
-                   })
+                        override fun onProviderDisabled(provider: String?) {}
+                    })
                 }
             }
         }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == LOCATION_PERMISSION_CODE && resultCode == Activity.RESULT_OK) //TODO-Q : Pourquoi je n'arrive pas ici ?
+        {
+            this.fetchLocation()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_CODE)
+        {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) fetchLocation()
+        }
     }
 }

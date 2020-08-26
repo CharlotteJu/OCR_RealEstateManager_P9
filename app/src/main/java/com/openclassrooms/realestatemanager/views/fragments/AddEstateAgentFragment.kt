@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
@@ -22,19 +23,14 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
 
     private lateinit var mView: View
     private lateinit var mAdapter: ListEstateAgentAddAdapter
+    private val mViewModel : AddEstateTypeViewModel by viewModel()
+
     private var lastName : String? = null
     private var firstName : String? = null
     private var email : String? = null
     private var phoneNumber : String? = null
     private var listEstateAgent : MutableList<EstateAgent> = ArrayList()
 
-    private val mViewModel : AddEstateTypeViewModel by viewModel()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,19 +40,22 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         this.getInfo()
         this.configureRecyclerView()
 
+        this.mView.add_estate_agent_add_fab.setOnClickListener { this.addEstateAgent()}
 
-        this.mView.add_estate_agent_add_fab.setOnClickListener {
-            this.addEstateAgent()
-        }
         return this.mView
     }
 
     private fun addEstateAgent()
     {
-        if (lastName != null)
+        if (this.isLastNameNotNull())
         {
-            val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
-            this.mViewModel.createGlobalEstateAgent(estateAgent)
+            if ((!listEstateAgent.isNullOrEmpty() && !listEstateAgent.contains(EstateAgent(lastName!!))) || listEstateAgent.isNullOrEmpty())
+            {
+                val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
+                this.mViewModel.createGlobalEstateAgent(estateAgent)
+                this.resetViews()
+            }
+            else Toast.makeText(context, getString(R.string.toast_estate_agent_same_name), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -66,6 +65,16 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
             listEstateAgent = it as MutableList<EstateAgent>
             mAdapter.updateList(listEstateAgent)
         })
+    }
+
+    private fun isLastNameNotNull() : Boolean
+    {
+        return if (lastName != null && lastName != STRING_EMPTY) true
+        else
+        {
+            Toast.makeText(context, getString(R.string.toast_estate_agent_no_name), Toast.LENGTH_LONG).show()
+            false
+        }
     }
 
 
@@ -84,17 +93,17 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         this.mView.add_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
     }
 
-    fun chargeInfoToEdit()
+    private fun resetViews()
     {
-
+        this.mView.add_estate_agent_last_name_edit_txt.setText(STRING_EMPTY)
+        this.mView.add_estate_agent_first_name_edit_txt.setText(STRING_EMPTY)
+        this.mView.add_estate_agent_email_edit_txt.setText(STRING_EMPTY)
+        this.mView.add_estate_agent_phone_number_edit_txt.setText(STRING_EMPTY)
     }
 
 
     override fun onClickDeleteEstateAgent(position: Int) {
-        if (listEstateAgent.size <= 1)
-        {
-            listEstateAgent.clear()
-        }
+        if (listEstateAgent.size <= 1) listEstateAgent.clear()
         else
         {
             val estateAgentToDelete = this.listEstateAgent[position]
@@ -103,13 +112,6 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         this.mAdapter.updateList(listEstateAgent)
     }
 
-    override fun onClickEditPhoto(position: Int) {
-        //No useful here
-    }
-
-    override fun onClickDeletePhoto(position: Int) {
-        //No useful here
-    }
 
     override fun onClickEditEstateAgent(position: Int) {
         val estateAgentToEdit = this.listEstateAgent[position]
@@ -121,18 +123,27 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
 
         this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_save_24)
         this.mView.add_estate_agent_add_fab.setOnClickListener {
-            if (lastName != null)
+            if (this.isLastNameNotNull())
             {
-                val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
-                this.mViewModel.updateGlobalEstateAgent(estateAgent)
-                this.mView.add_estate_agent_last_name_edit_txt.setText(STRING_EMPTY)
-                this.mView.add_estate_agent_first_name_edit_txt.setText(STRING_EMPTY)
-                this.mView.add_estate_agent_email_edit_txt.setText(STRING_EMPTY)
-                this.mView.add_estate_agent_phone_number_edit_txt.setText(STRING_EMPTY)
-                this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_48)
+                //To check if this PK is not assigned for another Estate Agent
+                val listTemp = listEstateAgent.toMutableList()
+                listTemp.removeAt(position)
+
+                if (!listTemp.contains(EstateAgent(lastName!!)))
+                {
+                    val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
+                    this.mViewModel.updateGlobalEstateAgent(estateAgent)
+                    this.resetViews()
+                    this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_48)
+                }
+                else Toast.makeText(context, getString(R.string.toast_estate_agent_same_name), Toast.LENGTH_LONG).show()
             }
         }
     }
+
+    override fun onClickEditPhoto(position: Int) {/*No useful here*/ }
+
+    override fun onClickDeletePhoto(position: Int) {/*No useful here*/ }
 
 
 }

@@ -10,22 +10,22 @@
         <item
             android:id="@+id/menu_drawer_home"
             android:icon="@drawable/ic_baseline_home_24"
-            android:title="HOME"/>
+            android:title="@string/home"/>
 
         <item
             android:id="@+id/menu_drawer_settings"
             android:icon="@drawable/ic_baseline_settings_24"
-            android:title="SETTINGS"/>
+            android:title="@string/settings"/>
 
         <item
             android:id="@+id/menu_drawer_add_housing"
             android:icon="@drawable/ic_baseline_add_circle_24"
-            android:title="ADD HOUSING"/>
+            android:title="@string/add_housing"/>
 
         <item
             android:id="@+id/menu_drawer_add_estate_agent"
             android:icon="@drawable/ic_baseline_person_add_24"
-            android:title="ADD ESTATE AGENT"/>
+            android:title="@string/manage_estate_agent"/>
 
     </group>
 

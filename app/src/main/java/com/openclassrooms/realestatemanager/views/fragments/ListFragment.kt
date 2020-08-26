@@ -1,10 +1,13 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
 import android.app.Notification
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +15,8 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.UtilsPermissions
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
@@ -48,7 +53,8 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         })
         this.configRecyclerView()
         this.mView.list_fragment_map_fab.setOnClickListener {
-            findNavController().navigate(R.id.mapFragment)
+            if (Utils.isInternetAvailableGood(context)) findNavController().navigate(R.id.mapFragment)
+            else Toast.makeText(context, getString(R.string.toast_internet_no_available), Toast.LENGTH_LONG).show()
         }
 
         return mView
@@ -75,7 +81,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
            val detailFragment = (activity as MainActivity).getDetailFragment()
            detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
        }
-
     }
 
     override fun onClickDeleteHousing(position: Int)
@@ -86,7 +91,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mAdapter.updateList(mListHousing)
 
     }
-
 }
 
 

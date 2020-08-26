@@ -13,6 +13,13 @@ data class EstateAgent constructor(@PrimaryKey @ColumnInfo(name = "last_name") v
                                    @ColumnInfo (name = "email") var email: String? = null,
                                    @ColumnInfo (name = "phone_number") var phoneNumber : String? = null)
 {
+    override fun equals(other: Any?): Boolean {
+        if (other is EstateAgent)
+        {
+            return (other.lastName == this.lastName)
+        }
+        else return false
+    }
 
     companion object {
         fun fromContentValues(contentValues: ContentValues) : EstateAgent

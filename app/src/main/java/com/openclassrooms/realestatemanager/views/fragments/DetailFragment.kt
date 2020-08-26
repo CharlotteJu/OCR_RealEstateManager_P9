@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.views.fragments
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -240,6 +241,7 @@ class DetailFragment : BaseFragment() {
     {
         if (!housing.photoList.isNullOrEmpty())
         {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
             this.mView.detail_fragment_no_photo.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList)

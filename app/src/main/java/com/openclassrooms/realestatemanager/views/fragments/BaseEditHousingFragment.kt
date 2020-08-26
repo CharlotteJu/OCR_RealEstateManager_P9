@@ -421,6 +421,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         val alertDialog : AlertDialog = dialogBuilder.show()
 
         dialogLayout.dialog_photo_gallery_button.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                UtilsPermissions.checkReadPermission(requireActivity())
+            }
             this.pickImageFromGallery()
             alertDialog.dismiss()
         }
