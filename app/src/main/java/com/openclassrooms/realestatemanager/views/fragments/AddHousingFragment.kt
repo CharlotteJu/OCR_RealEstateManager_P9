@@ -65,6 +65,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         context?.let {
             this.isInternetAvailable = Utils.isInternetAvailableGood(it)
+            this.housing.onFirestore = false
             this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
 

@@ -1,6 +1,10 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Query
+import com.openclassrooms.realestatemanager.api.CompleteHousingHelper
 import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.models.CompleteHousing
@@ -28,5 +32,28 @@ class HousingRepository(private val housingDao : HousingDAO)
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingDao.getCompleteHousing(reference)
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingDao.getAllCompleteHousing()
+
+
+    //////////////// FIRESTORE ////////////////
+
+    fun getListCompleteHousingFromFirestore() : Query
+    {
+        return CompleteHousingHelper.getListCompleteHousingFromFirestore()
+    }
+
+    fun getCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<DocumentSnapshot>
+    {
+        return CompleteHousingHelper.getCompleteHousingFromFirestore(completeHousing)
+    }
+
+    fun createCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<Void>
+    {
+        return CompleteHousingHelper.createCompleteHousingFromFirestore(completeHousing)
+    }
+
+    fun deleteCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<Void>
+    {
+        return CompleteHousingHelper.deleteCompleteHousingFromFirestore(completeHousing)
+    }
 
 }

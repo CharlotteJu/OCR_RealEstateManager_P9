@@ -1,8 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.app.Notification
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,10 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.utils.UtilsPermissions
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
@@ -50,6 +45,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mAdapter.updateList(it)
             mListHousing = it as MutableList<CompleteHousing>
+            if (Utils.isInternetAvailableGood(context)) this.syncDataWithFirestore()
         })
         this.configRecyclerView()
         this.mView.list_fragment_map_fab.setOnClickListener {
@@ -66,6 +62,14 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency)
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun syncDataWithFirestore()
+    {
+        this.mViewModel.getListCompleteHousingLiveData(mListHousing).observe(this.viewLifecycleOwner, Observer {
+            mListHousing = it as MutableList<CompleteHousing>
+            this.mAdapter.updateList(it)
+        })
     }
 
     override fun onItemClick(position : Int)

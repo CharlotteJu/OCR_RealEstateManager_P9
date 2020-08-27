@@ -63,7 +63,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.checkAddress()
         context?.let {
             this.isInternetAvailable = Utils.isInternetAvailableGood(it)
-            this.mViewModel.updateGlobalHousing(housingToCompare ,housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
+            this.mViewModel.updateGlobalHousing(housingToCompare, housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
     }
 

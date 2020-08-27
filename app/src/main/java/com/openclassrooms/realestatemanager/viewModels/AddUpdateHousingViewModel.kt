@@ -163,6 +163,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                     if (isInternetAvailable) configurePoi(ref, location, context, key)
                 }
             }
+            else if (completeHousing.address == null) createAddress(address)
         }
 
         else if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
@@ -180,6 +181,20 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             for (i in completeHousing.estateAgentList!!)
             {
                 if (!estateAgentList.contains(i)) deleteHousingEstateAgent(i)
+            }
+        }
+        else if (estateAgentList == null && !completeHousing.estateAgentList.isNullOrEmpty())
+        {
+            for (i in completeHousing.estateAgentList!!)
+            {
+                deleteHousingEstateAgent(i)
+            }
+        }
+        else if (completeHousing.estateAgentList == null && !estateAgentList.isNullOrEmpty())
+        {
+            for (i in estateAgentList)
+            {
+                createHousingEstateAgent(i)
             }
         }
     }
@@ -237,7 +252,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (housing.ref == completeHousing.housing.ref)
             {
-                if (housing != completeHousing.housing) updateHousing(housing)
+                if (housing != completeHousing.housing)
+                {
+                    housing.onFirestore = false
+                    updateHousing(housing)
+                }
                 updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
                 updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
                 updateAllPhoto(photoList, completeHousing)

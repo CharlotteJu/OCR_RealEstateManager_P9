@@ -13,6 +13,9 @@ data class CompleteHousing (@Embedded var housing: Housing,
                             @Relation(parentColumn = "reference", entityColumn = "housing_reference") var estateAgentList: List<HousingEstateAgent>? = null,
                             @Relation(parentColumn = "reference", entityColumn = "housing_reference") var poiList : List<HousingPoi>? = null)
 {
+
+    constructor() : this(Housing())
+
     companion object {
         fun fromContentValues(contentValues: ContentValues) : CompleteHousing
         {
