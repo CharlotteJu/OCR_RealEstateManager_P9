@@ -31,7 +31,7 @@ interface HousingDAO {
     fun getCompleteHousing(reference: String): LiveData<CompleteHousing>
 
 
-    @Transaction
+    /*@Transaction
     @Query("""
         SELECT * FROM housing, housing_poi, housing_estate_agent, address, photo 
         WHERE 
@@ -72,16 +72,16 @@ interface HousingDAO {
 
     @Transaction
     @Query("""
-        SELECT * FROM housing 
-        WHERE 
-        type = :type   
-        AND price BETWEEN :priceLower AND :priceHigher 
-        AND area BETWEEN :areaLower AND :areaHigher 
-        AND rooms BETWEEN :roomLower AND :roomHigher 
+        SELECT * FROM housing
+        WHERE
+        type = :type
+        AND price BETWEEN :priceLower AND :priceHigher
+        AND area BETWEEN :areaLower AND :areaHigher
+        AND rooms BETWEEN :roomLower AND :roomHigher
         AND bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher
         AND bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher
         AND state = :state
-        AND dateEntry 
+        AND dateEntry
         AND dateSale
         """)
     fun getListHousingFilter(type : String? = null,
@@ -100,33 +100,33 @@ interface HousingDAO {
                              dateSale : String? = null): LiveData<List<CompleteHousing>>
 
     @Query("""
-        SELECT * FROM address 
-        WHERE 
+        SELECT * FROM address
+        WHERE
         city LIKE lower(:city)
         AND country = :country
         """)
     fun getListAddressFilter(city : String? = null, country : String? = null): LiveData<List<Address>>
 
     @Query("""
-        SELECT * FROM housing_poi 
-        WHERE 
+        SELECT * FROM housing_poi
+        WHERE
         poi_type = :typePoi
         """)
     fun getListPoiFilter(typePoi : String? = null) : LiveData<List<HousingPoi>>
 
     @Query("""
         SELECT * FROM housing, photo
-        WHERE 
+        WHERE
         uri = housing_reference
         """)
     fun getListPhotoFilter(numberPhotos: Int?): LiveData<List<Photo>>
 
     @Query("""
         SELECT * FROM housing_estate_agent
-        WHERE 
+        WHERE
         estate_agent_name = :estateAgent
         """)
-    fun getListEstateAgentFilter(estateAgent : String? = null) : LiveData<List<HousingEstateAgent>>
+    fun getListEstateAgentFilter(estateAgent : String? = null) : LiveData<List<HousingEstateAgent>>*/
 
 
 

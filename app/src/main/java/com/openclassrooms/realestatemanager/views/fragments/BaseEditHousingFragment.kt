@@ -81,7 +81,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.getAllInfo()
         this.displayEstateAgentRcv()
         this.displayPhotoRcv()
-
+        
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
 
