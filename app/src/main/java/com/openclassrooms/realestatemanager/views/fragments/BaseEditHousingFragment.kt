@@ -65,7 +65,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             housing = Housing(ref = housingReference)
         }
         this.currency = getCurrencyFromSharedPreferences()
-        this.mApiKey = resources.getString(R.string.google_api_key)
+        this.mApiKey = resources.getString(R.string.google_api_key_project)
         this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
         this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
 
@@ -81,7 +81,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.getAllInfo()
         this.displayEstateAgentRcv()
         this.displayPhotoRcv()
-        
+
         this.mView.add_housing_fragment_final_button.visibility = View.INVISIBLE
         this.mView.add_housing_fragment_final_button.isEnabled = false
 
