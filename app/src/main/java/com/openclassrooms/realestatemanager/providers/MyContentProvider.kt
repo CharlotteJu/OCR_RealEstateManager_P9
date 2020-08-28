@@ -74,9 +74,6 @@ class MyContentProvider : ContentProvider() {
             val cursor = AppDatabase.getDatabase(context!!).housingDao().getHousingWithCursor(reference)
             //val count = AppDatabase.getDatabase(context!!).housingDao().deleteHousing()
         }
-
-
-
         throw IllegalArgumentException("Failed to delete uri : $uri")
     }
 

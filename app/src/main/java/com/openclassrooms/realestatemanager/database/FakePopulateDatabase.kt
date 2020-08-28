@@ -123,7 +123,6 @@ class FakePopulateDatabase
             housing.put("area", 123.4)
             housing.put("state", "On sale")
             housing.put("dateEntry", "02/07/2020")
-            housing.put("onFirestore", false)
 
             return housing
         }

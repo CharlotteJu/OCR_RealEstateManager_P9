@@ -9,9 +9,12 @@ import com.google.android.gms.tasks.Task
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
+import com.openclassrooms.realestatemanager.views.fragments.ListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 /**
  * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> ListFragment & MapFragment
@@ -26,47 +29,64 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
-    private fun getListCompleteHousingFromFirestore(listRoom : List<CompleteHousing>, context: Context)
+    fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?)
     {
         this.housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
 
             if (querySnapshot != null)
             {
-                val listDocumentSnapshot = querySnapshot.documents
+                val listDocumentSnapshot = querySnapshot.documents //TODO : Pourquoi je rentre beaucoup trop ici ?
+                val dateFirestore = lastUpdateFirestore?.let {UtilsKotlin.convertStringToDate(it)  }
 
-                for (housing in listRoom)
+               for (housing in listRoom)
                 {
-                    if (!housing.housing.onFirestore)
+                    val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                    if (date == null || (dateFirestore!=null && date.after(dateFirestore)))
                     {
+
                         this.createCompleteHousingOnFirestore(housing)
                     }
                 }
 
+
                 for (document in listDocumentSnapshot)
                 {
                     val completeHousing = document.toObject(CompleteHousing::class.java)
-                    if (completeHousing != null && !listRoom.contains(completeHousing))
+                    if (completeHousing != null)
                     {
-                        this.createCompleteHousingOnRoom(completeHousing, context)
+                        if(!listRoom.contains(completeHousing))
+                        {
+                            this.createCompleteHousingOnRoom(completeHousing, context)
+                        }
+                        else
+                        {
+                            val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                            if (date != null && dateFirestore != null && date.after(dateFirestore))
+                            {
+                                val index = listRoom.indexOf(completeHousing)
+                                this.updateGlobalHousing(listRoom[index],completeHousing, context)
+                            }
+                        }
                     }
+
                 }
+                ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
             }
         }
     }
 
     private fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Task<Void>
     {
-        completeHousing.housing.onFirestore = true
+        completeHousing.housing.dateOnFirestore = UtilsKotlin.getDateAndHoursOfToday()
         return this.housingRepository.createCompleteHousingFromFirestore(completeHousing)
     }
 
-    private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
+    private fun uploadAPhotoInFirestore()
+    {
+        val uuid = UUID.randomUUID().toString()
+        //val ref =
+    }
 
-    private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
-
-    private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
-
-    private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
 
     //////////////////// CREATE ////////////////////
 
@@ -249,41 +269,80 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     }
 
 
-    fun updateGlobalHousing (listHousingFromRoom : List<CompleteHousing>, listHousingFromFirestore : List<CompleteHousing>, context: Context) //TODO : Où appeler ? 
+    private fun updateGlobalHousing (housingFromRoom : CompleteHousing, housingFromFirestore : CompleteHousing, context: Context)
     {
         viewModelScope.launch (Dispatchers.IO)
         {
 
-            for (housing in listHousingFromFirestore)
+            if (housingFromRoom != housingFromFirestore)
             {
-                val index : Int
-                if (listHousingFromRoom.contains(housing))
+                if (housingFromRoom.housing != housingFromFirestore.housing) updateHousing(housingFromRoom.housing)
+                if (housingFromRoom.address != housingFromFirestore.address)
                 {
-                    index = listHousingFromRoom.indexOf(housing)
-                    if (housing != listHousingFromFirestore[index])
-                    {
-                        if (housing.housing != listHousingFromFirestore[index].housing) updateHousing(housing.housing)
-                        if (housing.address != listHousingFromFirestore[index].address)
-                        {
-                            updateGlobalAddress(housing.address, listHousingFromFirestore[index], context)
-                        }
-                        if (housing.photoList != listHousingFromFirestore[index].photoList)
-                        {
-                            updateAllPhoto(housing.photoList, listHousingFromFirestore[index])
-                        }
-                        if (housing.estateAgentList != listHousingFromFirestore[index].estateAgentList)
-                        {
-                            updateAllEstateHousingEstateAgent(housing.estateAgentList, listHousingFromFirestore[index])
-                        }
-                        if (housing.poiList != listHousingFromFirestore[index].poiList)
-                        {
-                            updateAllHousingPoi(housing.poiList, listHousingFromFirestore[index])
-                        }
-                    }
+                    updateGlobalAddress(housingFromRoom.address, housingFromFirestore, context)
+                }
+                if (housingFromRoom.photoList != housingFromFirestore.photoList)
+                {
+                    updateAllPhoto(housingFromRoom.photoList, housingFromFirestore)
+                }
+                if (housingFromRoom.estateAgentList != housingFromFirestore.estateAgentList)
+                {
+                    updateAllEstateHousingEstateAgent(housingFromRoom.estateAgentList, housingFromFirestore)
+                }
+                if (housingFromRoom.poiList != housingFromFirestore.poiList)
+                {
+                    updateAllHousingPoi(housingFromRoom.poiList, housingFromFirestore)
                 }
             }
+
         }
     }
+
+    private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
+
+    private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
+
+    private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
+
+    private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
+
+    private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
+
+    fun deleteGlobal (completeHousing: CompleteHousing)
+    {
+        viewModelScope.launch (Dispatchers.IO)
+        {
+            if (completeHousing.address != null) deleteAddress(completeHousing.address!!)
+
+            if (completeHousing.estateAgentList != null || completeHousing.estateAgentList!!.isNotEmpty())
+            {
+                for (i in completeHousing.estateAgentList!!)
+                {
+                    deleteHousingEstateAgent(i)
+                }
+            }
+
+            if (completeHousing.photoList != null || completeHousing.photoList!!.isNotEmpty())
+            {
+                for (i in completeHousing.photoList!!)
+                {
+                    deletePhoto(i)
+                }
+            }
+
+            if (completeHousing.poiList != null || completeHousing.poiList!!.isNotEmpty())
+            {
+                for (i in completeHousing.poiList!!)
+                {
+                    deleteHousingPoi(i)
+                }
+            }
+
+            deleteHousing(completeHousing.housing)
+        }
+    }
+
+
 }
 
 

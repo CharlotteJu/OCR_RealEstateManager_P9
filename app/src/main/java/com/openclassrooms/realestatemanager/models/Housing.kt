@@ -19,7 +19,7 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var 
                                 @ColumnInfo (name = "dateEntry") var dateEntry : String = STRING_EMPTY,
                                 @ColumnInfo (name = "dateSale")  var dateSale : String? = null,
                                 @ColumnInfo (name = "description") var description : String? = null,
-                                @ColumnInfo (name = "onFirestore") var onFirestore : Boolean = false)
+                                @ColumnInfo (name = "dateOnFirestore") var dateOnFirestore : String? = null)
 
 {
 
@@ -39,7 +39,7 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var 
             if (contentValues.containsKey("dateEntry")) housing.dateEntry = contentValues.getAsString("dateEntry")
             if (contentValues.containsKey("dateSale")) housing.dateSale = contentValues.getAsString("dateSale")
             if (contentValues.containsKey("description")) housing.description = contentValues.getAsString("description")
-            if (contentValues.containsKey("onFirestore")) housing.onFirestore = contentValues.getAsBoolean("onFirestore")
+            if (contentValues.containsKey("dateOnFirestore")) housing.dateOnFirestore = contentValues.getAsString("dateOnFirestore")
 
             return housing
 

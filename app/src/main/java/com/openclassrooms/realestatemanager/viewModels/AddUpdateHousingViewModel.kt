@@ -11,8 +11,10 @@ import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 
 /**
@@ -34,8 +36,6 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     fun getEstateAgentList() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
 
     fun getCompleteHousing(reference: String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
-
-    fun getPoiList() : LiveData<List<Poi>> = this.poiRepository.getAllPoi()
 
     //////////////////// CREATE ////////////////////
 
@@ -252,15 +252,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (housing.ref == completeHousing.housing.ref)
             {
-                if (housing != completeHousing.housing)
-                {
-                    housing.onFirestore = false
-                    updateHousing(housing)
-                }
+                housing.dateOnFirestore = null
+                updateHousing(housing)
                 updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
                 updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
                 updateAllPhoto(photoList, completeHousing)
-
             }
         }
     }
