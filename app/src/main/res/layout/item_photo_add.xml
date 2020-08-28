@@ -26,7 +26,7 @@
 
     <ImageButton
         android:id="@+id/item_photo_add_delete_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_delete_24"
         app:backgroundTint="@android:color/transparent"
@@ -37,7 +37,7 @@
 
     <ImageButton
         android:id="@+id/item_photo_add_edit_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_edit_24"
         app:backgroundTint="@android:color/transparent"

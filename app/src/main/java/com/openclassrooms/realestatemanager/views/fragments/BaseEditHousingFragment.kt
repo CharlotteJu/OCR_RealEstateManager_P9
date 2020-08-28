@@ -317,7 +317,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.mView.add_housing_fragment_photo_button.setOnClickListener{
             if (photoUri != null && photoUri != STRING_EMPTY.toUri())
             {
-                val photo = Photo(photoUri!!.toString(), description, housingReference)
+                val photo = Photo(photoUri!!.toString(), description, this.housing.ref)
                 //val photoCopy = photo.copy()
                 photoList.add(photo)
                 mAdapterPhotoAddRcv.updateList(photoList)

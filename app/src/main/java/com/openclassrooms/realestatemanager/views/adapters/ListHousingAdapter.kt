@@ -85,12 +85,6 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
                 itemView.item_housing_district_txt.visibility = View.GONE
             }
 
-            /*housing.housing.price.let {
-                val priceString = "$it$"
-                itemView.item_housing_price_txt.text = priceString
-            }*/
-
-
             val priceString : String?
             if (currency == DOLLAR)
             {

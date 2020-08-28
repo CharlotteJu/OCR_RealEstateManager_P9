@@ -1,14 +1,17 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
+import com.google.firebase.storage.FirebaseStorage
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
+import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import com.openclassrooms.realestatemanager.views.fragments.ListFragment
@@ -78,13 +81,30 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     private fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Task<Void>
     {
         completeHousing.housing.dateOnFirestore = UtilsKotlin.getDateAndHoursOfToday()
+        if (!completeHousing.photoList.isNullOrEmpty())
+        {
+            for (photo in completeHousing.photoList!!)
+            {
+                this.uploadAPhotoInFirestore(photo)
+            }
+        }
         return this.housingRepository.createCompleteHousingFromFirestore(completeHousing)
     }
 
-    private fun uploadAPhotoInFirestore()
+    private fun uploadAPhotoInFirestore(photo : Photo)
     {
-        val uuid = UUID.randomUUID().toString()
-        //val ref =
+        if (photo.url_firebase == null)
+        {
+            val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
+            ref.child(photo.uri).putFile(photo.uri.toUri()).addOnSuccessListener { taskSnapshot -> //TODO : Il faut que l'accès aux images soit dispo
+                taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                    photo.url_firebase = it.toString()
+                    viewModelScope.launch {
+                        updatePhoto(photo) }
+
+                }
+            }
+        }
     }
 
 

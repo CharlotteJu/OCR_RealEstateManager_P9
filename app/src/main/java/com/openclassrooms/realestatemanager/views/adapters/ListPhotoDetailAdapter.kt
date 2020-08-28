@@ -10,12 +10,12 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Photo
 import kotlinx.android.synthetic.main.item_photo_detail.view.*
 
-class ListPhotoDetailAdapter(private var photoList : List<Photo>) : RecyclerView.Adapter<ListPhotoDetailAdapter.ListPhotoViewHolder>()
+class ListPhotoDetailAdapter(private var photoList : List<Photo>, private val isInternetAvailable : Boolean) : RecyclerView.Adapter<ListPhotoDetailAdapter.ListPhotoViewHolder>()
 {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPhotoViewHolder
     {
-        return ListPhotoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo_detail, parent, false))
+        return ListPhotoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo_detail, parent, false), this.isInternetAvailable)
     }
 
     override fun onBindViewHolder(holder: ListPhotoViewHolder, position: Int) {
@@ -25,16 +25,27 @@ class ListPhotoDetailAdapter(private var photoList : List<Photo>) : RecyclerView
 
     override fun getItemCount(): Int = this.photoList.size
 
-    class ListPhotoViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
+    class ListPhotoViewHolder (itemView : View, private val isInternetAvailable: Boolean) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(photo : Photo)
         {
-            photo.uri.let {
+            if (isInternetAvailable && photo.url_firebase != null)
+            {
                 Glide.with(itemView)
-                        .load(it)
+                        .load(photo.url_firebase)
                         .apply(RequestOptions.centerCropTransform())
                         .into(itemView.item_photo_detail_image)
             }
+            else
+            {
+                photo.uri.let {
+                    Glide.with(itemView)
+                            .load(it)
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(itemView.item_photo_detail_image)
+                }
+            }
+
 
             if (photo.description != null)
             {

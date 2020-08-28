@@ -33,5 +33,6 @@ const val NOTIFICATION_ID = 301
 
 const val FIRESTORE_SHARED_PREFERENCES : String = "FIRESTORE_SHARED_PREFERENCES"
 const val FIRESTORE_TAG : String = "FIRESTORE_TAG"
+const val FIREBASE_STORAGE_REF : String = "storage_ref"
 
 

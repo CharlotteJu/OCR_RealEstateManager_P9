@@ -102,11 +102,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     }
 
 
-    private fun getLastUpdateFirestoreFromSharedPreferences() : String
-    {
-        val sharedPreferences = requireContext().getSharedPreferences(FIRESTORE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(FIRESTORE_TAG, null).toString() //TODO : Mettre une date par défaut
-    }
+
 
     companion object
     {

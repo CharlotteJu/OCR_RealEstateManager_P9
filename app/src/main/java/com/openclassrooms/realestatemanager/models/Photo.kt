@@ -14,7 +14,8 @@ import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 
 data class Photo constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : String= STRING_EMPTY,
                              @ColumnInfo (name = "description") var description : String? = null,
-                             @ColumnInfo (name = "housing_reference", index = true) var housingReference : String= STRING_EMPTY)
+                             @ColumnInfo (name = "housing_reference", index = true) var housingReference : String= STRING_EMPTY,
+                             @ColumnInfo (name = "url_firebase") var url_firebase : String? = null)
 {
 
 
