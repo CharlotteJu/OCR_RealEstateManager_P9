@@ -107,7 +107,7 @@ public class Utils {
 
     public static String getDateFormat(Date date)
     {
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US); //TODO-Q : Obligé de mettre locale ?
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US); //TODO-Q : Obligé de mettre locale ?
         return dateFormat.format(date);
     }
 

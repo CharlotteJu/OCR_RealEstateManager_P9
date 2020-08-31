@@ -56,4 +56,33 @@ class HousingRepository(private val housingDao : HousingDAO)
         return CompleteHousingHelper.deleteCompleteHousingFromFirestore(completeHousing)
     }
 
+    //////////////// FILTER ////////////////
+
+    fun getListFilter(type : String? = null,
+                      priceLower : Double? = null,
+                      priceHigher : Double? = null,
+                      areaLower : Double? = null,
+                      areaHigher : Double? = null,
+                      roomLower : Int? = null,
+                      roomHigher : Int? = null,
+                      bedRoomLower : Int? = null,
+                      bedRoomHigher : Int? = null,
+                      bathRoomLower : Int? = null,
+                      bathRoomHigher : Int? = null,
+                      state : String? = null,
+                      dateEntry : String? = null,
+                      dateSale : String? = null,
+                      city : String? = null,
+                      country : String? = null,
+                      typePoi : String? = null,
+                      numberPhotos : Int? = null,
+                      estateAgent : String? = null): LiveData<List<CompleteHousing>>
+    {
+       return this.housingDao.getListCompleteHousingFilter(type,
+               priceLower, priceHigher, areaLower, areaHigher,
+               roomLower, roomHigher, bedRoomLower, bedRoomHigher,
+               bathRoomLower, bathRoomHigher, state, dateEntry,
+               dateSale, city, country, typePoi, estateAgent)
+    }
+
 }

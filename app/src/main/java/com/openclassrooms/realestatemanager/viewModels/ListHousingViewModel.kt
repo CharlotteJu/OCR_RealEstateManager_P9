@@ -85,13 +85,14 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         {
             for (photo in completeHousing.photoList!!)
             {
-                this.uploadAPhotoInFirestore(photo)
+                //TODO : Revoir
+                //this.uploadAPhotoInFirestore(photo)
             }
         }
         return this.housingRepository.createCompleteHousingFromFirestore(completeHousing)
     }
 
-    private fun uploadAPhotoInFirestore(photo : Photo)
+   /* private fun uploadAPhotoInFirestore(photo : Photo)
     {
         if (photo.url_firebase == null)
         {
@@ -105,7 +106,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 }
             }
         }
-    }
+    }*/
 
 
     //////////////////// CREATE ////////////////////

@@ -1,277 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragment_filter_type_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_type"
-        android:layout_marginStart="@dimen/filter_fragment_margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/fragment_filter_type_spinner"
-        style="@style/filter_fragment_spinner_big"
-        android:layout_marginEnd="@dimen/filter_fragment_margin"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_type_txt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_type_txt"/>
+            <TextView
+                android:id="@+id/fragment_filter_type_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_type"
+                android:layout_marginStart="@dimen/filter_fragment_margin"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
-    <TextView
-        android:id="@+id/fragment_filter_price_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/price"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_type_txt"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
+            <Spinner
+                android:id="@+id/fragment_filter_type_spinner"
+                style="@style/filter_fragment_spinner_big"
+                android:layout_marginEnd="@dimen/filter_fragment_margin"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_type_txt"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_type_txt"/>
 
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_price_slider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="100000.0"
-        android:valueTo="1000000000.0"
-        android:stepSize="50000.0"
-        app:values="@array/price_range_slider"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"/>
-
-    <!-- INFOS -->
-
-    <TextView
-        android:id="@+id/fragment_filter_area_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/area"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_txt"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_area_slider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="50.0"
-        android:valueTo="1000.0"
-        android:stepSize="10.0"
-        app:values="@array/area_range_slider"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_area_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_nb_rooms_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_rooms"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_area_txt"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_rooms_slider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0.0"
-        android:valueTo="20.0"
-        app:values="@array/rooms_range_slider"
-        android:stepSize="1.0"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_nb_rooms_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_bedrooms_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_bedrooms"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_nb_rooms_txt"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_bedrooms_slider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0.0"
-        android:valueTo="20.0"
-        android:stepSize="1.0"
-        app:values="@array/rooms_range_slider"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_bedrooms_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_bathrooms_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_bathrooms"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_bedrooms_txt"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
-
-    <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_bathrooms_slider"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:valueFrom="0.0"
-        android:valueTo="20.0"
-        android:stepSize="1.0"
-        app:values="@array/rooms_range_slider"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_bathrooms_txt"/>
-
-    <!-- SALE -->
-
-    <TextView
-        android:id="@+id/fragment_filter_state_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_state"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_bathrooms_txt"/>
-
-    <Spinner
-        android:id="@+id/fragment_filter_state_spinner"
-        style="@style/filter_fragment_spinner_big"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_state_txt"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_state_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_date_entry_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/date_entry"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_state_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_date_entry_generated_txt"
-        android:layout_width="@dimen/constraint_width_0"
-        android:layout_height="wrap_content"
-        tools:text="XX-XX-XX"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@id/fragment_filter_date_entry_button"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_entry_txt" />
-
-    <ImageButton
-        android:id="@+id/fragment_filter_date_entry_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_date_24"
-        app:backgroundTint="@android:color/transparent"
-        android:layout_marginEnd="@dimen/filter_fragment_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_entry_txt"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_date_entry_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_date_sale_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/date_sale"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_date_entry_txt"/>
-
-    <TextView
-        android:layout_width="@dimen/constraint_width_0"
-        android:layout_height="wrap_content"
-        android:id="@+id/fragment_filter_date_sale_generated_txt"
-        tools:text="XX-XX-XX"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@id/fragment_filter_date_sale_button"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_sale_txt"/>
-
-    <ImageButton
-        android:id="@+id/fragment_filter_date_sale_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_date_24"
-        app:backgroundTint="@android:color/transparent"
-        android:layout_marginEnd="@dimen/filter_fragment_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_sale_txt"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_date_sale_txt"/>
-
-    <!-- ADDRESS -->
-
-    <TextView
-        android:id="@+id/fragment_filter_city_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/city"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_date_sale_txt"/>
-
-    <EditText
-        android:id="@+id/fragment_filter_city_editTxt"
-        style="@style/filter_fragment_editText"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_city_txt"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_city_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_country_txt"
-        style="@style/filter_fragment_txt"
-            android:text="@string/spinners_country"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_city_txt"/>
-
-    <Spinner
-        android:id="@+id/fragment_filter_country_spinner"
-        style="@style/filter_fragment_spinner_big"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_country_txt"
-        app:layout_constraintBottom_toBottomOf="@id/fragment_filter_country_txt" />
-
-    <TextView
-        android:id="@+id/fragment_filter_poi_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/around"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_country_txt"/>
-
-    <Spinner
-        android:id="@+id/fragment_filter_around_poi_spinner"
-        style="@style/filter_fragment_spinner_big"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_poi_txt"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_poi_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_estate_agent_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/spinners_estate_agent"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_poi_txt"/>
-
-    <Spinner
-        android:id="@+id/fragment_filter_estate_agent_name_spinner"
-        style="@style/filter_fragment_spinner_big"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_estate_agent_txt"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_estate_agent_txt"/>
-
-    <TextView
-        android:id="@+id/fragment_filter_nb_photo_txt"
-        style="@style/filter_fragment_txt"
-        android:text="@string/nb_photos"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
-        app:layout_constraintTop_toBottomOf="@id/fragment_filter_estate_agent_txt"/>
-
-    <Spinner
-        android:id="@+id/fragment_filter_nb_photo_spinner"
-        style="@style/filter_fragment_spinner_big"
-        app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintTop_toTopOf="@id/fragment_filter_nb_photo_txt"
-        app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-        app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_nb_photo_txt"/>
+            <TextView
+                android:id="@+id/fragment_filter_price_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/price"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_type_txt"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
 
 
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/fragment_filter_price_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="100000.0"
+                android:valueTo="1000000000.0"
+                android:stepSize="50000.0"
+                app:values="@array/price_range_slider"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"/>
+
+            <!-- INFOS -->
+
+            <TextView
+                android:id="@+id/fragment_filter_area_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/area"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_price_txt"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/fragment_filter_area_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="50.0"
+                android:valueTo="1000.0"
+                android:stepSize="10.0"
+                app:values="@array/area_range_slider"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_area_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_nb_rooms_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_rooms"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_area_txt"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/fragment_filter_rooms_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="20.0"
+                app:values="@array/rooms_range_slider"
+                android:stepSize="1.0"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_nb_rooms_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_bedrooms_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_bedrooms"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_nb_rooms_txt"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/fragment_filter_bedrooms_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="20.0"
+                android:stepSize="1.0"
+                app:values="@array/rooms_range_slider"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_bedrooms_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_bathrooms_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_bathrooms"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_bedrooms_txt"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/fragment_filter_bathrooms_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="20.0"
+                android:stepSize="1.0"
+                app:values="@array/rooms_range_slider"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_bathrooms_txt"/>
+
+            <!-- SALE -->
+
+            <TextView
+                android:id="@+id/fragment_filter_state_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_state"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_bathrooms_txt"/>
+
+            <Spinner
+                android:id="@+id/fragment_filter_state_spinner"
+                style="@style/filter_fragment_spinner_big"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_state_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_state_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_date_entry_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/date_entry"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_state_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_date_entry_generated_txt"
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="wrap_content"
+                tools:text="XX-XX-XX"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@id/fragment_filter_date_entry_button"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_entry_txt" />
+
+            <ImageButton
+                android:id="@+id/fragment_filter_date_entry_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_date_24"
+                app:backgroundTint="@android:color/transparent"
+                android:layout_marginEnd="@dimen/filter_fragment_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_entry_txt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_entry_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_date_sale_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/date_sale"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_date_entry_txt"/>
+
+            <TextView
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="wrap_content"
+                android:id="@+id/fragment_filter_date_sale_generated_txt"
+                tools:text="XX-XX-XX"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@id/fragment_filter_date_sale_button"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_sale_txt"/>
+
+            <ImageButton
+                android:id="@+id/fragment_filter_date_sale_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_date_24"
+                app:backgroundTint="@android:color/transparent"
+                android:layout_marginEnd="@dimen/filter_fragment_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_sale_txt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_sale_txt"/>
+
+            <!-- ADDRESS -->
+
+            <TextView
+                android:id="@+id/fragment_filter_city_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/city"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_date_sale_txt"/>
+
+            <EditText
+                android:id="@+id/fragment_filter_city_editTxt"
+                style="@style/filter_fragment_editText"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_city_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_city_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_country_txt"
+                style="@style/filter_fragment_txt"
+                    android:text="@string/spinners_country"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_city_txt"/>
+
+            <Spinner
+                android:id="@+id/fragment_filter_country_spinner"
+                style="@style/filter_fragment_spinner_big"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_country_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_country_txt" />
+
+            <TextView
+                android:id="@+id/fragment_filter_poi_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/around"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_country_txt"/>
+
+            <Spinner
+                android:id="@+id/fragment_filter_around_poi_spinner"
+                style="@style/filter_fragment_spinner_big"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_poi_txt"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_poi_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_estate_agent_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/spinners_estate_agent"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_poi_txt"/>
+
+            <Spinner
+                android:id="@+id/fragment_filter_estate_agent_name_spinner"
+                style="@style/filter_fragment_spinner_big"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_estate_agent_txt"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_estate_agent_txt"/>
+
+            <TextView
+                android:id="@+id/fragment_filter_nb_photo_txt"
+                style="@style/filter_fragment_txt"
+                android:text="@string/nb_photos"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_estate_agent_txt"/>
+
+            <Spinner
+                android:id="@+id/fragment_filter_nb_photo_spinner"
+                style="@style/filter_fragment_spinner_big"
+                app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_nb_photo_txt"
+                app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintBottom_toBottomOf="@+id/fragment_filter_nb_photo_txt"/>
+
+            <View
+                android:id="@+id/fragment_filter_separator"
+                android:layout_width="@dimen/view_separator_width"
+                android:layout_height="@dimen/view_separator_height"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="@dimen/filter_fragment_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_nb_photo_txt"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_filter_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/filter_fragment_margin"
+                app:layout_constraintTop_toBottomOf="@id/fragment_filter_separator"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/fragment_filter_search_fab"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/ic_baseline_search_24"
+    android:scaleType="center"
+    app:fabSize="mini"
+    app:backgroundTint="@color/colorPrimary"
+    android:layout_margin="@dimen/add_housing_fragment_text_margin"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

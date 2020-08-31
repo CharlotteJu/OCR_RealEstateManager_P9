@@ -20,30 +20,9 @@ import kotlinx.coroutines.withContext
 /**
  * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> DetailFragment
  */
-class DetailViewModel constructor(private val housingRepository: HousingRepository,
-                                  private val addressRepository: AddressRepository,
-                                  private val photoRepository: PhotoRepository,
-                                  private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                                  private val housingPoiRepository: HousingPoiRepository)
+class DetailViewModel constructor(private val housingRepository: HousingRepository)
                                     : ViewModel()
 {
-
-
-
     fun getCompleteHousing(reference : String) : LiveData<CompleteHousing> = this.housingRepository.getCompleteHousing(reference)
-
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
-
-    private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
-
-    private suspend fun deleteAddress(address: Address) = this.addressRepository.deleteAddress(address)
-
-    private suspend fun deleteHousingEstateAgent(housingEstateAgent: HousingEstateAgent) = this.housingEstateAgentRepository.deleteHousingEstateAgent(housingEstateAgent)
-
-    private suspend fun deletePhoto(photo: Photo) = this.photoRepository.deletePhoto(photo)
-
-    private suspend fun deleteHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.deleteHousingPoi(housingPoi)
-
-
-
 }

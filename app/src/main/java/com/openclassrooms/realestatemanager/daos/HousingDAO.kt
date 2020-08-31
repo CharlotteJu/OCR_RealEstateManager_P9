@@ -31,9 +31,9 @@ interface HousingDAO {
     fun getCompleteHousing(reference: String): LiveData<CompleteHousing>
 
 
-  /* @Transaction
+   @Transaction
     @Query("""
-        SELECT *, count(*) as cnt FROM housing as h JOIN photo as ph ON h.reference == ph.housing_reference, housing_poi as poi, housing_estate_agent as ea, address as a
+        SELECT * FROM housing as h JOIN photo as ph ON h.reference == ph.housing_reference, housing_poi as poi, housing_estate_agent as ea, address as a
         WHERE
         h.type = :type
         AND h.price BETWEEN :priceLower AND :priceHigher
@@ -48,7 +48,7 @@ interface HousingDAO {
         AND a.city LIKE lower(:city)
         AND a.country = :country
         AND ea.estate_agent_name = :estateAgent 
-        AND cnt >= :numberPhotos  /*TODO : Voir pour listPhoto*/
+        /*AND cnt >= :numberPhotos  TODO : Voir pour listPhoto*/
         """)
     fun getListCompleteHousingFilter(type : String? = null,
                                      priceLower : Double? = null,
@@ -67,8 +67,8 @@ interface HousingDAO {
                                      city : String? = null,
                                      country : String? = null,
                                      typePoi : String? = null,
-                                     numberPhotos : Int? = null,
-                                     estateAgent : String? = null): LiveData<List<CompleteHousing>>*/
+                                     /*numberPhotos : Int? = null,*/
+                                     estateAgent : String? = null): LiveData<List<CompleteHousing>>
 
 
 
