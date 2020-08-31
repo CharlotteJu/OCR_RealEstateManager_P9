@@ -35,8 +35,10 @@
         android:id="@+id/fragment_filter_price_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
+        android:valueFrom="100000.0"
+        android:valueTo="1000000000.0"
+        android:stepSize="50000.0"
+        app:values="@array/price_range_slider"
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
         app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
         app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"/>
@@ -54,8 +56,10 @@
         android:id="@+id/fragment_filter_area_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
+        android:valueFrom="50.0"
+        android:valueTo="1000.0"
+        android:stepSize="10.0"
+        app:values="@array/area_range_slider"
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
         app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
         app:layout_constraintTop_toTopOf="@id/fragment_filter_area_txt"/>
@@ -71,8 +75,10 @@
         android:id="@+id/fragment_filter_rooms_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
+        android:valueFrom="0.0"
+        android:valueTo="20.0"
+        app:values="@array/rooms_range_slider"
+        android:stepSize="1.0"
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
         app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
         app:layout_constraintTop_toTopOf="@id/fragment_filter_nb_rooms_txt"/>
@@ -88,8 +94,10 @@
         android:id="@+id/fragment_filter_bedrooms_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
+        android:valueFrom="0.0"
+        android:valueTo="20.0"
+        android:stepSize="1.0"
+        app:values="@array/rooms_range_slider"
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
         app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
         app:layout_constraintTop_toTopOf="@id/fragment_filter_bedrooms_txt"/>
@@ -102,11 +110,13 @@
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
 
     <com.google.android.material.slider.RangeSlider
-        android:id="@+id/fragment_filter_baathrooms_slider"
+        android:id="@+id/fragment_filter_bathrooms_slider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:valueFrom="0"
-        android:valueTo="100"
+        android:valueFrom="0.0"
+        android:valueTo="20.0"
+        android:stepSize="1.0"
+        app:values="@array/rooms_range_slider"
         app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
         app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
         app:layout_constraintTop_toTopOf="@id/fragment_filter_bathrooms_txt"/>

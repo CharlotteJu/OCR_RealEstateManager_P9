@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
+import com.google.android.material.slider.RangeSlider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.SPINNER_SELECT
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
@@ -46,6 +47,8 @@ class FilterFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         this.mView = inflater.inflate(R.layout.fragment_filter, container, false)
+        this.configureSpinners()
+        this.getAllInfo()
 
         return this.mView
     }
@@ -63,6 +66,7 @@ class FilterFragment : Fragment() {
     private fun getAllInfo()
     {
         this.getTypeAndState()
+        this.getPrice()
         this.getInfoInsideHouse()
         this.getAddress()
         this.getDates()
@@ -96,11 +100,34 @@ class FilterFragment : Fragment() {
         }
     }
 
+    private fun getPrice()
+    {
+        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, value, fromUser ->
+            priceLower = slider.values[0].toDouble()
+            priceHigher = slider.values[1].toDouble()
+        }
+    }
+
     private fun getInfoInsideHouse()
     {
-        this.mView.fragment_filter_price_slider.values = listOf(0f, 1000000000f)
-        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, value, fromUser ->
-            priceHigher = value.toDouble()
+        this.mView.fragment_filter_area_slider.addOnChangeListener { slider, value, fromUser ->
+            areaLower = slider.values[0].toDouble()
+            areaLower = slider.values[1].toDouble()
+        }
+
+        this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, value, fromUser ->
+            roomLower = slider.values[0].toInt()
+            roomHigher = slider.values[1].toInt()
+        }
+
+        this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, value, fromUser ->
+            bedRoomLower = slider.values[0].toInt()
+            bedRoomHigher = slider.values[1].toInt()
+        }
+
+        this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, value, fromUser ->
+            bathRoomLower = slider.values[0].toInt()
+            bathRoomHigher = slider.values[1].toInt()
         }
     }
 
@@ -120,7 +147,7 @@ class FilterFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != STRING_EMPTY) country = item.toString()
+                    if (item != SPINNER_SELECT) country = item.toString()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -134,7 +161,7 @@ class FilterFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != STRING_EMPTY) typePoi = item.toString()
+                    if (item != SPINNER_SELECT) typePoi = item.toString()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -170,7 +197,7 @@ class FilterFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != STRING_EMPTY) estateAgent = item.toString()
+                    if (item != SPINNER_SELECT) estateAgent = item.toString()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -184,7 +211,7 @@ class FilterFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != STRING_EMPTY) numberPhotos = item.toString().toInt()
+                    if (item != SPINNER_SELECT) numberPhotos = item.toString().toInt()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
