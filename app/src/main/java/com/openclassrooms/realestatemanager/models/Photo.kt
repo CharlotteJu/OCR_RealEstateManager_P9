@@ -32,7 +32,7 @@ data class Photo constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : Str
         return super.hashCode() //TODO : Vraiment besoin ?
     }
 
-    companion object {
+   /* companion object {
 
         fun fromContentValues(contentValues: ContentValues) : Photo
         {
@@ -43,5 +43,5 @@ data class Photo constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : Str
 
             return photo
         }
-    }
+    }*/
 }

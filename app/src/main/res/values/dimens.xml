@@ -68,12 +68,12 @@
     <dimen name="settings_fragment_margin_Top">32dp</dimen>
     <dimen name="settings_fragment_margin_Start">32dp</dimen>
 
-    <!-- FILTER DIALOG -->
-    <dimen name="filter_dialog_text_size">20sp</dimen>
-    <dimen name="filter_dialog_spinner_height">0dp</dimen>
-    <dimen name="filter_dialog_margin_txt">16dp</dimen>
-    <dimen name="filter_dialog_spinner_width_big">200dp</dimen>
-    <dimen name="filter_dialog_spinner_width_little">80dp</dimen>
+    <!-- FILTER FRAGMENT -->
+    <dimen name="filter_fragment_text_size">20sp</dimen>
+    <dimen name="filter_fragment_spinner_height">0dp</dimen>
+    <dimen name="filter_fragment_margin">16dp</dimen>
+    <dimen name="filter_fragment_spinner_width_big">200dp</dimen>
+    <dimen name="filter_fragment_spinner_width_little">80dp</dimen>
 
 
 </resources>

@@ -199,7 +199,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private fun fetchLocation()
     {
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (requireActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED)
             {

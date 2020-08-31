@@ -20,15 +20,6 @@
         <item>Barge</item>
         <item>Block of flats</item>
     </string-array>
-    
-    <string-array name="type_poi_spinner">
-        <item>@string/spinners_select_one</item>
-        <item>Restaurant</item>
-        <item>School</item>
-        <item>Store</item>
-        <item>Subway</item>
-        <item>Park</item>
-    </string-array>
 
     <string-array name="price_currency_spinner">
         <item>@string/spinners_select_one</item>

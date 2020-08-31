@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId)
         {
-            R.id.menu_toolbar_filter -> this.mNavigationController.navigate(R.id.filterDialogFragment)
+            R.id.menu_toolbar_filter -> this.mNavigationController.navigate(R.id.filterFragment)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -172,4 +172,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.onBackPressed()
         return true
     }
+
+
 }

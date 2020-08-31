@@ -50,6 +50,12 @@
     <string name="email">EMAIL</string>
     <string name="phone_number">PHONE NUMBER</string>
 
+    <!-- Filter Fragment -->
+    <string name="date_entry">DATE ENTRY</string>
+    <string name="date_sale">DATE SALE</string>
+    <string name="around">AROUND</string>
+    <string name="nb_photos">NB PHOTOS</string>
+
     <!-- DetailFragment -->
     <string name="housing_add_on">Housing add on : </string>
     <string name="sold_on">Sold on : </string>
@@ -89,10 +95,6 @@
     <string name="toast_estate_agent_same_name">An Estate Agent has already the same last name</string>
     <string name="toast_estate_agent_no_name">Please put the last name</string>
     <string name="toast_internet_no_available">Internet no available</string>
-
-
-
-
 
 
 </resources>
