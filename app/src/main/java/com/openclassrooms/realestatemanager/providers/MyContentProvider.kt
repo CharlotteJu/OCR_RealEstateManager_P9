@@ -64,20 +64,7 @@ class MyContentProvider : ContentProvider() {
         throw IllegalArgumentException("Failed to update uri : $uri")
     }!!
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int = runBlocking {
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int { return 0 } //TODO : Return quoi sinon ?
 
-        if (context!= null)
-        {
-            val index = ContentUris.parseId(uri)
-            val reference = ContentUris.withAppendedId(uri, index).toString()
-
-            val cursor = AppDatabase.getDatabase(context!!).housingDao().getHousingWithCursor(reference)
-           // val count = AppDatabase.getDatabase(context!!).housingDao().deleteHousing()
-        }
-        throw IllegalArgumentException("Failed to delete uri : $uri")
-    }
-
-    override fun getType(uri: Uri): String? {
-        return "vnd.android.cursor.item/$authority.$tableName"
-    }
+    override fun getType(uri: Uri): String? { return "vnd.android.cursor.item/$authority.$tableName" }
 }

@@ -35,7 +35,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
     fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?)
     {
-        this.housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+        this.housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
 
             if (querySnapshot != null)
             {
@@ -175,7 +175,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 createAllPhoto(completeHousing.photoList)
                 createAllHousingEstateAgent(completeHousing.estateAgentList)  }
             thread.await()
-            val debug =0
+
         }
     }
 

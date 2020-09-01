@@ -34,9 +34,13 @@ interface HousingDAO {
 
    @Transaction
     @Query("""
-        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name
+        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name, a.housing_reference, poi.housing_reference, ea.housing_reference
+        FROM housing h
+        LEFT JOIN address a ON h.reference == a.housing_reference
+        LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference
+        LEFT JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
         
-        FROM housing as h /*JOIN photo as ph ON h.reference == ph.housing_reference,*/, housing_poi as poi, housing_estate_agent as ea, address as a
+        /*FROM housing as h JOIN photo as ph ON h.reference == ph.housing_reference,, housing_poi as poi, housing_estate_agent as ea, address as a*/
         
         WHERE
         (:type IS NULL OR h.type = :type)
@@ -52,6 +56,7 @@ interface HousingDAO {
         AND (:city IS NULL OR a.city LIKE lower(:city))
         AND (:country IS NULL OR a.country = :country)
         AND (:estateAgent IS NULL OR ea.estate_agent_name = :estateAgent)
+        GROUP BY h.reference
         /*AND cnt >= :numberPhotos  TODO : Voir pour listPhoto*/
         """)
     fun getListCompleteHousingFilter(type : String? = null,

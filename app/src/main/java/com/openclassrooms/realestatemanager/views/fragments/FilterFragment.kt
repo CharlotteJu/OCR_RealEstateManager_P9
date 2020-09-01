@@ -11,17 +11,16 @@ import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.google.android.material.slider.RangeSlider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.utils.EURO
-import com.openclassrooms.realestatemanager.utils.SPINNER_SELECT
-import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
-import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.FilterViewModel
+import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
@@ -54,18 +53,15 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private var typePoi : String? = null
     private var numberPhotos : Int? = null
     private var estateAgent : String? = null
+    private var listFilter = ArrayList<CompleteHousing>()
     private lateinit var currency : String
 
-    private lateinit var mQuery : String
-    private var mArgs : ArrayList<Any> = ArrayList()
     private val mViewModel : FilterViewModel by viewModel()
     private lateinit var mView : View
-    private lateinit var mAdapter : ListHousingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.currency = this.getCurrencyFromSharedPreferences()
-        this.mQuery = "SELECT * FROM housing as h, housing_poi as poi, housing_estate_agent as ea, address as a WHERE"
 
     }
 
@@ -95,27 +91,18 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mViewModel.getAllCompleteHousing().observe(viewLifecycleOwner, Observer {
             val poi = typePoi
             val debug = it
+            listFilter = it as ArrayList<CompleteHousing>
         })
 
-       /* this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
+        this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
+                    val debugDate = this.dateEntry //TODO : Ne marche pas avec la date
+                    val debugList = this.listFilter
+                    listFilter = it as ArrayList<CompleteHousing>
                     configRecyclerView(it)
-                })*/
-
-       this.mViewModel.testQuery(priceLower, priceHigher, this.type).observe(viewLifecycleOwner, Observer {
-            val debugCountry = this.country
-           val debugType = this.type
-            configRecyclerView(it) //TODO : Voir pour appeler les autres attributs
-        })
-
-
-    }
-
-    private fun buildQuery() : SimpleSQLiteQuery
-    {
-        return SimpleSQLiteQuery(mQuery)
+                })
     }
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
@@ -129,7 +116,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mView.fragment_filter_type_spinner.adapter = configureSpinnerAdapter(R.array.type_housing_spinner)
         this.mView.fragment_filter_state_spinner.adapter = configureSpinnerAdapter(R.array.state_spinner)
         this.mView.fragment_filter_country_spinner.adapter = configureSpinnerAdapter(R.array.country_spinner)
-        this.mView.fragment_filter_around_poi_spinner.adapter = configureSpinnerAdapter(R.array.type_poi)
+        this.mView.fragment_filter_around_poi_spinner.adapter = configureSpinnerAdapter(R.array.type_poi_spinner)
         this.mView.fragment_filter_nb_photo_spinner.adapter = configureSpinnerAdapter(R.array.number_rooms)
     }
 
@@ -152,12 +139,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT)
-                    {
-                        type = item.toString()
-                        mQuery = "$mQuery h.type = $type"
-                        mArgs.add(item.toString())
-                    }
+                    type = if (item != SPINNER_SELECT) item.toString()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -168,7 +151,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) state = item.toString()
+                    state = if (item != SPINNER_SELECT) item.toString()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -177,7 +161,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun getPrice()
     {
-        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, value, fromUser ->
+        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, _, _ ->
             priceLower = slider.values[0].toDouble()
             priceHigher = slider.values[1].toDouble()
         }
@@ -185,22 +169,22 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun getInfoInsideHouse()
     {
-        this.mView.fragment_filter_area_slider.addOnChangeListener { slider, value, fromUser ->
+        this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
             areaLower = slider.values[0].toDouble()
             areaHigher = slider.values[1].toDouble()
         }
 
-        this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, value, fromUser ->
+        this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
             roomLower = slider.values[0].toInt()
             roomHigher = slider.values[1].toInt()
         }
 
-        this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, value, fromUser ->
+        this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
             bedRoomLower = slider.values[0].toInt()
             bedRoomHigher = slider.values[1].toInt()
         }
 
-        this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, value, fromUser ->
+        this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
             bathRoomLower = slider.values[0].toInt()
             bathRoomHigher = slider.values[1].toInt()
         }
@@ -215,11 +199,13 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
         this.mView.fragment_filter_date_entry_button.setOnClickListener {
             val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val dayString = if (dayOfMonth < 10) "0$dayOfMonth"
+                else dayOfMonth.toString()
                 val month1 = month+1
                 val monthString = if (month1 < 10) "0$month1"
                 else month1.toString()
 
-                dateEntry = "$dayOfMonth/$monthString/$year"
+                dateEntry = "$dayString/$monthString/$year"
                 mView.fragment_filter_date_entry_generated_txt.text = dateEntry
             }, year, month, dayOfMonth)
             datePickerDialog.show()
@@ -227,11 +213,13 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
         this.mView.fragment_filter_date_sale_button.setOnClickListener {
             val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                val dayString = if (dayOfMonth < 10) "0$dayOfMonth"
+                else dayOfMonth.toString()
                 val month1 = month+1
                 val monthString = if (month1 < 10) "0$month1"
                 else month1.toString()
 
-                dateSale= "$dayOfMonth/$monthString/$year"
+                dateSale= "$dayString/$monthString/$year"
                 mView.fragment_filter_date_sale_generated_txt.text = dateSale
             }, year, month, dayOfMonth)
             datePickerDialog.show()
@@ -249,7 +237,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) country = item.toString()
+                    country = if (item != SPINNER_SELECT) item.toString()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -263,7 +252,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    //if (item != SPINNER_SELECT) typePoi = item.toString()
+                    typePoi = if (item != SPINNER_SELECT) item.toString()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -295,7 +285,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) estateAgent = item.toString()
+                    estateAgent = if (item != SPINNER_SELECT)item.toString()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -309,7 +300,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) numberPhotos = item.toString().toInt()
+                    numberPhotos = if (item != SPINNER_SELECT) item.toString().toInt()
+                    else null
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -323,7 +315,18 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+
+        if (!this.getIsTabletFromSharedPreferences())
+        {
+            val bundle  = Bundle()
+            bundle.putString(BUNDLE_REFERENCE, this.listFilter[position].housing.ref)
+            findNavController().navigate(R.id.detailFragment, bundle)
+        }
+        else
+        {
+            val detailFragment = (activity as MainActivity).getDetailFragment()
+            detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext()) //TODO : Voir pour split l'écran
+        }
     }
 
     override fun onClickDeleteHousing(position: Int) {

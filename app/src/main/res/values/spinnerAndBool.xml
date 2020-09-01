@@ -118,6 +118,24 @@
         <item>WY</item>
     </string-array>
 
+    <string-array name="type_poi_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>@string/restaurant</item>
+        <item>@string/subway</item>
+        <item>@string/school</item>
+        <item>@string/park</item>
+        <item>@string/store</item>
+        <item>@string/museum</item>
+        <item>@string/doctor</item>
+        <item>@string/bank</item>
+        <item>@string/airport</item>
+        <item>@string/bar</item>
+        <item>@string/hospital</item>
+        <item>@string/gym</item>
+        <item>@string/spa</item>
+        <item>@string/train_station</item>
+    </string-array>
+
     <string-array name="type_poi">
         <item>@string/restaurant</item>
         <item>@string/subway</item>

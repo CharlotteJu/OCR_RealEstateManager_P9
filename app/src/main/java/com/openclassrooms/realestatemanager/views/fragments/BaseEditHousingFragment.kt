@@ -404,11 +404,14 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
         val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
 
+            val dayString = if (dayOfMonth < 10) "0$dayOfMonth"
+            else dayOfMonth.toString()
+
             val month1 = month+1
             val monthString = if (month1 < 10) "0$month1"
             else month1.toString()
 
-            housing.dateSale = "$dayOfMonth/$monthString/$year"
+            housing.dateSale = "$dayString/$monthString/$year"
         }, year, month, dayOfMonth)
         datePickerDialog.show()
     }
