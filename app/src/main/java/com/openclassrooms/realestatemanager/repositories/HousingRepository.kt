@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
@@ -84,5 +85,9 @@ class HousingRepository(private val housingDao : HousingDAO)
                bathRoomLower, bathRoomHigher, state, dateEntry,
                dateSale, city, country, typePoi, estateAgent)
     }
+
+    fun testQuery(priceLower: Double?, priceHigher: Double?, type: String?) = this.housingDao.testQuery(priceLower, priceHigher,type, null, null)
+
+    /*fun testSupportSQLiteQuery(query: SupportSQLiteQuery) = this.housingDao.testSupportSQLiteQuery(query)*/
 
 }

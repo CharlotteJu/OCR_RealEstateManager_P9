@@ -16,6 +16,7 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import com.openclassrooms.realestatemanager.views.fragments.ListFragment
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -126,7 +127,8 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         if (address != null)
         {
             val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-            if (location != null && location != ERROR_GEOCODER_ADDRESS) createAddress(address)
+            //if (location != null && location != ERROR_GEOCODER_ADDRESS)
+                createAddress(address)
         }
     }
 
@@ -167,11 +169,13 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     {
         viewModelScope.launch  (Dispatchers.IO)
         {
-            createHousing(completeHousing.housing)
-            createAllHousingPoi(completeHousing.poiList)
-            createGlobalAddress(completeHousing.address, context)
-            createAllPhoto(completeHousing.photoList)
-            createAllHousingEstateAgent(completeHousing.estateAgentList)
+            val thread = viewModelScope.async {createHousing(completeHousing.housing)
+                createAllHousingPoi(completeHousing.poiList)
+                createGlobalAddress(completeHousing.address, context)
+                createAllPhoto(completeHousing.photoList)
+                createAllHousingEstateAgent(completeHousing.estateAgentList)  }
+            thread.await()
+            val debug =0
         }
     }
 
@@ -190,7 +194,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
             if (completeHousing.address != null && address != completeHousing.address)
             {
                 val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-                if (location != null && location != ERROR_GEOCODER_ADDRESS) updateAddress(address)
+                /*if (location != null && location != ERROR_GEOCODER_ADDRESS)*/ updateAddress(address)
             }
             else if (completeHousing.address == null) createAddress(address)
         }
@@ -295,26 +299,24 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         viewModelScope.launch (Dispatchers.IO)
         {
 
-            if (housingFromRoom != housingFromFirestore)
-            {
-                if (housingFromRoom.housing != housingFromFirestore.housing) updateHousing(housingFromRoom.housing)
-                if (housingFromRoom.address != housingFromFirestore.address)
-                {
-                    updateGlobalAddress(housingFromRoom.address, housingFromFirestore, context)
-                }
-                if (housingFromRoom.photoList != housingFromFirestore.photoList)
-                {
-                    updateAllPhoto(housingFromRoom.photoList, housingFromFirestore)
-                }
-                if (housingFromRoom.estateAgentList != housingFromFirestore.estateAgentList)
-                {
-                    updateAllEstateHousingEstateAgent(housingFromRoom.estateAgentList, housingFromFirestore)
-                }
-                if (housingFromRoom.poiList != housingFromFirestore.poiList)
-                {
-                    updateAllHousingPoi(housingFromRoom.poiList, housingFromFirestore)
+            val thread = viewModelScope.async {
+                if (housingFromRoom != housingFromFirestore) {
+                    if (housingFromRoom.housing != housingFromFirestore.housing) updateHousing(housingFromRoom.housing)
+                    if (housingFromRoom.address != housingFromFirestore.address) {
+                        updateGlobalAddress(housingFromRoom.address, housingFromFirestore, context)
+                    }
+                    if (housingFromRoom.photoList != housingFromFirestore.photoList) {
+                        updateAllPhoto(housingFromRoom.photoList, housingFromFirestore)
+                    }
+                    if (housingFromRoom.estateAgentList != housingFromFirestore.estateAgentList) {
+                        updateAllEstateHousingEstateAgent(housingFromRoom.estateAgentList, housingFromFirestore)
+                    }
+                    if (housingFromRoom.poiList != housingFromFirestore.poiList) {
+                        updateAllHousingPoi(housingFromRoom.poiList, housingFromFirestore)
+                    }
                 }
             }
+
 
         }
     }

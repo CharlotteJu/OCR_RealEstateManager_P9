@@ -4,6 +4,7 @@ import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.models.*
 
 /**
@@ -33,34 +34,37 @@ interface HousingDAO {
 
    @Transaction
     @Query("""
-        SELECT * FROM housing as h JOIN photo as ph ON h.reference == ph.housing_reference, housing_poi as poi, housing_estate_agent as ea, address as a
+        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name
+        
+        FROM housing as h /*JOIN photo as ph ON h.reference == ph.housing_reference,*/, housing_poi as poi, housing_estate_agent as ea, address as a
+        
         WHERE
-        h.type = :type
-        AND h.price BETWEEN :priceLower AND :priceHigher
-        AND h.area BETWEEN :areaLower AND :areaHigher
-        AND h.rooms BETWEEN :roomLower AND :roomHigher
-        AND h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher
-        AND h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher
-        AND h.state = :state
-        AND dateEntry >= DateTime(:dateEntry)
-        AND dateSale >= DateTime(:dateSale)
-        AND poi.poi_type = :typePoi
-        AND a.city LIKE lower(:city)
-        AND a.country = :country
-        AND ea.estate_agent_name = :estateAgent 
+        (:type IS NULL OR h.type = :type)
+        AND (:priceLower IS NULL OR h.price BETWEEN :priceLower AND :priceHigher)
+        AND (:areaLower IS NULL OR h.area BETWEEN :areaLower AND :areaHigher)
+        AND (:roomLower IS NULL OR h.rooms BETWEEN :roomLower AND :roomHigher)
+        AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
+        AND (:bathRoomLower IS NULL OR h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher)
+        AND (:state IS NULL OR h.state = :state)
+        AND (:dateEntry IS NULL OR dateEntry >= DateTime(:dateEntry))
+        AND (:dateSale IS NULL OR dateSale >= DateTime(:dateSale))
+        AND (:typePoi IS NULL OR poi.poi_type = :typePoi)
+        AND (:city IS NULL OR a.city LIKE lower(:city))
+        AND (:country IS NULL OR a.country = :country)
+        AND (:estateAgent IS NULL OR ea.estate_agent_name = :estateAgent)
         /*AND cnt >= :numberPhotos  TODO : Voir pour listPhoto*/
         """)
     fun getListCompleteHousingFilter(type : String? = null,
-                                     priceLower : Double? = null,
-                                     priceHigher : Double? = null,
-                                     areaLower : Double? = null,
-                                     areaHigher : Double? = null,
-                                     roomLower : Int? = null,
-                                     roomHigher : Int? = null,
-                                     bedRoomLower : Int? = null,
-                                     bedRoomHigher : Int? = null,
-                                     bathRoomLower : Int? = null,
-                                     bathRoomHigher : Int? = null,
+                                     priceLower : Double? = 0.0,
+                                     priceHigher : Double? = Double.MAX_VALUE,
+                                     areaLower : Double? = 0.0,
+                                     areaHigher : Double? = Double.MAX_VALUE,
+                                     roomLower : Int? = 0,
+                                     roomHigher : Int? = Int.MAX_VALUE,
+                                     bedRoomLower : Int? = 0,
+                                     bedRoomHigher : Int? = Int.MAX_VALUE,
+                                     bathRoomLower : Int? = 0,
+                                     bathRoomHigher : Int? = Int.MAX_VALUE,
                                      state : String? = null,
                                      dateEntry : String? = null,
                                      dateSale : String? = null,
@@ -70,7 +74,16 @@ interface HousingDAO {
                                      /*numberPhotos : Int? = null,*/
                                      estateAgent : String? = null): LiveData<List<CompleteHousing>>
 
+    /*fun testSupportSQLiteQuery (query : SupportSQLiteQuery) : LiveData<List<CompleteHousing>>*/
 
+    @Transaction
+    @Query("""
+    SELECT * /*h.reference, a.housing_reference, ea.housing_reference, h.price, h.type, a.country, ea.estate_agent_name, h.area, h.dateEntry, h.state*/
+    FROM housing h LEFT OUTER JOIN address a ON h.reference == a.housing_reference /*UNION ALL SELECT * FROM housing RIGHT OUTER JOIN address a ON h.reference == a.housing_reference*/
+    LEFT OUTER JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
+    WHERE price BETWEEN :priceLower AND :priceHigher AND (:type IS NULL OR type = :type) AND (:country IS NULL OR country = :country) AND (:estateAgent IS NULL OR estate_agent_name == :estateAgent)
+    """)
+    fun testQuery(priceLower: Double?, priceHigher: Double?, type : String?, country: String?, estateAgent: String?) : LiveData<List<CompleteHousing>>
 
     /* @Query ("""
          SELECT housing_reference, count(*) FROM housing JOIN photo ON housing.reference == photo.housing_reference

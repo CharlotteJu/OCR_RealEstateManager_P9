@@ -50,7 +50,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mAdapter.updateList(it)
             mListHousing = it as MutableList<CompleteHousing>
-            if (Utils.isInternetAvailableGood(context)) this.syncDataWithFirestore()
+            //if (Utils.isInternetAvailableGood(context)) this.syncDataWithFirestore()
 
         })
         this.configRecyclerView()

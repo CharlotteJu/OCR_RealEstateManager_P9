@@ -12,6 +12,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.google.android.material.slider.RangeSlider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
@@ -54,6 +56,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private var estateAgent : String? = null
     private lateinit var currency : String
 
+    private lateinit var mQuery : String
+    private var mArgs : ArrayList<Any> = ArrayList()
     private val mViewModel : FilterViewModel by viewModel()
     private lateinit var mView : View
     private lateinit var mAdapter : ListHousingAdapter
@@ -61,6 +65,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.currency = this.getCurrencyFromSharedPreferences()
+        this.mQuery = "SELECT * FROM housing as h, housing_poi as poi, housing_estate_agent as ea, address as a WHERE"
 
     }
 
@@ -87,14 +92,30 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             priceHigher = Utils.convertDollarToEuroDouble(priceHigher!!)
         }
 
-        this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
+        this.mViewModel.getAllCompleteHousing().observe(viewLifecycleOwner, Observer {
+            val poi = typePoi
+            val debug = it
+        })
+
+       /* this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
                     configRecyclerView(it)
-                })
+                })*/
+
+       this.mViewModel.testQuery(priceLower, priceHigher, this.type).observe(viewLifecycleOwner, Observer {
+            val debugCountry = this.country
+           val debugType = this.type
+            configRecyclerView(it) //TODO : Voir pour appeler les autres attributs
+        })
 
 
+    }
+
+    private fun buildQuery() : SimpleSQLiteQuery
+    {
+        return SimpleSQLiteQuery(mQuery)
     }
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
@@ -131,7 +152,12 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) type = item.toString()
+                    if (item != SPINNER_SELECT)
+                    {
+                        type = item.toString()
+                        mQuery = "$mQuery h.type = $type"
+                        mArgs.add(item.toString())
+                    }
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -237,7 +263,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 parent?.let {
                     val item = parent.getItemAtPosition(position)
-                    if (item != SPINNER_SELECT) typePoi = item.toString()
+                    //if (item != SPINNER_SELECT) typePoi = item.toString()
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}

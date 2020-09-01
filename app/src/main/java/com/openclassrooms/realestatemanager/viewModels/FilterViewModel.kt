@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.repositories.EstateAgentRepository
@@ -39,4 +40,8 @@ class FilterViewModel (private val housingRepository: HousingRepository,
                 bathRoomLower, bathRoomHigher, state, dateEntry,
                 dateSale, city, country, typePoi, numberPhotos, estateAgent)
     }
+
+    fun testQuery(priceLower: Double?, priceHigher: Double?, type: String?) = this.housingRepository.testQuery(priceLower, priceHigher, type)
+
+    /*fun testSupportSQLiteQuery(query : SupportSQLiteQuery) = this.housingRepository.testSupportSQLiteQuery(query)*/
 }
