@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import kotlinx.coroutines.runBlocking
 
 class CompleteHousingHelper
 {
@@ -17,6 +18,11 @@ class CompleteHousingHelper
         private fun getCollectionFirestore() : CollectionReference
         {
             return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
+        }
+
+        suspend fun test()
+        {
+            //getCollectionFirestore().get().await()
         }
 
         fun getListCompleteHousingFromFirestore() : Query
@@ -38,5 +44,8 @@ class CompleteHousingHelper
         {
             return this.getCollectionFirestore().document(completeHousing.housing.ref).delete()
         }
+
+
+
     }
 }

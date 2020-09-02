@@ -319,9 +319,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/add_housing_fragment_photo_rcv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="200dp"
-                tools:listitem="@layout/item_photo_detail"
+                tools:listitem="@layout/item_photo_add"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
@@ -343,7 +343,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <include
+     <include
         layout="@layout/progress_bar"/>
 
 

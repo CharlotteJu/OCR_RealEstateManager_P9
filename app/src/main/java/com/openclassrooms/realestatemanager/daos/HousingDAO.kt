@@ -39,9 +39,6 @@ interface HousingDAO {
         LEFT JOIN address a ON h.reference == a.housing_reference
         LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference
         LEFT JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
-        
-        /*FROM housing as h JOIN photo as ph ON h.reference == ph.housing_reference,, housing_poi as poi, housing_estate_agent as ea, address as a*/
-        
         WHERE
         (:type IS NULL OR h.type = :type)
         AND (:priceLower IS NULL OR h.price BETWEEN :priceLower AND :priceHigher)
@@ -50,8 +47,8 @@ interface HousingDAO {
         AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
         AND (:bathRoomLower IS NULL OR h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher)
         AND (:state IS NULL OR h.state = :state)
-        AND (:dateEntry IS NULL OR dateEntry >= DateTime(:dateEntry))
-        AND (:dateSale IS NULL OR dateSale >= DateTime(:dateSale))
+        AND (:dateEntry IS NULL OR /*DateDiff("day", :dateEntry, dateEntry) >= 0*/ date(dateEntry) >= date(:dateEntry))
+        AND (:dateSale IS NULL OR julianDay(dateSale) >= julianDay(:dateSale))
         AND (:typePoi IS NULL OR poi.poi_type = :typePoi)
         AND (:city IS NULL OR a.city LIKE lower(:city))
         AND (:country IS NULL OR a.country = :country)

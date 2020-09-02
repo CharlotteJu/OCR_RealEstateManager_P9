@@ -18,6 +18,7 @@ import com.openclassrooms.realestatemanager.views.fragments.ListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 /**
@@ -35,46 +36,42 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
     fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?)
     {
-        this.housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
+            housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
+                if (querySnapshot != null) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val listDocumentSnapshot = querySnapshot.documents
+                        val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                        for (housing in listRoom) {
+                            val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                            if (date == null || (dateFirestore != null && date.after(dateFirestore))) {
 
-            if (querySnapshot != null)
-            {
-                val listDocumentSnapshot = querySnapshot.documents //TODO : Pourquoi je rentre beaucoup trop ici ?
-                val dateFirestore = lastUpdateFirestore?.let {UtilsKotlin.convertStringToDate(it)  }
-
-               for (housing in listRoom)
-                {
-                    val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                    if (date == null || (dateFirestore!=null && date.after(dateFirestore)))
-                    {
-
-                        this.createCompleteHousingOnFirestore(housing)
-                    }
-                }
-
-
-                for (document in listDocumentSnapshot)
-                {
-                    val completeHousing = document.toObject(CompleteHousing::class.java)
-                    if (completeHousing != null)
-                    {
-                        if(!listRoom.contains(completeHousing))
-                        {
-                            this.createCompleteHousingOnRoom(completeHousing, context)
-                        }
-                        else
-                        {
-                            val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                            if (date != null && dateFirestore != null && date.after(dateFirestore))
-                            {
-                                val index = listRoom.indexOf(completeHousing)
-                                this.updateGlobalHousing(listRoom[index],completeHousing, context)
+                                //this.createCompleteHousingOnFirestore(housing)
                             }
                         }
+
+                        for (document in listDocumentSnapshot) {
+                            val completeHousing = document.toObject(CompleteHousing::class.java)
+                            if (completeHousing != null) {
+                                if (!listRoom.contains(completeHousing)) {
+                                    val debug = listRoom
+
+                                    val thread = async {
+                                        createCompleteHousingOnRoom(completeHousing, context)
+                                    }
+                                   thread.await()
+
+                                } else {
+                                    val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                                    if (date != null && dateFirestore != null && date.after(dateFirestore)) {
+                                        val index = listRoom.indexOf(completeHousing)
+                                        updateGlobalHousing(listRoom[index], completeHousing, context)
+                                    }
+                                }
+                            }
+                        }
+                        ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
                     }
 
-                }
-                ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
             }
         }
     }
@@ -165,18 +162,13 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         }
     }
 
-    private fun createCompleteHousingOnRoom (completeHousing :CompleteHousing, context: Context)
+    private suspend fun createCompleteHousingOnRoom (completeHousing :CompleteHousing, context: Context)
     {
-        viewModelScope.launch  (Dispatchers.IO)
-        {
-            val thread = viewModelScope.async {createHousing(completeHousing.housing)
+                createHousing(completeHousing.housing)
                 createAllHousingPoi(completeHousing.poiList)
                 createGlobalAddress(completeHousing.address, context)
                 createAllPhoto(completeHousing.photoList)
-                createAllHousingEstateAgent(completeHousing.estateAgentList)  }
-            thread.await()
-
-        }
+                createAllHousingEstateAgent(completeHousing.estateAgentList)
     }
 
     //////////////////// UPDATE ////////////////////
@@ -194,7 +186,8 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
             if (completeHousing.address != null && address != completeHousing.address)
             {
                 val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-                /*if (location != null && location != ERROR_GEOCODER_ADDRESS)*/ updateAddress(address)
+                if (location != null && location != ERROR_GEOCODER_ADDRESS)
+                    updateAddress(address)
             }
             else if (completeHousing.address == null) createAddress(address)
         }
