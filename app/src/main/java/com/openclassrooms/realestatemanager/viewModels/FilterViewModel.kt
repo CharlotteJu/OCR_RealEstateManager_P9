@@ -26,8 +26,8 @@ class FilterViewModel (private val housingRepository: HousingRepository,
                       bathRoomLower : Int? = null,
                       bathRoomHigher : Int? = null,
                       state : String? = null,
-                      dateEntry : String? = null,
-                      dateSale : String? = null,
+                      dateEntry : Long? = null,
+                      dateSale : Long? = null,
                       city : String? = null,
                       country : String? = null,
                       typePoi : String? = null,
@@ -41,7 +41,5 @@ class FilterViewModel (private val housingRepository: HousingRepository,
                 dateSale, city, country, typePoi, numberPhotos, estateAgent)
     }
 
-    fun testQuery(priceLower: Double?, priceHigher: Double?, type: String?) = this.housingRepository.testQuery(priceLower, priceHigher, type)
 
-    /*fun testSupportSQLiteQuery(query : SupportSQLiteQuery) = this.housingRepository.testSupportSQLiteQuery(query)*/
 }

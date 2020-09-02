@@ -99,10 +99,9 @@ public class Utils {
         return dateFormat.format(new Date());
     }
 
-    public static String getTodayDateGood()
+    public static Long getTodayDateGood()
     {
-        Date date = Calendar.getInstance().getTime();
-        return getDateFormat(date);
+        return Calendar.getInstance().getTime().getTime();
     }
 
     public static String getDateFormat(Date date)

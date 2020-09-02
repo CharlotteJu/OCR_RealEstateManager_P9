@@ -3,15 +3,12 @@ package com.openclassrooms.realestatemanager.views.fragments
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.ContentResolver
 import android.content.ContentValues
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.SyncStateContract.Helpers.insert
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +16,6 @@ import android.widget.*
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -419,7 +415,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             val monthString = if (month1 < 10) "0$month1"
             else month1.toString()
 
-            housing.dateSale = "$dayString/$monthString/$year"
+            val dateString = "$dayString/$monthString/$year"
+
+            housing.dateSale = UtilsKotlin.convertStringToLongDate(dateString)
         }, year, month, dayOfMonth)
         datePickerDialog.show()
     }

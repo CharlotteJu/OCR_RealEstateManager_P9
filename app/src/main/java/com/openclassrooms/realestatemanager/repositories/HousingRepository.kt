@@ -71,8 +71,8 @@ class HousingRepository(private val housingDao : HousingDAO)
                       bathRoomLower : Int? = null,
                       bathRoomHigher : Int? = null,
                       state : String? = null,
-                      dateEntry : String? = null,
-                      dateSale : String? = null,
+                      dateEntry : Long? = null,
+                      dateSale : Long? = null,
                       city : String? = null,
                       country : String? = null,
                       typePoi : String? = null,
@@ -83,11 +83,7 @@ class HousingRepository(private val housingDao : HousingDAO)
                priceLower, priceHigher, areaLower, areaHigher,
                roomLower, roomHigher, bedRoomLower, bedRoomHigher,
                bathRoomLower, bathRoomHigher, state, dateEntry,
-               dateSale, city, country, typePoi, estateAgent)
+               dateSale, city, country, typePoi, estateAgent, numberPhotos)
     }
-
-    fun testQuery(priceLower: Double?, priceHigher: Double?, type: String?) = this.housingDao.testQuery(priceLower, priceHigher,type, null, null)
-
-    /*fun testSupportSQLiteQuery(query: SupportSQLiteQuery) = this.housingDao.testSupportSQLiteQuery(query)*/
 
 }

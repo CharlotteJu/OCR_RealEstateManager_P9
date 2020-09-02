@@ -28,8 +28,8 @@ data class CompleteHousing (@Embedded var housing: Housing,
             if (contentValues.containsKey("bedrooms")) housing.bedrooms = contentValues.getAsInteger("bedrooms")
             if (contentValues.containsKey("bathrooms")) housing.bathrooms = contentValues.getAsInteger("bathrooms")
             if (contentValues.containsKey("state")) housing.state = contentValues.getAsString("state")
-            if (contentValues.containsKey("dateEntry")) housing.dateEntry = contentValues.getAsString("dateEntry")
-            if (contentValues.containsKey("dateSale")) housing.dateSale = contentValues.getAsString("dateSale")
+            if (contentValues.containsKey("dateEntry")) housing.dateEntry = contentValues.getAsLong("dateEntry")
+            if (contentValues.containsKey("dateSale")) housing.dateSale = contentValues.getAsLong("dateSale")
             if (contentValues.containsKey("description")) housing.description = contentValues.getAsString("description")
 
             val address = Address()

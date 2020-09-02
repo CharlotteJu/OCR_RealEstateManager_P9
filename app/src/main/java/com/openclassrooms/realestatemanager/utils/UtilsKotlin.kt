@@ -42,13 +42,14 @@ class UtilsKotlin
             return context.resources.getStringArray(R.array.type_poi).asList()
         }
 
-        fun convertStringToDateTEST(stringDate : String?) : Date?
+        fun convertStringToLongDate(stringDate : String?) : Long?
         {
             return if (stringDate.equals("null") || stringDate == null) null
             else
             {
                 val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US) //TODO : Obligé de mettre la locale ?
-                formatter.parse(stringDate)
+                val date = formatter.parse(stringDate)
+                return date?.time
             }
 
         }

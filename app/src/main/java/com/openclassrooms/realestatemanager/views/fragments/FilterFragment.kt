@@ -46,8 +46,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private var bathRoomLower : Int? = null
     private var bathRoomHigher : Int? = null
     private var state : String? = null
-    private var dateEntry : String? = null
-    private var dateSale : String? = null
+    private var dateEntry : Long? = null
+    private var dateSale : Long? = null
     private var city : String? = null
     private var country : String? = null
     private var typePoi : String? = null
@@ -89,8 +89,6 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         }
 
         this.mViewModel.getAllCompleteHousing().observe(viewLifecycleOwner, Observer {
-            val poi = typePoi
-            val debug = it
             listFilter = it as ArrayList<CompleteHousing>
         })
 
@@ -98,9 +96,9 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
-                    val debugDate = this.dateEntry //TODO : Ne marche pas avec la date
-                    val debugList = this.listFilter
-                    listFilter = it as ArrayList<CompleteHousing>
+                   // listFilter = it as ArrayList<CompleteHousing>
+                    val debug = numberPhotos
+                    val debugList = listFilter
                     configRecyclerView(it)
                 })
     }
@@ -205,8 +203,9 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
                 val monthString = if (month1 < 10) "0$month1"
                 else month1.toString()
 
-                dateEntry = "$dayString/$monthString/$year"
-                mView.fragment_filter_date_entry_generated_txt.text = dateEntry
+                val dateString = "$dayString/$monthString/$year"
+                dateEntry = UtilsKotlin.convertStringToLongDate(dateString)
+                mView.fragment_filter_date_entry_generated_txt.text = dateString
             }, year, month, dayOfMonth)
             datePickerDialog.show()
         }
@@ -219,8 +218,9 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
                 val monthString = if (month1 < 10) "0$month1"
                 else month1.toString()
 
-                dateSale= "$dayString/$monthString/$year"
-                mView.fragment_filter_date_sale_generated_txt.text = dateSale
+                val dateString = "$dayString/$monthString/$year"
+                dateSale= UtilsKotlin.convertStringToLongDate(dateString)
+                mView.fragment_filter_date_sale_generated_txt.text = dateString
             }, year, month, dayOfMonth)
             datePickerDialog.show()
         }

@@ -34,11 +34,13 @@ interface HousingDAO {
 
    @Transaction
     @Query("""
-        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name, a.housing_reference, poi.housing_reference, ea.housing_reference
+        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name, a.housing_reference, poi.housing_reference, ea.housing_reference, count(ph.housing_reference) cnt
         FROM housing h
         LEFT JOIN address a ON h.reference == a.housing_reference
         LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference
         LEFT JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
+        LEFT JOIN photo ph ON h.reference == ph.housing_reference
+        /* LEFT JOIN (SELECT photo.housing_reference as ref, count(photo.housing_reference) as nbPhoto FROM housing LEFT JOIN photo ON housing.reference == photo.housing_reference) as pho ON h.reference == pho.ref*/
         WHERE
         (:type IS NULL OR h.type = :type)
         AND (:priceLower IS NULL OR h.price BETWEEN :priceLower AND :priceHigher)
@@ -47,13 +49,15 @@ interface HousingDAO {
         AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
         AND (:bathRoomLower IS NULL OR h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher)
         AND (:state IS NULL OR h.state = :state)
-        AND (:dateEntry IS NULL OR dateEntry >= :dateEntry)/*DateDiff("day", :dateEntry, dateEntry) >= 0date(dateEntry) >= date(:dateEntry))*/
-        AND (:dateSale IS NULL OR julianDay(dateSale) >= julianDay(:dateSale))
+        AND (:dateEntry IS NULL OR dateEntry >= :dateEntry)/*DateDiff("day", :dateEntry, dateEntry) >= //date(dateEntry) >= date(:dateEntry))*/
+        AND (:dateSale IS NULL OR dateSale >= :dateSale)
         AND (:typePoi IS NULL OR poi.poi_type = :typePoi)
         AND (:city IS NULL OR a.city LIKE lower(:city))
         AND (:country IS NULL OR a.country = :country)
         AND (:estateAgent IS NULL OR ea.estate_agent_name = :estateAgent)
+        /*AND (:numberPhotos IS NULL OR pho.nbPhoto > :numberPhotos) */
         GROUP BY h.reference
+        HAVING (:numberPhotos IS NULL OR cnt >= :numberPhotos)
         /*AND cnt >= :numberPhotos  TODO : Voir pour listPhoto*/
         """)
     fun getListCompleteHousingFilter(type : String? = null,
@@ -68,34 +72,13 @@ interface HousingDAO {
                                      bathRoomLower : Int? = 0,
                                      bathRoomHigher : Int? = Int.MAX_VALUE,
                                      state : String? = null,
-                                     dateEntry : String? = null,
-                                     dateSale : String? = null,
+                                     dateEntry : Long? = null,
+                                     dateSale : Long? = null,
                                      city : String? = null,
                                      country : String? = null,
                                      typePoi : String? = null,
-                                     /*numberPhotos : Int? = null,*/
-                                     estateAgent : String? = null): LiveData<List<CompleteHousing>>
-
-    /*fun testSupportSQLiteQuery (query : SupportSQLiteQuery) : LiveData<List<CompleteHousing>>*/
-
-    @Transaction
-    @Query("""
-    SELECT * /*h.reference, a.housing_reference, ea.housing_reference, h.price, h.type, a.country, ea.estate_agent_name, h.area, h.dateEntry, h.state*/
-    FROM housing h LEFT OUTER JOIN address a ON h.reference == a.housing_reference /*UNION ALL SELECT * FROM housing RIGHT OUTER JOIN address a ON h.reference == a.housing_reference*/
-    LEFT OUTER JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
-    WHERE price BETWEEN :priceLower AND :priceHigher AND (:type IS NULL OR type = :type) AND (:country IS NULL OR country = :country) AND (:estateAgent IS NULL OR estate_agent_name == :estateAgent)
-    """)
-    fun testQuery(priceLower: Double?, priceHigher: Double?, type : String?, country: String?, estateAgent: String?) : LiveData<List<CompleteHousing>>
-
-    /* @Query ("""
-         SELECT housing_reference, count(*) FROM housing JOIN photo ON housing.reference == photo.housing_reference
-         """)
-     fun testPhoto2(numberPhotos : Int): LiveData<List<Housing>>*/
-
-     @Query ("SELECT count(*) FROM photo WHERE housing_reference ==:housingReference")
-     fun testPhoto(housingReference : String): LiveData<Int>
-
-
+                                     estateAgent : String? = null,
+                                     numberPhotos : Int? = null): LiveData<List<CompleteHousing>>
 
 
     //CURSOR

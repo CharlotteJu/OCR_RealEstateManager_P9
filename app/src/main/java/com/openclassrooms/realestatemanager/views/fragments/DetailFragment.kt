@@ -28,6 +28,7 @@ import com.openclassrooms.realestatemanager.views.adapters.ListPoiAdapter
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -145,10 +146,9 @@ class DetailFragment : BaseFragment() {
     private fun showStateAndDate()
     {
         this.mView.detail_fragment_state_txt.text = housing.housing.state
-        this.mView.detail_fragment_date_entry_txt.text = housing.housing.dateEntry
+        this.mView.detail_fragment_date_entry_txt.text = Utils.getDateFormat(Date(housing.housing.dateEntry))
 
-        if (housing.housing.dateSale != null)
-        { this.mView.detail_fragment_date_sale_txt.text = housing.housing.dateSale }
+        if (housing.housing.dateSale != null) this.mView.detail_fragment_date_sale_txt.text = Utils.getDateFormat(Date(housing.housing.dateSale!!))
         else {
             this.mView.detail_fragment_date_sale_txt.visibility = View.INVISIBLE
             this.mView.detail_fragment_sale_txt.visibility = View.INVISIBLE
