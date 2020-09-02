@@ -47,7 +47,7 @@ interface HousingDAO {
         AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
         AND (:bathRoomLower IS NULL OR h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher)
         AND (:state IS NULL OR h.state = :state)
-        AND (:dateEntry IS NULL OR /*DateDiff("day", :dateEntry, dateEntry) >= 0*/ date(dateEntry) >= date(:dateEntry))
+        AND (:dateEntry IS NULL OR dateEntry >= :dateEntry)/*DateDiff("day", :dateEntry, dateEntry) >= 0date(dateEntry) >= date(:dateEntry))*/
         AND (:dateSale IS NULL OR julianDay(dateSale) >= julianDay(:dateSale))
         AND (:typePoi IS NULL OR poi.poi_type = :typePoi)
         AND (:city IS NULL OR a.city LIKE lower(:city))

@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
@@ -40,6 +42,17 @@ class UtilsKotlin
             return context.resources.getStringArray(R.array.type_poi).asList()
         }
 
+        fun convertStringToDateTEST(stringDate : String?) : Date?
+        {
+            return if (stringDate.equals("null") || stringDate == null) null
+            else
+            {
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US) //TODO : Obligé de mettre la locale ?
+                formatter.parse(stringDate)
+            }
+
+        }
+
         fun convertStringToDate(stringDate : String?) : Date?
         {
             return if (stringDate.equals("null") || stringDate == null) null
@@ -57,5 +70,6 @@ class UtilsKotlin
             val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.US)
             return formatter.format(date)
         }
+
     }
 }

@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -137,16 +139,25 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
     override fun onClickDeleteEstateAgent(position: Int) {
 
-        if (estateAgentList.size <= 1)
-        {
-            estateAgentList.clear()
-        }
-        else
-        {
-            val estateAgentToDelete = this.estateAgentList[position]
-            this.estateAgentList.remove(estateAgentToDelete)
-        }
-        this.mAdapterEstateAgentRcv.updateList(estateAgentList)
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(resources.getString(R.string.sure_delete))
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                    if (estateAgentList.size <= 1)
+                    {
+                        estateAgentList.clear()
+                    }
+                    else
+                    {
+                        val estateAgentToDelete = this.estateAgentList[position]
+                        this.estateAgentList.remove(estateAgentToDelete)
+                    }
+                    this.mAdapterEstateAgentRcv.updateList(estateAgentList)
+                })
+                .setNegativeButton(getString(R.string.no), DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+
 
     }
 
@@ -179,16 +190,24 @@ class EditHousingFragment : BaseEditHousingFragment() {
     }
 
     override fun onClickDeletePhoto(position: Int) {
-        if (photoList.size <= 1)
-        {
-            photoList.clear()
-        }
-        else
-        {
-            val photoToDelete = this.photoList[position]
-            this.photoList.remove(photoToDelete)
-        }
-        this.mAdapterPhotoAddRcv.updateList(photoList)
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(resources.getString(R.string.sure_delete))
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                    if (photoList.size <= 1)
+                    {
+                        photoList.clear()
+                    }
+                    else
+                    {
+                        val photoToDelete = this.photoList[position]
+                        this.photoList.remove(photoToDelete)
+                    }
+                    this.mAdapterPhotoAddRcv.updateList(photoList)
+                })
+                .setNegativeButton(getString(R.string.no), DialogInterface.OnClickListener { dialog, _ -> dialog.cancel() })
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 
 

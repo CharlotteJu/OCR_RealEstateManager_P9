@@ -129,16 +129,17 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     private fun getPrice()
     {
         this.mView.add_housing_fragment_price_editTxt.doAfterTextChanged {
-            if (currency== DOLLAR)
+            if (it.toString().isNotEmpty())
             {
-                this.housing.price = it.toString().toDouble()
+                if (currency== DOLLAR) this.housing.price = it.toString().toDouble()
+                else
+                {
+                    val price = it.toString().toDouble()
+                    val euroToDollarPrice = Utils.convertEuroToDollarDouble(price)
+                    this.housing.price = euroToDollarPrice
+                }
             }
-            else
-            {
-                val price = it.toString().toDouble()
-                val euroToDollarPrice = Utils.convertEuroToDollarDouble(price)
-                this.housing.price = euroToDollarPrice
-            }
+            else this.housing.price = DOUBLE_00
             this.enableFinalButton()
         }
     }
@@ -146,7 +147,12 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     private fun getInfoInsideHouse()
     {
         this.mView.add_housing_fragment_area_editTxt.doAfterTextChanged {
-            housing.area = it.toString().toDouble()
+            if(it.toString().isNotEmpty())
+            {
+                housing.area = it.toString().toDouble()
+
+            }
+            else housing.area = DOUBLE_00
             this.enableFinalButton()
         }
 
@@ -239,7 +245,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
         this.mView.add_housing_fragment_address_editTxt.doAfterTextChanged { address!!.street = it.toString() }
         this.mView.add_housing_fragment_zipCode_editTxt.doAfterTextChanged{
-            if (it.toString() != STRING_EMPTY) address!!.zipCode = it.toString().toInt() }
+            if (it.toString().isNotEmpty()) address!!.zipCode = it.toString().toInt()
+            else address!!.zipCode = null
+        }
         this.mView.add_housing_fragment_city_editTxt.doAfterTextChanged { address!!.city = it.toString() }
 
         this.mView.add_housing_fragment_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener

@@ -96,5 +96,10 @@
     <string name="toast_estate_agent_no_name">Please put the last name</string>
     <string name="toast_internet_no_available">Internet no available</string>
 
+    <!-- AlertDialog -->
+    <string name="sure_delete">Do you want delete it ?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+
 
 </resources>
