@@ -4,8 +4,6 @@ import android.content.ContentValues
 import androidx.room.*
 import com.openclassrooms.realestatemanager.utils.DOUBLE_00
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
-import java.util.Date
-import java.sql.Timestamp
 
 @Entity (tableName = "housing")
 data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var ref : String = STRING_EMPTY,
@@ -19,9 +17,28 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var 
                                 @ColumnInfo (name = "dateEntry") var dateEntry : Long = 0,
                                 @ColumnInfo (name = "dateSale")  var dateSale : Long? = null,
                                 @ColumnInfo (name = "description") var description : String? = null,
-                                @ColumnInfo (name = "dateOnFirestore") var dateOnFirestore : String? = null)
+                                @ColumnInfo (name = "lastUpdate") var lastUpdate : Long = 0)
 
 {
+
+    override fun equals(other: Any?): Boolean {
+        return other is Housing && other.ref == this.ref
+    }
+
+    override fun hashCode(): Int {
+        /*var result = ref.hashCode()
+        result = 31 * result + type.hashCode()
+        result = 31 * result + price.hashCode()
+        result = 31 * result + area.hashCode()
+        result = 31 * result + (rooms ?: 0)
+        result = 31 * result + (bedrooms ?: 0)
+        result = 31 * result + (bathrooms ?: 0)
+        result = 31 * result + state.hashCode()
+        result = 31 * result + dateEntry.hashCode()
+        result = 31 * result + (dateSale?.hashCode() ?: 0)
+        result = 31 * result + (description?.hashCode() ?: 0)*/
+        return ref.hashCode()
+    }
 
     companion object {
 
@@ -39,7 +56,7 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var 
             if (contentValues.containsKey("dateEntry")) housing.dateEntry = contentValues.getAsLong("dateEntry")
             if (contentValues.containsKey("dateSale")) housing.dateSale = contentValues.getAsLong("dateSale")
             if (contentValues.containsKey("description")) housing.description = contentValues.getAsString("description")
-            if (contentValues.containsKey("dateOnFirestore")) housing.dateOnFirestore = contentValues.getAsString("dateOnFirestore")
+            if (contentValues.containsKey("lastUpdate")) housing.lastUpdate = contentValues.getAsLong("lastUpdate")
 
             return housing
 

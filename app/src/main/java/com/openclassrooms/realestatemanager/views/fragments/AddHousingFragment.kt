@@ -64,6 +64,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.checkAddress()
 
         context?.let {
+            housing.lastUpdate = Utils.getTodayDateGood()
             this.isInternetAvailable = Utils.isInternetAvailableGood(it)
             this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }

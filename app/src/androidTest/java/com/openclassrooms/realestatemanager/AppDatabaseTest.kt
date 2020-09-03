@@ -46,7 +46,7 @@ class AppDatabaseTest
             3,
             "STATE",
             description = "DESCRIPTION",
-            dateEntry = "20200624",
+            dateEntry = 20200624,
             dateSale = null)
 
     private var address = Address("idAddress", "38 rue de Bellevue", city = "Boulogne-Billancourt", country = "FR", housingReference = reference, zipCode = null)

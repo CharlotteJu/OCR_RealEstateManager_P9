@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Repository of [HousingDAO], and getting [CompleteHousing]
@@ -47,15 +48,20 @@ class HousingRepository(private val housingDao : HousingDAO)
         return CompleteHousingHelper.getCompleteHousingFromFirestore(completeHousing)
     }
 
-    fun createCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<Void>
-    {
-        return CompleteHousingHelper.createCompleteHousingFromFirestore(completeHousing)
+    suspend fun  createCompleteHousingFromFirestore(completeHousing: CompleteHousing) = coroutineScope {
+        CompleteHousingHelper.createCompleteHousingFromFirestore(completeHousing)
     }
+    /*{
+        return CompleteHousingHelper.createCompleteHousingFromFirestore(completeHousing)
+    }*/
 
     fun deleteCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<Void>
     {
         return CompleteHousingHelper.deleteCompleteHousingFromFirestore(completeHousing)
     }
+
+    suspend fun testGetFirestore() = CompleteHousingHelper.testGetFirestore()
+    suspend fun testCreateFirestore(completeHousing: CompleteHousing) = CompleteHousingHelper.testCreateFirestore(completeHousing)
 
     //////////////// FILTER ////////////////
 

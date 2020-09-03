@@ -8,13 +8,12 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 
 /**
@@ -252,7 +251,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
             if (housing.ref == completeHousing.housing.ref)
             {
-                housing.dateOnFirestore = null
+                housing.lastUpdate = Utils.getTodayDateGood()
                 updateHousing(housing)
                 updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
                 updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)

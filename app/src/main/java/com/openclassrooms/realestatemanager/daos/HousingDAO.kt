@@ -34,7 +34,10 @@ interface HousingDAO {
 
    @Transaction
     @Query("""
-        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, h.state, h.dateEntry, h.dateSale, poi.poi_type, a.country, a.city, ea.estate_agent_name, a.housing_reference, poi.housing_reference, ea.housing_reference, count(ph.housing_reference) cnt
+        SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, 
+                        h.state, h.dateEntry, h.dateSale, h.lastUpdate, poi.poi_type, a.country, a.city, 
+                        ea.estate_agent_name, a.housing_reference, poi.housing_reference,
+                        ea.housing_reference, count(ph.housing_reference) cnt
         FROM housing h
         LEFT JOIN address a ON h.reference == a.housing_reference
         LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference

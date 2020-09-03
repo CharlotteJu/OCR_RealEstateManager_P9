@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.viewModels
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.tasks.Task
@@ -12,14 +11,12 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import com.openclassrooms.realestatemanager.views.fragments.ListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.*
+import kotlinx.coroutines.tasks.await
 
 /**
  * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> ListFragment & MapFragment
@@ -34,63 +31,165 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
-    fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?)
-    {
-            housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
-                if (querySnapshot != null) {
-                    viewModelScope.launch(Dispatchers.IO) {
-                        val listDocumentSnapshot = querySnapshot.documents
-                        val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                        for (housing in listRoom) {
-                            val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                            if (date == null || (dateFirestore != null && date.after(dateFirestore))) {
+    fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?) {
+        viewModelScope.launch {
+            val querySnapshot = housingRepository.testGetFirestore()
+            if (querySnapshot != null) {
+                val listDocumentSnapshot = querySnapshot.documents
+                val listFirestore = ArrayList<CompleteHousing>()
 
-                                //this.createCompleteHousingOnFirestore(housing)
-                            }
-                        }
-
-                        for (document in listDocumentSnapshot) {
-                            val completeHousing = document.toObject(CompleteHousing::class.java)
-                            if (completeHousing != null) {
-                                if (!listRoom.contains(completeHousing)) {
-                                    val debug = listRoom
-
-                                    val thread = async {
-                                        createCompleteHousingOnRoom(completeHousing, context)
-                                    }
-                                   thread.await()
-
-                                } else {
-                                    val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                                    if (date != null && dateFirestore != null && date.after(dateFirestore)) {
-                                        val index = listRoom.indexOf(completeHousing)
-                                        updateGlobalHousing(listRoom[index], completeHousing, context)
-                                    }
-                                }
-                            }
-                        }
-                        ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
+                for (document in listDocumentSnapshot) {
+                    val completeHousing = document.toObject(CompleteHousing::class.java)
+                    if (completeHousing != null) {
+                        listFirestore.add(completeHousing)
                     }
+                }
 
+                for (hRoom in listRoom) {
+                    if (!listFirestore.contains(hRoom)) {
+                        createCompleteHousingOnFirestore(hRoom)
+                    } else {
+                        val index = listFirestore.indexOf(hRoom)
+                        if (hRoom.housing.lastUpdate > listFirestore[index].housing.lastUpdate) {
+                            createCompleteHousingOnFirestore(hRoom)
+                        } else if (hRoom.housing.lastUpdate < listFirestore[index].housing.lastUpdate) {
+                            createCompleteHousingOnRoom(listFirestore[index], context)
+                        }
+                    }
+                }
+
+                for (hFirestore in listFirestore) {
+                    if (!listRoom.contains(hFirestore)) {
+                        createCompleteHousingOnRoom(hFirestore, context)
+                    } else {
+                        val index = listRoom.indexOf(hFirestore)
+                        if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
+                            createCompleteHousingOnFirestore(listRoom[index])
+                        } else if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
+                            createCompleteHousingOnRoom(hFirestore, context)
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Task<Void>
+
+                //val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                //val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                //if (date == null || (dateFirestore != null && date.after(dateFirestore)))
+
+                /*for (housing in listRoom) {
+
+                    if (!listFirestore.contains(housing))
+                    {
+                        val debug = listFirestore
+                        createCompleteHousingOnFirestore(housing)
+
+                    }
+                }
+
+
+                val threadRoom = async {
+                    for (document in listDocumentSnapshot) {
+                        val completeHousing = document.toObject(CompleteHousing::class.java)
+                        if (completeHousing != null) {
+                            if (!listRoom.contains(completeHousing))
+                            {
+                                val debug = listRoom
+                                createCompleteHousingOnRoom(completeHousing, context)
+                            }
+                            else
+                            {
+                                val date = completeHousing.housing.lastUpdate?.let { UtilsKotlin.convertStringToDate(it) }
+                                if (date != null && dateFirestore != null && date.after(dateFirestore)) {
+                                    val index = listRoom.indexOf(completeHousing)
+                                    updateGlobalHousing(listRoom[index], completeHousing, context)
+                                }
+                            }
+                        }
+                    }
+                }
+                threadRoom.await()*/
+                //ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
+
+
+
+
+
+
+
+
+        /*housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
+                if (querySnapshot != null) {
+                    viewModelScope.launch(Dispatchers.IO) {
+                        val listDocumentSnapshot = querySnapshot.documents
+                        val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                        //val threadFirestore = async {
+                            for (housing in listRoom) {
+                                val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                                    if (date == null || (dateFirestore != null && date.after(dateFirestore)))
+                                    {
+                                        createCompleteHousingOnFirestore(housing)
+                                    }
+                                }
+
+                            //} threadFirestore.await()
+
+                        val threadRoom = async {
+                            for (document in listDocumentSnapshot) {
+                                val completeHousing = document.toObject(CompleteHousing::class.java)
+                                if (completeHousing != null) {
+                                    if (!listRoom.contains(completeHousing)) {
+                                        val debug = listRoom
+                                        createCompleteHousingOnRoom(completeHousing, context)
+                                    } else {
+                                        val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
+                                        if (date != null && dateFirestore != null && date.after(dateFirestore)) {
+                                            val index = listRoom.indexOf(completeHousing)
+                                            updateGlobalHousing(listRoom[index], completeHousing, context)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        threadRoom.await()
+                        ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
+                    }
+
+            }
+        }*/
+
+
+    private suspend fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Void
     {
-        completeHousing.housing.dateOnFirestore = UtilsKotlin.getDateAndHoursOfToday()
+        //completeHousing.housing.dateOnFirestore = UtilsKotlin.getDateAndHoursOfToday()
         if (!completeHousing.photoList.isNullOrEmpty())
         {
             for (photo in completeHousing.photoList!!)
             {
                 //TODO : Revoir
-                //this.uploadAPhotoInFirestore(photo)
+                this.uploadAPhotoInFirestore(photo)
             }
         }
-        return this.housingRepository.createCompleteHousingFromFirestore(completeHousing)
+        return this.housingRepository.createCompleteHousingFromFirestore(completeHousing).await()
     }
 
-   /* private fun uploadAPhotoInFirestore(photo : Photo)
+    private suspend fun testCreateFirestore (completeHousing: CompleteHousing) : Void?
+    {
+        //completeHousing.housing.lastUpdate = UtilsKotlin.getDateAndHoursOfToday()
+        if (!completeHousing.photoList.isNullOrEmpty())
+        {
+            for (photo in completeHousing.photoList!!)
+            {
+                //TODO : Revoir
+               // this.uploadAPhotoInFirestore(photo)
+            }
+        }
+        return this.housingRepository.testCreateFirestore(completeHousing)
+    }
+
+    private fun uploadAPhotoInFirestore(photo : Photo)
     {
         if (photo.url_firebase == null)
         {
@@ -104,7 +203,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 }
             }
         }
-    }*/
+    }
 
 
     //////////////////// CREATE ////////////////////

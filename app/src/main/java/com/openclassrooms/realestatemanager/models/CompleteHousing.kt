@@ -16,6 +16,25 @@ data class CompleteHousing (@Embedded var housing: Housing,
 
     constructor() : this(Housing())
 
+    override fun equals(other: Any?): Boolean {
+        return (other is CompleteHousing
+                && other.housing == this.housing
+               /* && other.address == this.address
+                && other.estateAgentList == this.estateAgentList
+                && other.poiList == this.poiList*/)
+
+        //return super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        var result = housing.hashCode()
+        result = 31 * result + (photoList?.hashCode() ?: 0)
+        result = 31 * result + (address?.hashCode() ?: 0)
+        result = 31 * result + (estateAgentList?.hashCode() ?: 0)
+        result = 31 * result + (poiList?.hashCode() ?: 0)
+        return result
+    }
+
     companion object {
         fun fromContentValues(contentValues: ContentValues) : CompleteHousing
         {

@@ -96,7 +96,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
-                   // listFilter = it as ArrayList<CompleteHousing>
+                   listFilter = it as ArrayList<CompleteHousing>
                     val debug = numberPhotos
                     val debugList = listFilter
                     configRecyclerView(it)

@@ -389,8 +389,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
      */
     private fun getDateOfToday()
     {
-        val stringDate = Utils.getTodayDateGood()
-        housing.dateEntry = stringDate
+        housing.dateEntry = Utils.getTodayDateGood()
     }
 
     protected fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
