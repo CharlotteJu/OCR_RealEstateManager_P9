@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.utils.*
-import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.viewModels.ListHousingViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
@@ -21,7 +20,6 @@ import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
@@ -29,14 +27,13 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private lateinit var mAdapter : ListHousingAdapter
     private val mViewModel : ListHousingViewModel by viewModel()
     private var mListHousing : MutableList<CompleteHousing> = arrayListOf()
+    private var mListEstateAgent : MutableList<EstateAgent> = arrayListOf()
     private lateinit var currency: String
-    private var lastUpdateFirestore: String? = null
-
+    private var isInternetAvailable : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        this.lastUpdateFirestore = this.getLastUpdateFirestoreFromSharedPreferences()
     }
 
     override fun onResume() {
@@ -47,12 +44,21 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         this.mView = inflater.inflate(R.layout.fragment_list, container, false)
+
+        this.isInternetAvailable = Utils.isInternetAvailableGood(context)
         this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mAdapter.updateList(it)
             mListHousing = it as MutableList<CompleteHousing>
-            if (Utils.isInternetAvailableGood(context)) this.syncDataWithFirestore()
+            if (isInternetAvailable) this.syncCompleteHousingWithFirestore()
 
         })
+
+        this.mViewModel.getAllEstateAgent().observe(this.viewLifecycleOwner, Observer {
+            mListEstateAgent = it as MutableList<EstateAgent>
+            if (isInternetAvailable)
+                this.syncEstateAgentWithFirestore()
+        })
+
         this.configRecyclerView()
         this.mView.list_fragment_map_fab.setOnClickListener {
             if (Utils.isInternetAvailableGood(context)) findNavController().navigate(R.id.mapFragment)
@@ -65,15 +71,22 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun configRecyclerView()
     {
         this.currency = getCurrencyFromSharedPreferences()
-        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency)
+        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency, this.isInternetAvailable)
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun syncDataWithFirestore()
+    private fun syncCompleteHousingWithFirestore()
     {
         context?.let {
-            this.mViewModel.syncDataWithFirebase(mListHousing, it, lastUpdateFirestore)
+            this.mViewModel.syncCompleteHousingWithFirebase(mListHousing, it)
+        }
+    }
+
+    private fun syncEstateAgentWithFirestore()
+    {
+        context?.let {
+            this.mViewModel.syncEstateAgentWithFirebase(mListEstateAgent)
         }
     }
 

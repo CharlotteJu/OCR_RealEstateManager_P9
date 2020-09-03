@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
+import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.viewModels.AddEstateTypeViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAddAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickEdit
@@ -53,7 +54,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         {
             if ((!listEstateAgent.isNullOrEmpty() && !listEstateAgent.contains(EstateAgent(lastName!!))) || listEstateAgent.isNullOrEmpty())
             {
-                val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
+                val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber, Utils.getTodayDateGood())
                 this.mViewModel.createGlobalEstateAgent(estateAgent)
                 this.resetViews()
             }
@@ -142,7 +143,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
 
                 if (!listTemp.contains(EstateAgent(lastName!!)))
                 {
-                    val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber)
+                    val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber, Utils.getTodayDateGood())
                     this.mViewModel.updateGlobalEstateAgent(estateAgent)
                     this.resetViews()
                     this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_48)

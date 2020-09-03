@@ -11,7 +11,8 @@ import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 data class EstateAgent constructor(@PrimaryKey @ColumnInfo(name = "last_name") var lastName : String = STRING_EMPTY,
                                    @ColumnInfo(name = "first_name") var firstName : String? = null,
                                    @ColumnInfo (name = "email") var email: String? = null,
-                                   @ColumnInfo (name = "phone_number") var phoneNumber : String? = null)
+                                   @ColumnInfo (name = "phone_number") var phoneNumber : String? = null,
+                                   @ColumnInfo (name = "last_update_estate") var lastUpdateEstate : Long = 0)
 {
     override fun equals(other: Any?): Boolean {
         if (other is EstateAgent)
@@ -19,6 +20,10 @@ data class EstateAgent constructor(@PrimaryKey @ColumnInfo(name = "last_name") v
             return (other.lastName == this.lastName)
         }
         else return false
+    }
+
+    override fun hashCode(): Int {
+        return lastName.hashCode()
     }
 
     companion object {
@@ -29,6 +34,7 @@ data class EstateAgent constructor(@PrimaryKey @ColumnInfo(name = "last_name") v
             if (contentValues.containsKey("first_name")) estateAgent.firstName = contentValues.getAsString("first_name")
             if (contentValues.containsKey("email")) estateAgent.email = contentValues.getAsString("email")
             if (contentValues.containsKey("phone_number")) estateAgent.phoneNumber = contentValues.getAsString("phone_number")
+            if (contentValues.containsKey("last_update_estate")) estateAgent.lastUpdateEstate = contentValues.getAsLong("last_update_estate")
 
             return estateAgent
         }

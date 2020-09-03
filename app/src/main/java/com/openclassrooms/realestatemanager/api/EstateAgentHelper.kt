@@ -1,22 +1,24 @@
 package com.openclassrooms.realestatemanager.api
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.models.EstateAgent
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
-class CompleteHousingHelper
+class EstateAgentHelper
 {
     companion object
     {
-        private const val COLLECTION_NAME = "completeHousings"
+        private const val COLLECTION_NAME = "estateAgent"
 
         private fun getCollectionFirestore() : CollectionReference
         {
@@ -50,7 +52,7 @@ class CompleteHousingHelper
             }
         }
 
-        suspend fun getCompleteHousingListFromFirestore() : QuerySnapshot?
+        suspend fun getEstateAgentListFromFirestore() : QuerySnapshot?
         {
             return try
             {
@@ -63,15 +65,9 @@ class CompleteHousingHelper
             }
         }
 
-        /*fun getListCompleteHousingFromFirestore() : Query
+        fun createEstateAgentListInFirestore(estateAgent: EstateAgent) : Task<Void>
         {
-            return this.getCollectionFirestore()
-        }*/
-
-
-        fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void>
-        {
-            return this.getCollectionFirestore().document(completeHousing.housing.ref).set(completeHousing)
+            return this.getCollectionFirestore().document(estateAgent.lastName).set(estateAgent)
         }
 
 

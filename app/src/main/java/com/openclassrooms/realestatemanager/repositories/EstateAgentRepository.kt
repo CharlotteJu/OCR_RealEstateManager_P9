@@ -1,9 +1,11 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
+import com.openclassrooms.realestatemanager.api.EstateAgentHelper
 import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.EstateAgentDAO
 import com.openclassrooms.realestatemanager.models.EstateAgent
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Repository of [EstateAgentDAO]
@@ -19,4 +21,12 @@ class EstateAgentRepository (private val estateAgentDAO: EstateAgentDAO)
     suspend fun updateEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.updateEstateAgent(estateAgent)
 
     suspend fun deleteEstateAgent(estateAgent: EstateAgent) = this.estateAgentDAO.deleteEstateAgent(estateAgent)
+
+    //////////////// FIRESTORE ////////////////
+
+    suspend fun getEstateAgentListFromFirestore() = EstateAgentHelper.getEstateAgentListFromFirestore()
+
+    suspend fun createEstateAgentInFirestore(estateAgent: EstateAgent) = coroutineScope {
+        EstateAgentHelper.createEstateAgentListInFirestore(estateAgent)
+    }
 }

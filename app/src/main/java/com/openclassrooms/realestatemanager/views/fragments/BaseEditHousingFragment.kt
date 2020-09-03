@@ -50,7 +50,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected lateinit var mApiKey : String
     private lateinit var placesClient : PlacesClient
 
-    protected var isInternetAvailable = false
+    protected var isInternetAvailable : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -62,8 +62,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         }
         this.currency = getCurrencyFromSharedPreferences()
         this.mApiKey = resources.getString(R.string.google_api_key_project)
-        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this)
+
 
         Places.initialize(requireContext(), mApiKey)
         this.placesClient = Places.createClient(requireContext())
@@ -72,6 +71,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
+        this.isInternetAvailable = Utils.isInternetAvailableGood(context)
+        this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this, this.isInternetAvailable)
 
         this.getEstateAgentList()
         this.getAllInfo()

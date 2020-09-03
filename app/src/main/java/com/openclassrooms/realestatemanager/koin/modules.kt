@@ -32,7 +32,7 @@ val appModule = module (override = true) {
     viewModel{AddEstateTypeViewModel(get(), get())}
     viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get(), get())}
     viewModel{DetailViewModel(get())}
-    viewModel{ListHousingViewModel(get(), get(), get(), get(), get())}
+    viewModel{ListHousingViewModel(get(), get(), get(), get(), get(), get())}
     viewModel { FilterViewModel (get(), get()) }
     factory { ViewModelFactory(get(), get(), get(), get(), get(), get(), get(), get()) }
 }

@@ -105,7 +105,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
     {
-        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency)
+        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailable(context))
         this.mView.fragment_filter_rcv.layoutManager = LinearLayoutManager(context)
     }
 

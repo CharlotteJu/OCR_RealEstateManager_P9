@@ -24,4 +24,6 @@ abstract class BaseFragment : Fragment()
         return sharedPreferences.getString(FIRESTORE_TAG, null).toString() //TODO : Mettre une date par défaut
     }
 
+    //protected val isInternetAvailable: Boolean = Utils.isInternetAvailableGood(context)
+
 }

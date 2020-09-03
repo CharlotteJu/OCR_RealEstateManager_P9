@@ -9,9 +9,15 @@ import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
 import android.os.Build
+import android.view.View
+import android.widget.ImageView
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.models.Photo
+import kotlinx.android.synthetic.main.item_photo_detail.view.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -54,22 +60,22 @@ class UtilsKotlin
 
         }
 
-        fun convertStringToDate(stringDate : String?) : Date?
+        fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView)
         {
-            return if (stringDate.equals("null") || stringDate == null) null
+            if (isInternetAvailable && photo.url_firebase != null)
+            {
+                Glide.with(itemView)
+                        .load(photo.url_firebase)
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(imageView)
+            }
             else
             {
-                val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.US) //TODO : Obligé de mettre la locale ?
-                formatter.parse(stringDate)
+                Glide.with(itemView)
+                        .load(photo.uri)
+                        .apply(RequestOptions.centerCropTransform())
+                        .into(imageView)
             }
-
-        }
-
-        fun getDateAndHoursOfToday() : String
-        {
-            val date = Calendar.getInstance().time
-            val formatter = SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.US)
-            return formatter.format(date)
         }
 
     }

@@ -5,16 +5,12 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Task
 import com.google.firebase.storage.FirebaseStorage
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
-import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
 import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
-import com.openclassrooms.realestatemanager.views.fragments.ListFragment
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -25,15 +21,63 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                            private val addressRepository: AddressRepository,
                            private val photoRepository: PhotoRepository,
                            private val housingEstateAgentRepository: HousingEstateAgentRepository,
-                           private val housingPoiRepository: HousingPoiRepository)
+                           private val housingPoiRepository: HousingPoiRepository,
+                           private val estateAgentRepository: EstateAgentRepository)
                             : ViewModel()
 {
 
     fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
 
-    fun syncDataWithFirebase(listRoom : List<CompleteHousing>, context: Context, lastUpdateFirestore : String?) {
+    fun getAllEstateAgent() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
+
+    fun syncEstateAgentWithFirebase(listRoom: List<EstateAgent>)
+    {
         viewModelScope.launch {
-            val querySnapshot = housingRepository.testGetFirestore()
+            val query = estateAgentRepository.getEstateAgentListFromFirestore()
+            if (query != null)
+            {
+                val listDocumentSnapshot = query.documents
+                val listFirestore = ArrayList<EstateAgent>()
+
+                for (document in listDocumentSnapshot) {
+                    val estateAgent = document.toObject(EstateAgent::class.java)
+                    if (estateAgent != null) {
+                        listFirestore.add(estateAgent)
+                    }
+                }
+
+                for (eRoom in listRoom) {
+                    if (!listFirestore.contains(eRoom)) {
+                        createEstateAgentInFirebase(eRoom)
+                    } else {
+                        val index = listFirestore.indexOf(eRoom)
+                        if (eRoom.lastUpdateEstate > listFirestore[index].lastUpdateEstate) {
+                            createEstateAgentInFirebase(eRoom)
+                        } else if (eRoom.lastUpdateEstate < listFirestore[index].lastUpdateEstate) {
+                            createEstateAgentInRoom(eRoom)
+                        }
+                    }
+                }
+
+                for (eFirestore in listFirestore) {
+                    if (!listRoom.contains(eFirestore)) {
+                        createEstateAgentInRoom(eFirestore)
+                    } else {
+                        val index = listRoom.indexOf(eFirestore)
+                        if (listRoom[index].lastUpdateEstate > eFirestore.lastUpdateEstate) {
+                           createEstateAgentInFirebase(eFirestore) // TODO : Cette double boucle fait que ce n'est pas le bon truc qui est push
+                        } else if (listRoom[index].lastUpdateEstate < eFirestore.lastUpdateEstate) {
+                           createEstateAgentInRoom(eFirestore)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun syncCompleteHousingWithFirebase(listRoom : List<CompleteHousing>, context: Context) {
+        viewModelScope.launch {
+            val querySnapshot = housingRepository.getCompleteHousingListFromFirestore()
             if (querySnapshot != null) {
                 val listDocumentSnapshot = querySnapshot.documents
                 val listFirestore = ArrayList<CompleteHousing>()
@@ -65,7 +109,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                         val index = listRoom.indexOf(hFirestore)
                         if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
                             createCompleteHousingOnFirestore(listRoom[index])
-                        } else if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
+                        } else if (listRoom[index].housing.lastUpdate < hFirestore.housing.lastUpdate) {
                             createCompleteHousingOnRoom(hFirestore, context)
                         }
                     }
@@ -75,118 +119,16 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     }
 
 
-                //val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                //val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                //if (date == null || (dateFirestore != null && date.after(dateFirestore)))
-
-                /*for (housing in listRoom) {
-
-                    if (!listFirestore.contains(housing))
-                    {
-                        val debug = listFirestore
-                        createCompleteHousingOnFirestore(housing)
-
-                    }
-                }
-
-
-                val threadRoom = async {
-                    for (document in listDocumentSnapshot) {
-                        val completeHousing = document.toObject(CompleteHousing::class.java)
-                        if (completeHousing != null) {
-                            if (!listRoom.contains(completeHousing))
-                            {
-                                val debug = listRoom
-                                createCompleteHousingOnRoom(completeHousing, context)
-                            }
-                            else
-                            {
-                                val date = completeHousing.housing.lastUpdate?.let { UtilsKotlin.convertStringToDate(it) }
-                                if (date != null && dateFirestore != null && date.after(dateFirestore)) {
-                                    val index = listRoom.indexOf(completeHousing)
-                                    updateGlobalHousing(listRoom[index], completeHousing, context)
-                                }
-                            }
-                        }
-                    }
-                }
-                threadRoom.await()*/
-                //ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
-
-
-
-
-
-
-
-
-        /*housingRepository.getListCompleteHousingFromFirestore().addSnapshotListener { querySnapshot, _ ->
-                if (querySnapshot != null) {
-                    viewModelScope.launch(Dispatchers.IO) {
-                        val listDocumentSnapshot = querySnapshot.documents
-                        val dateFirestore = lastUpdateFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                        //val threadFirestore = async {
-                            for (housing in listRoom) {
-                                val date = housing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                                    if (date == null || (dateFirestore != null && date.after(dateFirestore)))
-                                    {
-                                        createCompleteHousingOnFirestore(housing)
-                                    }
-                                }
-
-                            //} threadFirestore.await()
-
-                        val threadRoom = async {
-                            for (document in listDocumentSnapshot) {
-                                val completeHousing = document.toObject(CompleteHousing::class.java)
-                                if (completeHousing != null) {
-                                    if (!listRoom.contains(completeHousing)) {
-                                        val debug = listRoom
-                                        createCompleteHousingOnRoom(completeHousing, context)
-                                    } else {
-                                        val date = completeHousing.housing.dateOnFirestore?.let { UtilsKotlin.convertStringToDate(it) }
-                                        if (date != null && dateFirestore != null && date.after(dateFirestore)) {
-                                            val index = listRoom.indexOf(completeHousing)
-                                            updateGlobalHousing(listRoom[index], completeHousing, context)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        threadRoom.await()
-                        ListFragment.updateSharedPreferencesFirestore(UtilsKotlin.getDateAndHoursOfToday(), context)
-                    }
-
-            }
-        }*/
-
-
     private suspend fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Void
     {
-        //completeHousing.housing.dateOnFirestore = UtilsKotlin.getDateAndHoursOfToday()
         if (!completeHousing.photoList.isNullOrEmpty())
         {
             for (photo in completeHousing.photoList!!)
             {
-                //TODO : Revoir
                 this.uploadAPhotoInFirestore(photo)
             }
         }
-        return this.housingRepository.createCompleteHousingFromFirestore(completeHousing).await()
-    }
-
-    private suspend fun testCreateFirestore (completeHousing: CompleteHousing) : Void?
-    {
-        //completeHousing.housing.lastUpdate = UtilsKotlin.getDateAndHoursOfToday()
-        if (!completeHousing.photoList.isNullOrEmpty())
-        {
-            for (photo in completeHousing.photoList!!)
-            {
-                //TODO : Revoir
-               // this.uploadAPhotoInFirestore(photo)
-            }
-        }
-        return this.housingRepository.testCreateFirestore(completeHousing)
+        return this.housingRepository.createCompleteHousingInFirestore(completeHousing).await()
     }
 
     private fun uploadAPhotoInFirestore(photo : Photo)
@@ -270,9 +212,14 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 createAllHousingEstateAgent(completeHousing.estateAgentList)
     }
 
+    private suspend fun createEstateAgentInRoom(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgent(estateAgent)
+    private suspend fun createEstateAgentInFirebase(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgentInFirestore(estateAgent).await()
+
     //////////////////// UPDATE ////////////////////
 
-    private suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
+    private suspend fun updatePhoto(photo: Photo) = this.photoRepository.updatePhoto(photo)
+
+    /*private suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
 
     private suspend fun updateAddress(address: Address) = this.addressRepository.updateAddress(address)
 
@@ -411,7 +358,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
 
         }
-    }
+    }*/
 
     private suspend fun deleteHousing(housing : Housing) = this.housingRepository.deleteHousing(housing)
 

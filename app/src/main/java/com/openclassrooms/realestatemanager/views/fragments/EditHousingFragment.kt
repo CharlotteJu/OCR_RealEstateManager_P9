@@ -65,7 +65,6 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.checkAddress()
         context?.let {
             housing.lastUpdate = Utils.getTodayDateGood()
-            this.isInternetAvailable = Utils.isInternetAvailableGood(it)
             this.mViewModel.updateGlobalHousing(housingToCompare, housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
         }
     }
@@ -183,6 +182,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
             mAdapterPhotoAddRcv.updateList(photoList)
 
             //Clear photo and description
+            this.mView.add_housing_fragment_photo_image.isEnabled = true //TODO : Mettre dans Add aussi
             this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
             description = STRING_EMPTY
             this.mView.add_housing_fragment_image_description_editTxt.text.clear()
