@@ -329,7 +329,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                 mAdapterPhotoAddRcv.updateList(photoList)
 
                 //Clear photo and description
-                this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+                this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_photo_camera_48)
 
                  photoUri = STRING_EMPTY.toUri()
                  description = STRING_EMPTY

@@ -24,6 +24,7 @@ import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
 import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
@@ -141,7 +142,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
 
         val builder = AlertDialog.Builder(context)
         builder.setMessage(resources.getString(R.string.sure_delete))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { _, _ ->
                     if (estateAgentList.size <= 1)
                     {
                         estateAgentList.clear()
@@ -164,10 +165,12 @@ class EditHousingFragment : BaseEditHousingFragment() {
     override fun onClickEditPhoto(position: Int) {
         val photoToEdit = this.photoList[position]
 
-        Glide.with(requireContext())
+        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image)
+
+        /*Glide.with(requireContext())
                 .load(photoToEdit.uri)
                 .apply(RequestOptions.centerCropTransform())
-                .into(this.mView.add_housing_fragment_photo_image)
+                .into(this.mView.add_housing_fragment_photo_image)*/
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
@@ -182,8 +185,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
             mAdapterPhotoAddRcv.updateList(photoList)
 
             //Clear photo and description
-            this.mView.add_housing_fragment_photo_image.isEnabled = true //TODO : Mettre dans Add aussi
-            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+            this.mView.add_housing_fragment_photo_image.isEnabled = true
+            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_photo_camera_48)
             description = STRING_EMPTY
             this.mView.add_housing_fragment_image_description_editTxt.text.clear()
 
@@ -193,7 +196,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     override fun onClickDeletePhoto(position: Int) {
         val builder = AlertDialog.Builder(context)
         builder.setMessage(resources.getString(R.string.sure_delete))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { _, _ ->
                     if (photoList.size <= 1)
                     {
                         photoList.clear()

@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -144,54 +145,22 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
                 this.mMap.setOnInfoWindowClickListener {
 
-                    if (!this.getIsTabletFromSharedPreferences())
+                    if (it.tag != null)
                     {
-                        val bundle = Bundle ()
-                        bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
-                        findNavController().navigate(R.id.detailFragment, bundle)
+                        if (!this.getIsTabletFromSharedPreferences())
+                        {
+                            val bundle = Bundle ()
+                            bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
+                            findNavController().navigate(R.id.detailFragment, bundle)
+                        }
+                        else
+                        {
+                            val detailFragment = (activity as MainActivity).getDetailFragment()
+                            detailFragment?.updateRef(it.tag.toString(), requireContext())
+                        }
                     }
-                    else
-                    {
-                        val detailFragment = (activity as MainActivity).getDetailFragment()
-                        detailFragment?.updateRef(it.tag.toString(), requireContext())
-                    }
-
                 }
 
-                /*this.mMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-                    override fun getInfoContents(p0: Marker?): View {
-
-                        val infoView = layoutInflater.inflate(R.layout.info_window_map, null)
-                        if (housing.photoList != null && housing.photoList!!.isNotEmpty())
-                        {
-                            Glide.with(infoView)
-                                    .load(housing.photoList!![0])
-                                    .apply(RequestOptions.centerCropTransform())
-                                    .into(infoView.info_window_photo)
-                        }
-                        housing.housing.price.let { infoView.info_window_price.text = it.toString() }
-                        housing.housing.type.let { infoView.info_window_type.text = it }
-
-                        p0?.showInfoWindow()
-                        return infoView
-                    }
-
-                    override fun getInfoWindow(p0: Marker?): View {
-                        val infoView = layoutInflater.inflate(R.layout.info_window_map, null )
-                        if (housing.photoList != null && housing.photoList!!.isNotEmpty())
-                        {
-                            Glide.with(requireContext())
-                                    .load(housing.photoList!![0])
-                                    .apply(RequestOptions.centerCropTransform())
-                                    .into(infoView.info_window_photo)
-
-                            //TODO-Q : Pourquoi l'image ne s'affiche pas ?
-                        }
-                        housing.housing.price.let { infoView.info_window_price.text = it.toString() }
-                        housing.housing.type.let { infoView.info_window_type.text = it }
-                        return infoView
-                    }
-                })*/
             }
         }
     }
@@ -213,7 +182,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 mCurrentLocation = it
                 mMap.apply {
                     val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
-                    addMarker(MarkerOptions().position(marker))
+                    addMarker(MarkerOptions().position(marker).title(getString(R.string.my_position)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)))
                     moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
                 }
             } else {

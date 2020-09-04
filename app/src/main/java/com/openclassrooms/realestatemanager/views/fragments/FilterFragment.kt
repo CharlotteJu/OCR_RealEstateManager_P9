@@ -97,15 +97,13 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
                    listFilter = it as ArrayList<CompleteHousing>
-                    val debug = numberPhotos
-                    val debugList = listFilter
                     configRecyclerView(it)
                 })
     }
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
     {
-        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailable(context))
+        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailableGood(context))
         this.mView.fragment_filter_rcv.layoutManager = LinearLayoutManager(context)
     }
 

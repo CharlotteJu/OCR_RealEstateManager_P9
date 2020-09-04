@@ -109,7 +109,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
 
         val builder = AlertDialog.Builder(context)
         builder.setMessage(resources.getString(R.string.sure_delete))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { _, _ ->
                     if (listEstateAgent.size <= 1) listEstateAgent.clear()
                     else
                     {
@@ -146,7 +146,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
                     val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber, Utils.getTodayDateGood())
                     this.mViewModel.updateGlobalEstateAgent(estateAgent)
                     this.resetViews()
-                    this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_48)
+                    this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_photo_camera_48)
                 }
                 else Toast.makeText(context, getString(R.string.toast_estate_agent_same_name), Toast.LENGTH_LONG).show()
             }

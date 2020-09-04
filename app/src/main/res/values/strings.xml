@@ -100,6 +100,7 @@
     <string name="sure_delete">Do you want delete it ?</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="my_position">My position</string>
 
 
 </resources>

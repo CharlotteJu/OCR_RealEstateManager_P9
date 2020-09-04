@@ -37,12 +37,12 @@ public class Utils {
      * @param dollars
      * @return
      */
-    public static int convertDollarToEuro(int dollars){
+    /*public static int convertDollarToEuro(int dollars){
         return (int) Math.round(dollars * 0.812);
-    }
+    }*/
 
     /**
-     * Conversion d'un prix dans le type Double (Dollars vers Euros) //TODO : Ok pour double ?
+     * Conversion d'un prix dans le type Double (Dollars vers Euros) //T
      * @param dollars
      * @return
      */
@@ -53,7 +53,6 @@ public class Utils {
         String resultString = decimalFormat.format(result);
         return Double.valueOf(resultString);*/
         return (double) Math.round(dollars * 0.812);
-
     }
 
     /**
@@ -62,9 +61,9 @@ public class Utils {
      * @param euros
      * @return
      */
-    public static int convertEuroToDollar(int euros){
+    /*public static int convertEuroToDollar(int euros){
         return (int) Math.round(euros / 0.812);
-    }
+    }*/
 
     /**
      *  Conversion d'un prix dans le type Double (Euros vers Dollars)
@@ -94,10 +93,10 @@ public class Utils {
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
-    public static String getTodayDate(){
+    /*public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
-    }
+    }*/
 
     public static Long getTodayDateGood()
     {
@@ -106,7 +105,7 @@ public class Utils {
 
     public static String getDateFormat(Date date)
     {
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US); //TODO-Q : Obligé de mettre locale ?
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         return dateFormat.format(date);
     }
 
@@ -116,10 +115,10 @@ public class Utils {
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context){
+    /*public static Boolean isInternetAvailable(Context context){
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
-    }
+    }*/
 
     public static Boolean isInternetAvailableGood(Context context)
     {

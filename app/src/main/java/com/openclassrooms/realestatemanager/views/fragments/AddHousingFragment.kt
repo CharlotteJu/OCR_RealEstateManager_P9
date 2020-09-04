@@ -74,7 +74,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         val builder = AlertDialog.Builder(context)
         builder.setMessage(resources.getString(R.string.sure_delete))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { _, _ ->
                     if (estateAgentList.size <= 1)
                     {
                         estateAgentList.clear()
@@ -96,10 +96,12 @@ class AddHousingFragment : BaseEditHousingFragment() {
     override fun onClickEditPhoto(position: Int) {
         val photoToEdit = this.photoList[position]
 
-        Glide.with(requireContext())
+        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image)
+
+        /*Glide.with(requireContext())
                 .load(photoToEdit.uri)
                 .apply(RequestOptions.centerCropTransform())
-                .into(this.mView.add_housing_fragment_photo_image)
+                .into(this.mView.add_housing_fragment_photo_image)*/
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
@@ -112,7 +114,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
             val photo = Photo(photoToEdit.uri, description, housingReference)
             photoList[position] = photo
             mAdapterPhotoAddRcv.updateList(photoList)
+
             //Clear photo and description
+            this.mView.add_housing_fragment_photo_image.isEnabled = true
             this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
             description = STRING_EMPTY
             this.mView.add_housing_fragment_image_description_editTxt.text.clear()
@@ -124,7 +128,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         val builder = AlertDialog.Builder(context)
         builder.setMessage(resources.getString(R.string.sure_delete))
-                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.yes), DialogInterface.OnClickListener { _, _ ->
                     if (photoList.size <= 1)
                     {
                         photoList.clear()

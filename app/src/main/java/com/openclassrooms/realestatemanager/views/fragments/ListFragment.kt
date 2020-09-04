@@ -113,20 +113,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     }
 
-
-
-
-    companion object
-    {
-        fun updateSharedPreferencesFirestore(lastUpdateFirestore : String, context: Context)
-        {
-            val sharedPreferences = context.getSharedPreferences(FIRESTORE_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-            val editor = sharedPreferences!!.edit()
-            editor.putString(FIRESTORE_TAG, lastUpdateFirestore).apply()
-        }
-
-    }
-
 }
 
 

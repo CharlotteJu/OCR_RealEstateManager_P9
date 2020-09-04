@@ -99,7 +99,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                         if (hRoom.housing.lastUpdate > listFirestore[index].housing.lastUpdate) {
                             createCompleteHousingOnFirestore(hRoom)
                         } else if (hRoom.housing.lastUpdate < listFirestore[index].housing.lastUpdate) {
-                            createCompleteHousingOnRoom(listFirestore[index], context)
+                            createCompleteHousingOnRoom(listFirestore[index])
                         }
                     }
                 }
@@ -107,13 +107,13 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
                 for (hFirestore in listFirestore) {
                     if (!listRoom.contains(hFirestore)) {
-                        createCompleteHousingOnRoom(hFirestore, context)
+                        createCompleteHousingOnRoom(hFirestore)
                     } else {
                         val index = listRoom.indexOf(hFirestore)
                         if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
                             createCompleteHousingOnFirestore(listRoom[index])
                         } else if (listRoom[index].housing.lastUpdate < hFirestore.housing.lastUpdate) {
-                            createCompleteHousingOnRoom(hFirestore, context)
+                            createCompleteHousingOnRoom(hFirestore)
                         }
                     }
                 }
@@ -164,7 +164,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
 
     private suspend fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
-    private suspend fun createGlobalAddress(address: Address?, context: Context)
+    private suspend fun createGlobalAddress(address: Address?)
     {
         if (address != null)
         {
@@ -205,11 +205,11 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         }
     }
 
-    private suspend fun createCompleteHousingOnRoom (completeHousing :CompleteHousing, context: Context)
+    private suspend fun createCompleteHousingOnRoom (completeHousing :CompleteHousing)
     {
                 createHousing(completeHousing.housing)
                 createAllHousingPoi(completeHousing.poiList)
-                createGlobalAddress(completeHousing.address, context)
+                createGlobalAddress(completeHousing.address)
                 createAllPhoto(completeHousing.photoList)
                 createAllHousingEstateAgent(completeHousing.estateAgentList)
     }

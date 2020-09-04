@@ -53,7 +53,7 @@ class UtilsKotlin
             return if (stringDate.equals("null") || stringDate == null) null
             else
             {
-                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US) //TODO : Obligé de mettre la locale ?
+                val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
                 val date = formatter.parse(stringDate)
                 return date?.time
             }
