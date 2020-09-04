@@ -117,7 +117,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
             //Clear photo and description
             this.mView.add_housing_fragment_photo_image.isEnabled = true
-            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_48)
+            this.mView.add_housing_fragment_photo_image.setImageResource(R.drawable.ic_baseline_add_photo_camera_48)
             description = STRING_EMPTY
             this.mView.add_housing_fragment_image_description_editTxt.text.clear()
 

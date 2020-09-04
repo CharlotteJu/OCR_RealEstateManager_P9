@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.activities
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.addHousingFragment -> hideDetailFragment()
                 R.id.editHousingFragment -> hideDetailFragment()
                 R.id.settingsFragment -> hideDetailFragment()
+                R.id.filterFragment -> hideDetailFragment()
             }
         }
     }
@@ -93,6 +95,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
+
+
 
     fun getDetailFragment() : DetailFragment?
     {

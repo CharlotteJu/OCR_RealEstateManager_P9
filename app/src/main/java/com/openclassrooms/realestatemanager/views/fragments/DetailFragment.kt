@@ -244,7 +244,7 @@ class DetailFragment : BaseFragment() {
     {
         if (!housing.photoList.isNullOrEmpty())
         {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
+           // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
             this.mView.detail_fragment_photo_no_list.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable)

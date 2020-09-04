@@ -6,17 +6,6 @@ import org.junit.Test
 
 class HousingTest
 {
-    /*@Test
-    public fun changeHousing()
-    {
-        val housingToCompare = Housing("REF", "TYPE", 0.0, 0.0)
-        var housingToChange = housingToCompare
-
-        housingToChange.rooms = 3
-
-        //assertNotEquals(housingToCompare.rooms, housingToChange.rooms)
-        assertNotEquals(housingToCompare, housingToChange)
-    }*/
 
     @Test
     public fun changeHousingCopy()
@@ -27,7 +16,7 @@ class HousingTest
         housingToChange.rooms = 3
 
         assertNotEquals(housingToCompare.rooms, housingToChange.rooms)
-        assertNotEquals(housingToCompare, housingToChange)
+        assertEquals(housingToCompare, housingToChange)
     }
 
     @Test

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -308,6 +309,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     {
         var description : String? = null
         this.mView.add_housing_fragment_photo_image.setOnClickListener {
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
                 UtilsPermissions.checkCameraPermission(requireActivity())
@@ -431,17 +433,17 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         val alertDialog : AlertDialog = dialogBuilder.show()
 
         dialogLayout.dialog_photo_gallery_button.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 UtilsPermissions.checkReadPermission(requireActivity())
-            }
+            }*/
             this.pickImageFromGallery()
             alertDialog.dismiss()
         }
         dialogLayout.dialog_photo_camera_button.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 UtilsPermissions.checkCameraPermission(requireActivity())
                 UtilsPermissions.checkWritePermission(requireActivity())
-            }
+            }*/
             this.openCamera()
             alertDialog.dismiss()
         }
