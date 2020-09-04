@@ -60,7 +60,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
            }
             else
            {
-               itemView.item_housing_image.visibility = View.INVISIBLE
+               itemView.item_housing_image.setImageResource(R.drawable.ic_baseline_no_picture)
            }
 
         }

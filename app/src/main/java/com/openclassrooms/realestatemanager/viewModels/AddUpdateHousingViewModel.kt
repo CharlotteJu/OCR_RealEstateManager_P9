@@ -75,10 +75,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     {
         if (address != null)
         {
+            createAddress(address)
+
             val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
             if (location != null && location != ERROR_GEOCODER_ADDRESS)
             {
-                createAddress(address)
                 if (isInternetAvailable) configurePoi(ref, location, context, key)
             }
         }
@@ -148,10 +149,11 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
         {
             if (completeHousing.address != null && address != completeHousing.address) {
 
-                val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
+                updateAddress(address)
 
+                val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
                 if (location != null && location != ERROR_GEOCODER_ADDRESS) {
-                    updateAddress(address)
+
                     if (completeHousing.poiList != null && completeHousing.poiList!!.isNotEmpty())
                     {
                         for (i in completeHousing.poiList!!)

@@ -19,6 +19,7 @@ import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
@@ -44,13 +45,11 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         this.mView = inflater.inflate(R.layout.fragment_list, container, false)
-
         this.isInternetAvailable = Utils.isInternetAvailableGood(context)
         this.mViewModel.getAllCompleteHousing().observe(this.viewLifecycleOwner, Observer {
             this.mAdapter.updateList(it)
             mListHousing = it as MutableList<CompleteHousing>
             if (isInternetAvailable) this.syncCompleteHousingWithFirestore()
-
         })
 
         this.mViewModel.getAllEstateAgent().observe(this.viewLifecycleOwner, Observer {

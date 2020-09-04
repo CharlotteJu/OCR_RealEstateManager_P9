@@ -36,13 +36,6 @@ class ListPhotoAddAdapter (private var photoList : List<Photo>, private val onIt
     {
         fun configureDesign(photo : Photo)
         {
-            photo.uri.let {
-                Glide.with(itemView)
-                        .load(it)
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(itemView.item_photo_add_image)
-            }
-
             UtilsKotlin.displayPhoto(isInternetAvailable, photo, itemView, itemView.item_photo_add_image)
 
             if (photo.description != null) itemView.item_photo_add_description.text = photo.description

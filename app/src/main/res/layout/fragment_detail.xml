@@ -59,16 +59,14 @@
                     android:orientation="horizontal"
                     tools:listitem="@layout/item_photo_detail"/>
 
-            </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/detail_fragment_photo_no_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_no_picture"
+                    android:orientation="horizontal" />
 
-            <TextView
-                android:id="@+id/detail_fragment_no_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/no_photo"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_type_txt"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.cardview.widget.CardView>
 
             <!-- INFOS -->
 

@@ -46,7 +46,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                     }
                 }
 
-                for (eRoom in listRoom) {
+             for (eRoom in listRoom) {
                     if (!listFirestore.contains(eRoom)) {
                         createEstateAgentInFirebase(eRoom)
                     } else {
@@ -54,10 +54,11 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                         if (eRoom.lastUpdateEstate > listFirestore[index].lastUpdateEstate) {
                             createEstateAgentInFirebase(eRoom)
                         } else if (eRoom.lastUpdateEstate < listFirestore[index].lastUpdateEstate) {
-                            createEstateAgentInRoom(eRoom)
+                            createEstateAgentInRoom(listFirestore[index])
                         }
                     }
                 }
+
 
                 for (eFirestore in listFirestore) {
                     if (!listRoom.contains(eFirestore)) {
@@ -65,12 +66,13 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                     } else {
                         val index = listRoom.indexOf(eFirestore)
                         if (listRoom[index].lastUpdateEstate > eFirestore.lastUpdateEstate) {
-                           createEstateAgentInFirebase(eFirestore) // TODO : Cette double boucle fait que ce n'est pas le bon truc qui est push
+                            createEstateAgentInFirebase(listRoom[index])
                         } else if (listRoom[index].lastUpdateEstate < eFirestore.lastUpdateEstate) {
-                           createEstateAgentInRoom(eFirestore)
+                            createEstateAgentInRoom(eFirestore)
                         }
                     }
                 }
+
             }
         }
     }
@@ -102,6 +104,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                     }
                 }
 
+
                 for (hFirestore in listFirestore) {
                     if (!listRoom.contains(hFirestore)) {
                         createCompleteHousingOnRoom(hFirestore, context)
@@ -114,6 +117,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                         }
                     }
                 }
+
             }
         }
     }
@@ -164,9 +168,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     {
         if (address != null)
         {
-            val location = UtilsKotlin.getGeocoderAddress(address.toString(), context)
-            //if (location != null && location != ERROR_GEOCODER_ADDRESS)
-                createAddress(address)
+            createAddress(address)
         }
     }
 

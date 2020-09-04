@@ -158,7 +158,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
                 }
 
-                this.mMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
+                /*this.mMap.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
                     override fun getInfoContents(p0: Marker?): View {
 
                         val infoView = layoutInflater.inflate(R.layout.info_window_map, null)
@@ -191,7 +191,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                         housing.housing.type.let { infoView.info_window_type.text = it }
                         return infoView
                     }
-                })
+                })*/
             }
         }
     }

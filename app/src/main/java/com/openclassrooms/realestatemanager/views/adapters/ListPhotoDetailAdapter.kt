@@ -19,7 +19,8 @@ class ListPhotoDetailAdapter(private var photoList : List<Photo>, private val is
         return ListPhotoViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_photo_detail, parent, false), this.isInternetAvailable)
     }
 
-    override fun onBindViewHolder(holder: ListPhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListPhotoViewHolder, position: Int)
+    {
         val photo = this.photoList[position]
         holder.configureDesign(photo)
     }

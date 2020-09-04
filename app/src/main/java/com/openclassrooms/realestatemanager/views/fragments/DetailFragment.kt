@@ -245,7 +245,7 @@ class DetailFragment : BaseFragment() {
         if (!housing.photoList.isNullOrEmpty())
         {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
-            this.mView.detail_fragment_no_photo.visibility = View.GONE
+            this.mView.detail_fragment_photo_no_list.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable)
             this.snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
@@ -254,7 +254,6 @@ class DetailFragment : BaseFragment() {
         }
         else
         {
-            this.mView.detail_fragment_rcv_photo_card_view.visibility = View.GONE
             this.mView.detail_fragment_rcv_photo.visibility = View.GONE
         }
     }
