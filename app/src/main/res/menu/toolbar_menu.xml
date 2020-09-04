@@ -3,6 +3,6 @@
 
     <item
         android:id="@+id/menu_toolbar_filter"
-        android:title="FILTER"/>
+        android:title="@string/filter"/>
 
 </menu>
