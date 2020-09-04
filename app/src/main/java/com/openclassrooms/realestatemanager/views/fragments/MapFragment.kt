@@ -66,6 +66,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         this.mFusedLocationClient = requireActivity().let { LocationServices.getFusedLocationProviderClient(it) }
         this.currency = getCurrencyFromSharedPreferences()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
 
     }
 
@@ -169,13 +170,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
     private fun fetchLocation()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkLocationPermission(requireActivity())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (requireActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED)
-            {
-                val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-                requireActivity().requestPermissions(permissions, LOCATION_PERMISSION_CODE)
-            }
-        }
+
         val task = mFusedLocationClient.lastLocation
         task.addOnSuccessListener {
             if (it != null) {
@@ -210,15 +205,6 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                     })
                 }
             }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == LOCATION_PERMISSION_CODE && resultCode == Activity.RESULT_OK) //TODO-Q : Pourquoi je n'arrive pas ici ?
-        {
-            this.fetchLocation()
         }
     }
 

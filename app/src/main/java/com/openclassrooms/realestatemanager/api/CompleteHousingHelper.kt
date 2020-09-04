@@ -1,10 +1,15 @@
 package com.openclassrooms.realestatemanager.api
 
+import androidx.core.net.toUri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.openclassrooms.realestatemanager.models.CompleteHousing
+import com.openclassrooms.realestatemanager.models.Photo
+import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -56,6 +61,18 @@ class CompleteHousingHelper
             {
                 val firestore = Firebase.firestore
                 firestore.collection(COLLECTION_NAME).get().await()
+            }
+            catch (e : Exception)
+            {
+                null
+            }
+        }
+
+        suspend fun pushPhotoOnFirebaseStorage(photo: Photo) : UploadTask.TaskSnapshot?
+        {
+            return try {
+                val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
+                return ref.child(photo.uri).putFile(photo.uri.toUri()).await()
             }
             catch (e : Exception)
             {

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.views.activities
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.views.fragments.*
@@ -65,7 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun configureTabMode()
     {
-        //isTablet = findViewById<View>(R.id.tabMode_detail_frame_layout) != null
         this.isTablet = resources.getBoolean(R.bool.isTablet)
         mNavigationController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id)
@@ -76,6 +77,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.addHousingFragment -> hideDetailFragment()
                 R.id.editHousingFragment -> hideDetailFragment()
                 R.id.settingsFragment -> hideDetailFragment()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        val navHostFragment = supportFragmentManager.fragments.first()
+        if (navHostFragment is NavHostFragment)
+        {
+            val childFragment = navHostFragment.childFragmentManager.fragments
+            childFragment.forEach {
+                it.onRequestPermissionsResult(requestCode, permissions, grantResults)
             }
         }
     }
@@ -108,7 +122,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             if (supportFragmentManager.findFragmentById(R.id.listFragment) == null && supportFragmentManager.findFragmentById(R.id.map) == null && mDetailFragment != null)
             {
-                //supportFragmentManager.beginTransaction().detach(mDetailFragment!!)
                 if (mView.tabMode_detail_fragment_container != null)
                 {
                     val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams

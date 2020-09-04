@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.PhotoDAO
 import com.openclassrooms.realestatemanager.models.Photo
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Repository of [PhotoDAO]
@@ -21,5 +22,7 @@ class PhotoRepository (private val photoDAO: PhotoDAO)
     suspend fun updatePhoto (photo: Photo) = this.photoDAO.updatePhoto(photo)
 
     suspend fun deletePhoto (photo: Photo) = this.photoDAO.deletePhoto(photo)
+
+    suspend fun updatePhotoFirebase (photo: Photo) = coroutineScope { photoDAO.updatePhoto(photo) }
 
 }

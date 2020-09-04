@@ -1,16 +1,13 @@
 package com.openclassrooms.realestatemanager.viewModels
 
 import android.content.Context
-import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.storage.FirebaseStorage
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
-import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
-import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -108,14 +105,14 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 for (hFirestore in listFirestore) {
                     if (!listRoom.contains(hFirestore)) {
                         createCompleteHousingOnRoom(hFirestore)
-                    } else {
+                    } /*else {
                         val index = listRoom.indexOf(hFirestore)
                         if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
                             createCompleteHousingOnFirestore(listRoom[index])
                         } else if (listRoom[index].housing.lastUpdate < hFirestore.housing.lastUpdate) {
                             createCompleteHousingOnRoom(hFirestore)
                         }
-                    }
+                    }*/
                 }
 
             }
@@ -123,31 +120,61 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
     }
 
 
-    private suspend fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing) : Void
+    private suspend fun createCompleteHousingOnFirestore(completeHousing: CompleteHousing)
     {
-        if (!completeHousing.photoList.isNullOrEmpty())
-        {
-            for (photo in completeHousing.photoList!!)
+        viewModelScope.launch {
+            if (!completeHousing.photoList.isNullOrEmpty())
             {
-                this.uploadAPhotoInFirestore(photo)
+                for (photo in completeHousing.photoList!!)
+                {
+                   val thread = async { uploadAPhotoInFirestore(photo) }
+                    thread.await()
+                }
             }
+            val debug = 1
+            housingRepository.createCompleteHousingInFirestore(completeHousing).await()
         }
-        return this.housingRepository.createCompleteHousingInFirestore(completeHousing).await()
+
     }
 
-    private fun uploadAPhotoInFirestore(photo : Photo)
+    private suspend fun updatePhotoFirebase(photo: Photo) = this.photoRepository.updatePhotoFirebase(photo)
+
+    private suspend fun uploadAPhotoInFirestore(photo : Photo)
     {
         if (photo.url_firebase == null)
         {
-            val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
+            val test = housingRepository.pushPhotoOnFirebaseStorage(photo)
+            if (test != null)
+            {
+                val test2 = test.storage.downloadUrl.await()
+                photo.url_firebase = test2.toString()
+                updatePhoto(photo)
+            }
+
+            /*viewModelScope.launch {
+                val test = housingRepository.testStoragePhoto(photo)
+                if (test != null)
+                {
+                    val test2 = test.storage.downloadUrl.await()
+                    photo.url_firebase = test2.toString()
+                    updatePhoto(photo)
+                    val debugPhoto = photoRepository.getPhotoFromUri(photo.uri)
+                    /*val thread = async { updatePhoto(photo)  }
+                    thread.await()*/
+                }
+            }*/
+
+            /*val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
             ref.child(photo.uri).putFile(photo.uri.toUri()).addOnSuccessListener { taskSnapshot -> //TODO : Il faut que l'accès aux images soit dispo
                 taskSnapshot.storage.downloadUrl.addOnSuccessListener {
                     photo.url_firebase = it.toString()
                     viewModelScope.launch {
-                        updatePhoto(photo) }
+                        val thread = async { updatePhoto(photo) }
+                        thread.await()
+                         }
 
                 }
-            }
+            }*/
         }
     }
 

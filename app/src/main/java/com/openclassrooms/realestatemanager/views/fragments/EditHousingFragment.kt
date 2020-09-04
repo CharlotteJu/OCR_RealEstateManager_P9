@@ -180,7 +180,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_image_description_editTxt.doAfterTextChanged { description = it.toString() }
 
         this.mView.add_housing_fragment_photo_button.setOnClickListener {
-            val photo = Photo(photoToEdit.uri, description, housingReference)
+            val photo = Photo(photoToEdit.uri, description, housingReference, photoToEdit.url_firebase)
             photoList[position] = photo
             mAdapterPhotoAddRcv.updateList(photoList)
 

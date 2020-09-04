@@ -5,6 +5,7 @@ import com.openclassrooms.realestatemanager.api.CompleteHousingHelper
 import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
+import com.openclassrooms.realestatemanager.models.Photo
 import kotlinx.coroutines.coroutineScope
 
 /**
@@ -39,6 +40,8 @@ class HousingRepository(private val housingDao : HousingDAO)
    {
        return CompleteHousingHelper.getCompleteHousingFromFirestore(completeHousing)
    }*/
+
+    suspend fun pushPhotoOnFirebaseStorage(photo: Photo) = CompleteHousingHelper.pushPhotoOnFirebaseStorage(photo)
 
 
     //////////////// FILTER ////////////////

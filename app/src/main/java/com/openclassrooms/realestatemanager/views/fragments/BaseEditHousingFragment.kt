@@ -403,9 +403,9 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     private fun getDatePickerDialog()
     {
         val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val mYear = calendar.get(Calendar.YEAR)
+        val mMonth = calendar.get(Calendar.MONTH)
+        val mDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
 
@@ -419,7 +419,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             val dateString = "$dayString/$monthString/$year"
 
             housing.dateSale = UtilsKotlin.convertStringToLongDate(dateString)
-        }, year, month, dayOfMonth)
+        }, mYear, mMonth, mDayOfMonth)
         datePickerDialog.show()
     }
 
