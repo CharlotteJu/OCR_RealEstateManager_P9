@@ -1,0 +1,79 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="view_separator_width">0dp</dimen>
+    <dimen name="view_separator_height">1dp</dimen>
+    <dimen name="constraint_width_0">0dp</dimen>
+
+    <!-- ADD HOUSING FRAGMENT -->
+    <dimen name="add_housing_fragment_text_size">20sp</dimen>
+    <dimen name="add_housing_fragment_text_margin">16dp</dimen>
+    <dimen name="add_housing_fragment_spinner_height">0dp</dimen>
+    <dimen name="add_housing_fragment_spinner_alone_height">24dp</dimen>
+    <dimen name="add_housing_fragment_spinner_width_big">200dp</dimen>
+    <dimen name="add_housing_fragment_spinner_width_little">80dp</dimen>
+    <dimen name="add_housing_fragment_edit_text_height">40dp</dimen>
+
+    <!-- ADD ESTATE HOUSING FRAGMENT -->
+    <dimen name="add_estate_housing_fragment_text_size">20sp</dimen>
+    <dimen name="add_estate_housing_fragment_text_margin">40dp</dimen>
+    <dimen name="add_estate_housing_fragment_fab_margin">16dp</dimen>
+    <dimen name="add_estate_housing_fragment_container_padding">16dp</dimen>
+    <dimen name="add_estate_housing_fragment_view_margin">8dp</dimen>
+
+    <!-- ITEM HOUSING -->
+    <dimen name="item_housing_text_type_size">16sp</dimen>
+    <dimen name="item_housing_text_district_size">16sp</dimen>
+    <dimen name="item_housing_text_price_size">24sp</dimen>
+    <dimen name="item_housing_image_width_size">120dp</dimen>
+    <dimen name="item_housing_image_height_size">120dp</dimen>
+    <dimen name="item_housing_marginTop">8dp</dimen>
+    <dimen name="item_housing_marginStart">16dp</dimen>
+
+    <!-- ITEM POI -->
+    <dimen name="item_poi_text_description_size">16sp</dimen>
+    <dimen name="item_poi_text_distance_size">16sp</dimen>
+    <dimen name="item_poi_margin">8dp</dimen>
+    <dimen name="item_poi_ic_size">32dp</dimen>
+
+    <!-- ITEM PHOTO -->
+    <dimen name="item_photo_detail_size">320dp</dimen>
+    <dimen name="item_photo_add_size">132dp</dimen>
+    <dimen name="item_photo_margin">8dp</dimen>
+    <dimen name="item_photo_description_margin">16dp</dimen>
+
+    <!-- ITEM ESTATE AGENT -->
+    <dimen name="item_estate_agent_margin">16dp</dimen>
+    <dimen name="item_estate_agent_text_size">16sp</dimen>
+    <dimen name="item_estate_agent_edit_fab_margin">8dp</dimen>
+
+    <!-- DETAIL FRAGMENT -->
+    <dimen name="detail_fragment_margin">8dp</dimen>
+    <dimen name="detail_fragment_container_rcv_photo_width">336dp</dimen>
+    <dimen name="detail_fragment_container_rcv_photo_height">360dp</dimen>
+    <dimen name="detail_fragment_separator_margin">8dp</dimen>
+    <dimen name="detail_fragment_text_type_price_size">24sp</dimen>
+    <dimen name="detail_fragment_rcv_poi_size">380dp</dimen>
+    <dimen name="detail_fragment_rcv_estate_agent_size">380dp</dimen>
+    <dimen name="detail_fragment_rcv_photo_size">320dp</dimen>
+    <dimen name="detail_fragment_map_image_size">260dp</dimen>
+    <dimen name="detail_fragment_no_housing_txt_size">64sp</dimen>
+
+    <!-- SETTINGS FRAGMENT -->
+    <dimen name="settings_fragment_text_size">16sp</dimen>
+    <dimen name="settings_fragment_margin_Top">32dp</dimen>
+    <dimen name="settings_fragment_margin_Start">32dp</dimen>
+
+    <!-- FILTER FRAGMENT -->
+    <dimen name="filter_fragment_text_size">20sp</dimen>
+    <dimen name="filter_fragment_spinner_height">0dp</dimen>
+    <dimen name="filter_fragment_margin">16dp</dimen>
+    <dimen name="filter_fragment_spinner_width_big">200dp</dimen>
+    <dimen name="filter_fragment_spinner_width_little">80dp</dimen>
+
+
+</resources>

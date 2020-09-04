@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment" >
+        </action>
+        <action
+            android:id="@+id/action_listFragment_to_addHousingFragment"
+            app:destination="@id/addHousingFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_addEstateAgentFragment"
+            app:destination="@id/addEstateAgentFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="reference"
+            app:argType="string"
+            android:defaultValue="0"/>
+        <action
+            android:id="@+id/action_detailFragment_to_addHousingFragment"
+            app:destination="@id/addHousingFragment" />
+        <action
+            android:id="@+id/action_detailFragment_to_editHousingFragment"
+            app:destination="@id/editHousingFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/container_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addHousingFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.AddHousingFragment"
+        android:label="fragment_add_housing"
+        tools:layout="@layout/fragment_add_housing">
+    <argument
+        android:name="reference"
+        app:argType="string"
+        android:defaultValue="0"/>
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/addEstateAgentFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.AddEstateAgentFragment"
+        android:label="fragment_add_estate_agent"
+        tools:layout="@layout/fragment_add_estate_agent" />
+    <fragment
+        android:id="@+id/editHousingFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.EditHousingFragment"
+        android:label="EditHousingFragment" />
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.openclassrooms.realestatemanager.views.fragments.FilterFragment"
+        android:label="FilterFragment" />
+</navigation>

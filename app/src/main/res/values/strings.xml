@@ -1,6 +1,106 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+    <string name="dollar">DOLLAR</string>
+    <string name="euro">EURO</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
+    <!-- Used in NavigationDrawer -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <!-- Spinners -->
+    <string name="spinners_select_one">--SELECT--</string>
+    <string name="spinners_type">TYPE</string>
+    <string name="spinners_currency">CURRENCY</string>
+    <string name="spinners_rooms">ROOMS</string>
+    <string name="spinners_bedrooms">BEDROOMS</string>
+    <string name="spinners_bathrooms">BATHROOMS</string>
+    <string name="spinners_country">COUNTRY</string>
+    <string name="spinners_state">STATE</string>
+    <string name="spinners_estate_agent">ESTATE AGENT</string>
+
+    <!-- Spinner STATE -->
+    <string name="sold_out">Sold out</string>
+
+    <!-- Add and Edit Housing Fragment -->
+    <string name="price">PRICE</string>
+    <string name="area">AREA</string>
+    <string name="address">ADDRESS</string>
+    <string name="zip_code">ZIP CODE</string>
+    <string name="city">CITY</string>
+    <string name="description">DESCRIPTION</string>
+    <string name="not_specify">Not specify</string>
+    <string name="gallery">GALLERY</string>
+    <string name="camera">CAMERA</string>
+
+    <!-- Add Estate Housing Fragment -->
+    <string name="last_name">LAST NAME</string>
+    <string name="first_name">FIRST NAME</string>
+    <string name="email">EMAIL</string>
+    <string name="phone_number">PHONE NUMBER</string>
+
+    <!-- Filter Fragment -->
+    <string name="date_entry">DATE ENTRY</string>
+    <string name="date_sale">DATE SALE</string>
+    <string name="around">AROUND</string>
+    <string name="nb_photos">NB PHOTOS</string>
+
+    <!-- DetailFragment -->
+    <string name="housing_add_on">Housing add on : </string>
+    <string name="sold_on">Sold on : </string>
+    <string name="no_photo">No photo</string>
+    <string name="type">TYPE</string>
+    <string name="no_housing_selected">No Housing Selected</string>     <!-- TODO : Vérif traduc -->
+
+    <!-- Poi Type -->
+    <string name="restaurant">restaurant</string>
+    <string name="school">school</string>
+    <string name="store">store</string>
+    <string name="subway">subway</string>
+    <string name="park">park</string>
+    <string name="museum">museum</string>
+    <string name="doctor">doctor</string>
+    <string name="bank">bank</string>
+    <string name="airport">airport</string>
+    <string name="bar">bar</string>
+    <string name="hospital">hospital</string>
+    <string name="gym">gym</string>
+    <string name="spa">spa</string>
+    <string name="train_station">train_station</string>
+    <string name="train">train</string>
+
+    <!-- Notification -->
+    <string name="notification_housing_add">Added successfully !</string>
+
+    <!-- Menu Drawer -->
+    <string name="home">HOME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="add_housing">ADD HOUSING</string>
+    <string name="manage_estate_agent">MANAGE ESTATE AGENT</string>
+
+    <!-- Toast -->
+    <string name="toast_no_photo">You have not add photo</string>
+    <string name="toast_invalid_address">Invalid address</string>
+    <string name="toast_estate_agent_same_name">An Estate Agent has already the same last name</string>
+    <string name="toast_estate_agent_no_name">Please put the last name</string>
+    <string name="toast_internet_no_available">Internet no available</string>
+
+    <!-- AlertDialog -->
+    <string name="sure_delete">Do you want delete it ?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="my_position">My position</string>
+
+
 </resources>

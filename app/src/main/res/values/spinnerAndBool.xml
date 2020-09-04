@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="state_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>On going market</item>
+        <item>For sale</item>
+        <item>On Signature</item>
+        <item>@string/sold_out</item>
+    </string-array>
+
+    <string-array name="type_housing_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>Apartment</item>
+        <item>House</item>
+        <item>Loft</item>
+        <item>Manor</item>
+        <item>Private Mansion</item>
+        <item>Castle</item>
+        <item>Barge</item>
+        <item>Block of flats</item>
+    </string-array>
+
+    <string-array name="price_currency_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>$</item>
+        <item>€</item>
+    </string-array>
+
+    <string-array name="number_rooms">
+        <item>@string/spinners_select_one</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+    </string-array>
+    
+
+    <string-array name="country_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>FR</item>
+        <item>NY</item>
+        <item>AL</item>
+        <item>AK</item>
+        <item>AZ</item>
+        <item>AR</item>
+        <item>CA</item>
+        <item>CO</item>
+        <item>CT</item>
+        <item>DE</item>
+        <item>FL</item>
+        <item>GA</item>
+        <item>HI</item>
+        <item>ID</item>
+        <item>IL</item>
+        <item>IN</item>
+        <item>IA</item>
+        <item>KS</item>
+        <item>KY</item>
+        <item>LA</item>
+        <item>ME</item>
+        <item>MD</item>
+        <item>MA</item>
+        <item>MI</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MO</item>
+        <item>MT</item>
+        <item>NE</item>
+        <item>NV</item>
+        <item>NH</item>
+        <item>NJ</item>
+        <item>NM</item>
+        <item>NC</item>
+        <item>ND</item>
+        <item>OH</item>
+        <item>OK</item>
+        <item>OR</item>
+        <item>PA</item>
+        <item>RI</item>
+        <item>SC</item>
+        <item>SD</item>
+        <item>TN</item>
+        <item>TX</item>
+        <item>UT</item>
+        <item>VT</item>
+        <item>VA</item>
+        <item>WA</item>
+        <item>WV</item>
+        <item>WI</item>
+        <item>WY</item>
+    </string-array>
+
+    <string-array name="type_poi_spinner">
+        <item>@string/spinners_select_one</item>
+        <item>@string/restaurant</item>
+        <item>@string/subway</item>
+        <item>@string/school</item>
+        <item>@string/park</item>
+        <item>@string/store</item>
+        <item>@string/museum</item>
+        <item>@string/doctor</item>
+        <item>@string/bank</item>
+        <item>@string/airport</item>
+        <item>@string/bar</item>
+        <item>@string/hospital</item>
+        <item>@string/gym</item>
+        <item>@string/spa</item>
+        <item>@string/train_station</item>
+    </string-array>
+
+    <string-array name="type_poi">
+        <item>@string/restaurant</item>
+        <item>@string/subway</item>
+        <item>@string/school</item>
+        <item>@string/park</item>
+        <item>@string/store</item>
+        <item>@string/museum</item>
+        <item>@string/doctor</item>
+        <item>@string/bank</item>
+        <item>@string/airport</item>
+        <item>@string/bar</item>
+        <item>@string/hospital</item>
+        <item>@string/gym</item>
+        <item>@string/spa</item>
+        <item>@string/train_station</item>
+    </string-array>
+
+    <string-array name="rooms_range_slider">
+        <item>0.0</item>
+        <item>20.0</item>
+    </string-array>
+
+    <string-array name="price_range_slider">
+        <item>100000.0</item>
+        <item>1000000000.0</item>
+    </string-array>
+
+    <string-array name="area_range_slider">
+        <item>50.0</item>
+        <item>1000.0</item>
+    </string-array>
+
+    <bool name="isTablet">false</bool>
+
+</resources>

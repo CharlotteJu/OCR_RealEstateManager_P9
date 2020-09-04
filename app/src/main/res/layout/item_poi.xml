@@ -7,38 +7,37 @@
 
     <ImageView
         android:id="@+id/item_poi_icone"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_park_"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_park_24"
+        android:layout_marginTop="@dimen/item_poi_margin"
+        android:layout_marginBottom="@dimen/item_poi_margin"
+        android:layout_marginStart="@dimen/item_poi_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/item_poi_description"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/constraint_width_0"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/item_poi_text_description_size"
         android:text="description"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/item_poi_margin"
         app:layout_constraintTop_toTopOf="@id/item_poi_icone"
         app:layout_constraintBottom_toBottomOf="@id/item_poi_icone"
         app:layout_constraintStart_toEndOf="@id/item_poi_icone"/>
 
-    <TextView
-        android:id="@+id/item_poi_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="distance"
-        android:textStyle="italic"
-        app:layout_constraintTop_toTopOf="@id/item_poi_icone"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+
+    <View
+        android:layout_width="@dimen/view_separator_width"
+        android:layout_height="@dimen/view_separator_height"
         android:background="@color/colorGrey"
+        android:layout_marginStart="@dimen/item_poi_margin"
+        android:layout_marginEnd="@dimen/item_poi_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 

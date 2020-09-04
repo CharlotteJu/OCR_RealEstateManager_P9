@@ -2,32 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/item_estate_agent_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/constraint_width_0"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="NAME"
+        android:layout_marginTop="@dimen/item_estate_agent_margin"
+        android:layout_marginBottom="@dimen/item_estate_agent_margin"
+        android:layout_marginStart="@dimen/item_estate_agent_margin"
+        android:textSize="@dimen/item_estate_agent_text_size"
+        tools:text="NAME"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/item_estate_agent_function"
+    <ImageButton
+        android:id="@+id/item_estate_agent_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FUNCTION "
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toEndOf="@id/item_estate_agent_name"
-        app:layout_constraintTop_toTopOf="@id/item_estate_agent_name"/>
+        android:src="@drawable/ic_baseline_delete_24"
+        app:backgroundTint="@android:color/transparent"
+        android:layout_marginEnd="@dimen/item_estate_agent_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+    <ImageButton
+        android:id="@+id/item_estate_agent_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_edit_24"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintEnd_toStartOf="@id/item_estate_agent_delete_button"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:layout_width="@dimen/view_separator_width"
+        android:layout_height="@dimen/view_separator_height"
         android:background="@color/colorGrey"
+        android:layout_marginStart="@dimen/item_estate_agent_margin"
+        android:layout_marginEnd="@dimen/item_estate_agent_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 

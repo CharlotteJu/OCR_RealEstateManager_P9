@@ -1,11 +1,103 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    <!-- <item name="android:textColor">@android:color/white</item> -->
+ </style>
+
+ <style name="AppTheme.NoActionBar">
+     <item name="windowActionBar">false</item>
+     <item name="windowNoTitle">true</item>
+
+ </style>
+
+ <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+ <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+ <!-- ADD HOUSING FRAGMENT -->
+    <style name="add_housing_spinner">
+        <item name="android:background">@drawable/test_spinner</item>
+        <item name="android:enabled">false</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:spinnerMode">dropdown</item>
     </style>
+
+    <style name="add_housing_spinner_big" parent="add_housing_spinner">
+        <item name="android:layout_width">@dimen/add_housing_fragment_spinner_width_big</item>
+        <item name="android:layout_height">@dimen/add_housing_fragment_spinner_height</item>
+    </style>
+
+    <style name="add_housing_spinner_little" parent="add_housing_spinner">
+        <item name="android:layout_width">@dimen/add_housing_fragment_spinner_width_little</item>
+        <item name="android:layout_height">@dimen/add_housing_fragment_spinner_height</item>
+    </style>
+
+    <style name="add_housing_title">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/add_housing_fragment_text_margin</item>
+        <item name="android:textSize">@dimen/add_housing_fragment_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
+    <style name="add_housing_editText">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- ADD ESTATE HOUSING FRAGMENT -->
+    <style name="add_estate_housing_title">
+        <item name="android:layout_marginTop">@dimen/add_housing_fragment_text_margin</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/add_estate_housing_fragment_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
+    <!-- SETTINGS FRAGMENT -->
+    <style name="settings_fragment_txt">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/settings_fragment_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:layout_marginTop">@dimen/settings_fragment_margin_Top</item>
+    </style>
+
+    <!-- FILTER DIALOG -->
+    <style name="filter_fragment_txt">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/filter_fragment_margin</item>
+        <item name="android:textSize">@dimen/filter_fragment_text_size</item>
+        <item name="android:textColor">@color/colorDark</item>
+    </style>
+
+    <style name="filter_fragment_spinner">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">@dimen/filter_fragment_spinner_height</item>
+
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:background">@drawable/test_spinner</item>
+    </style>
+
+    <style name="filter_fragment_spinner_big" parent="filter_fragment_spinner">
+        <item name="android:layout_width">@dimen/filter_fragment_spinner_width_big</item>
+    </style>
+
+    <style name="filter_fragment_spinner_little" parent="filter_fragment_spinner">
+        <item name="android:layout_width">@dimen/filter_fragment_spinner_width_little</item>
+    </style>
+
+
+    <style name="filter_fragment_editText">
+        <item name="android:layout_width">@dimen/constraint_width_0</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 
 </resources>
