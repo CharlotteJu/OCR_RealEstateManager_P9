@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    android:id="@+id/item_housing_layout"
+<androidx.cardview.widget.CardView android:id="@+id/item_housing_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:id="@+id/item_housing_type_txt"
             android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
-            android:text="TYPE"
+            tools:text="TYPE"
             android:textStyle="bold"
             android:textSize="@dimen/item_housing_text_type_size"
             android:layout_marginTop="@dimen/item_housing_marginTop"
@@ -39,7 +39,7 @@
             android:id="@+id/item_housing_district_txt"
             android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
-            android:text="DISTRICT"
+            tools:text="DISTRICT"
             android:textSize="@dimen/item_housing_text_district_size"
             app:layout_constraintTop_toTopOf="@id/item_housing_image"
             app:layout_constraintBottom_toBottomOf="@id/item_housing_image"
@@ -49,7 +49,7 @@
             android:id="@+id/item_housing_price_txt"
             android:layout_width="@dimen/constraint_width_0"
             android:layout_height="wrap_content"
-            android:text="PRICE"
+            tools:text="PRICE"
             android:textSize="@dimen/item_housing_text_price_size"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toBottomOf="@id/item_housing_district_txt"
@@ -60,6 +60,7 @@
             android:id="@+id/item_housing_delete_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

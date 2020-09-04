@@ -12,12 +12,12 @@
     <TextView
         android:id="@+id/settings_fragment_notifications_txt"
         style="@style/settings_fragment_txt"
-        android:text="NOTIFICATIONS "
+        android:text="@string/notifications"
         android:layout_marginStart="@dimen/settings_fragment_margin_Start"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/settings_fragment_notifications_switch"
         android:layout_width="@dimen/constraint_width_0"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
     <TextView
         android:id="@+id/settings_fragment_currency_txt"
         style="@style/settings_fragment_txt"
-        android:text="CURRENCY "
+        android:text="@string/currency"
         app:layout_constraintTop_toBottomOf="@id/settings_fragment_notifications_txt"
         app:layout_constraintStart_toStartOf="@id/settings_fragment_notifications_txt"/>
 
