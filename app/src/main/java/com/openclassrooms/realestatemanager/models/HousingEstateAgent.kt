@@ -5,7 +5,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 
 @Entity (tableName = "housing_estate_agent",

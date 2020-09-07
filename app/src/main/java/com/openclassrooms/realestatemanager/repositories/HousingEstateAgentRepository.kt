@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
-import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.HousingEstateAgentDAO
 import com.openclassrooms.realestatemanager.models.HousingEstateAgent
 

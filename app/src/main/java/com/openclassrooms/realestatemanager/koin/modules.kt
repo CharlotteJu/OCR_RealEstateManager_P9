@@ -1,12 +1,10 @@
 package com.openclassrooms.realestatemanager.koin
 
-import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.viewModels.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import kotlin.math.sign
 
 val appModule = module (override = true) {
 

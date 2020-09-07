@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.repositories.EstateAgentRepository

@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -16,7 +15,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -31,7 +29,6 @@ import com.openclassrooms.realestatemanager.views.adapters.*
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 

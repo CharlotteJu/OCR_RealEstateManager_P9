@@ -11,7 +11,6 @@ import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.Exception
 import kotlin.coroutines.resume

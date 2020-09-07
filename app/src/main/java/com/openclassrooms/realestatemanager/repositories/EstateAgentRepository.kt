@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.repositories
 
 import androidx.lifecycle.LiveData
 import com.openclassrooms.realestatemanager.api.EstateAgentHelper
-import com.openclassrooms.realestatemanager.daos.AddressDAO
 import com.openclassrooms.realestatemanager.daos.EstateAgentDAO
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import kotlinx.coroutines.coroutineScope

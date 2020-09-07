@@ -278,7 +278,7 @@
             <TextView
                 android:id="@+id/add_housing_fragment_photo_title"
                 style="@style/add_housing_title"
-                android:text="PHOTOS : "
+                android:text="@string/photos"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"

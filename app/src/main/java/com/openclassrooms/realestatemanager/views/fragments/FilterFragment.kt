@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.views.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.sqlite.db.SupportSQLiteQuery
-import com.google.android.material.slider.RangeSlider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.*
@@ -24,9 +19,7 @@ import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,7 +18,6 @@ import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
-import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
@@ -31,11 +29,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private var mListEstateAgent : MutableList<EstateAgent> = arrayListOf()
     private lateinit var currency: String
     private var isInternetAvailable : Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -77,9 +70,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun syncCompleteHousingWithFirestore()
     {
-        context?.let {
-            this.mViewModel.syncCompleteHousingWithFirebase(mListHousing, it)
-        }
+        this.mViewModel.syncCompleteHousingWithFirebase(mListHousing)
     }
 
     private fun syncEstateAgentWithFirestore()

@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import com.openclassrooms.realestatemanager.database.AppDatabase
-import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Housing
 import kotlinx.coroutines.runBlocking
 import java.lang.IllegalArgumentException
@@ -14,9 +13,9 @@ import java.lang.IllegalArgumentException
 class MyContentProvider : ContentProvider() {
 
     companion object{
-        val authority = "com.openclassrooms.realestatemanager.providers"
+        const val authority = "com.openclassrooms.realestatemanager.providers"
         val tableName = Housing::class.java.simpleName
-        val uri = Uri.parse("content://$authority/$tableName")
+        val uri: Uri = Uri.parse("content://$authority/$tableName")
     }
 
 

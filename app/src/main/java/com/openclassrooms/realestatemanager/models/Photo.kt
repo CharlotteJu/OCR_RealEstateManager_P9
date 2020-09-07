@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.content.ContentValues
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -21,11 +20,8 @@ data class Photo constructor(@PrimaryKey @ColumnInfo(name = "uri") var uri : Str
 
 
     override fun equals(other: Any?): Boolean {
-        if (other is Photo)
-        {
-            return (other.uri == this.uri)
-        }
-        else return false
+        return if (other is Photo) (other.uri == this.uri)
+        else false
     }
 
     override fun hashCode(): Int {

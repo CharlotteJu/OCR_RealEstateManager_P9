@@ -40,6 +40,7 @@
     <string name="not_specify">Not specify</string>
     <string name="gallery">GALLERY</string>
     <string name="camera">CAMERA</string>
+    <string name="photos">PHOTOS</string>
 
     <!-- Add Estate Housing Fragment -->
     <string name="last_name">LAST NAME</string>
@@ -60,6 +61,11 @@
     <string name="sold_on">Sold on : </string>
     <string name="no_photo">No photo</string>
     <string name="type">TYPE</string>
+    <string name="nb_rooms">NB ROOMS</string>
+    <string name="bedrooms">BEDROOMS</string>
+    <string name="bathrooms">BATHROOMS</string>
+    <string name="point_of_interest">POINT OF INTEREST</string>
+    <string name="estate_agent">ESTATE AGENT</string>
     <string name="no_housing_selected">No Housing Selected</string>     <!-- TODO : Vérif traduc -->
 
     <!-- Settings Fragment -->

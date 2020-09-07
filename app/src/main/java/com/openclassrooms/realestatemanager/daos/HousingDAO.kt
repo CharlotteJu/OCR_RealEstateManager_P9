@@ -2,9 +2,7 @@ package com.openclassrooms.realestatemanager.daos
 
 import android.database.Cursor
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteQuery
 import com.openclassrooms.realestatemanager.models.*
 
 /**

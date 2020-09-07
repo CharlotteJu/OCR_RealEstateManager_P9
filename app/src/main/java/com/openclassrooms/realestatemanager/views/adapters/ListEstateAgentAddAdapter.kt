@@ -7,8 +7,6 @@ import com.openclassrooms.realestatemanager.models.EstateAgent
 import android.view.View
 import android.view.ViewGroup
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.models.HousingEstateAgent
-import com.openclassrooms.realestatemanager.views.fragments.AddEstateAgentFragment
 import kotlinx.android.synthetic.main.item_estate_agent.view.*
 
 class ListEstateAgentAddAdapter(private var listEstateAgent : List<EstateAgent>, private val onItemClickEdit: OnItemClickEdit, private val onClickEditEstateAgent: OnClickEditEstateAgent)

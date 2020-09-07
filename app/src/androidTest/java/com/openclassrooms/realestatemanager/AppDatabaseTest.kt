@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import java.io.IOException
 import java.lang.Exception
 import org.junit.*
-import org.junit.runners.JUnit4
 
 
 @RunWith(AndroidJUnit4::class)

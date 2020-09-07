@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.models
 
 import android.content.ContentValues
-import android.provider.ContactsContract
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -15,11 +14,8 @@ data class EstateAgent constructor(@PrimaryKey @ColumnInfo(name = "last_name") v
                                    @ColumnInfo (name = "last_update_estate") var lastUpdateEstate : Long = 0)
 {
     override fun equals(other: Any?): Boolean {
-        if (other is EstateAgent)
-        {
-            return (other.lastName == this.lastName)
-        }
-        else return false
+        return if (other is EstateAgent) (other.lastName == this.lastName)
+        else false
     }
 
     override fun hashCode(): Int {

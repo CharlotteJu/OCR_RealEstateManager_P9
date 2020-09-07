@@ -5,13 +5,11 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import androidx.room.Room
-import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import kotlinx.coroutines.runBlocking
-import org.junit.AfterClass
 import org.junit.Before
 
 import org.junit.Assert.*

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.viewModels
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -74,7 +73,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
         }
     }
 
-    fun syncCompleteHousingWithFirebase(listRoom : List<CompleteHousing>, context: Context) {
+    fun syncCompleteHousingWithFirebase(listRoom : List<CompleteHousing>) {
         viewModelScope.launch {
             val querySnapshot = housingRepository.getCompleteHousingListFromFirestore()
             if (querySnapshot != null) {

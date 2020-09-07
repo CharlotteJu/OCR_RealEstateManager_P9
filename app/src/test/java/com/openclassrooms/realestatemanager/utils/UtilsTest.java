@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;

@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Photo
-import kotlinx.android.synthetic.main.item_housing.view.*
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*

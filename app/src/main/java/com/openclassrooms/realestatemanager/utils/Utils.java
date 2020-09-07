@@ -1,29 +1,18 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
+
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.widget.DatePicker;
-
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
 import static com.openclassrooms.realestatemanager.utils.ConstKt.DOLLAR;
-import static com.openclassrooms.realestatemanager.utils.ConstKt.ERROR_GEOCODER_ADDRESS;
+
 
 /**
  * Created by Philippe on 21/02/2018.

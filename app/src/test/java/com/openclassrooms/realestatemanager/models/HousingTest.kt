@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models
 
-import org.junit.Assert
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -8,7 +7,7 @@ class HousingTest
 {
 
     @Test
-    public fun changeHousingCopy()
+    fun changeHousingCopy()
     {
         val housingToCompare = Housing("REF", "TYPE", 0.0, 0.0)
         val housingToChange = housingToCompare.copy()

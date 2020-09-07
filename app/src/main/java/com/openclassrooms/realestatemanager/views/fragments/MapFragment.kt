@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,18 +10,12 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -39,19 +31,11 @@ import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_map_complete.view.*
-import kotlinx.android.synthetic.main.info_window_map.view.*
+
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient

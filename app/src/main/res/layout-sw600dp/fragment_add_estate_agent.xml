@@ -31,6 +31,7 @@
         android:id="@+id/add_estate_agent_last_name_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
         app:layout_constraintTop_toBottomOf="@id/add_estate_agent_last_name_txt"/>
 
@@ -47,6 +48,7 @@
         android:id="@+id/add_estate_agent_first_name_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="text"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
         app:layout_constraintTop_toBottomOf="@id/add_estate_agent_first_name_txt"/>
 
@@ -62,6 +64,7 @@
         android:id="@+id/add_estate_agent_email_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
         app:layout_constraintTop_toBottomOf="@id/add_estate_agent_email_txt"/>
 
@@ -77,6 +80,7 @@
         android:id="@+id/add_estate_agent_phone_number_edit_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="phone"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
         app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_txt"/>
 
