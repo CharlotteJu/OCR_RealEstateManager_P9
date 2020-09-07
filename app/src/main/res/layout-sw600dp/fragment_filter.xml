@@ -43,17 +43,29 @@
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
 
 
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/fragment_filter_price_slider"
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/fragment_filter_price_min_editTxt"
+                android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
-                android:valueFrom="100000.0"
-                android:valueTo="1000000000.0"
-                android:stepSize="50000.0"
-                app:values="@array/price_range_slider"
+                android:hint="@string/min"
+                android:inputType="numberDecimal"
+                android:layout_marginEnd="@dimen/filter_fragment_margin"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toStartOf="@id/fragment_filter_price_max_editTxt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_price_txt"/>
+
+            <EditText
+                android:id="@+id/fragment_filter_price_max_editTxt"
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="wrap_content"
+                android:hint="@string/max"
+                android:inputType="numberDecimal"
+                android:layout_marginStart="@dimen/filter_fragment_margin"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"/>
+                app:layout_constraintStart_toEndOf="@id/fragment_filter_price_min_editTxt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_price_txt"/>
 
             <!-- INFOS -->
 

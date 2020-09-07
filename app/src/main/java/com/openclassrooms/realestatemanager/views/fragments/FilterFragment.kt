@@ -80,17 +80,20 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         return this.mView
     }
 
+    override fun onResume() {
+        super.onResume()
+        this.mView.fragment_filter_search_fab.setOnClickListener {
+            this.launchSearch()
+        }
+    }
+
     private fun launchSearch()
     {
-        if (currency == EURO && priceLower != null && priceHigher != null)
+        if (currency == EURO)
         {
-            priceLower = Utils.convertDollarToEuroDouble(priceLower!!)
-            priceHigher = Utils.convertDollarToEuroDouble(priceHigher!!)
+            if (priceLower != null) priceLower = Utils.convertDollarToEuroDouble(priceLower!!)
+            if (priceHigher != null) priceHigher = Utils.convertDollarToEuroDouble(priceHigher!!)
         }
-
-        this.mViewModel.getAllCompleteHousing().observe(viewLifecycleOwner, Observer {
-            listFilter = it as ArrayList<CompleteHousing>
-        })
 
         this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
@@ -103,7 +106,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
     {
-        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailableGood(context))
+        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailableGood(context), requireContext())
         this.mView.fragment_filter_rcv.layoutManager = LinearLayoutManager(context)
     }
 
@@ -157,32 +160,55 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun getPrice()
     {
-        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, _, _ ->
-            priceLower = slider.values[0].toDouble()
-            priceHigher = slider.values[1].toDouble()
+        this.mView.fragment_filter_price_min_editTxt.doAfterTextChanged {
+            if (it.toString().isNotEmpty())
+            {
+                this.priceLower = it.toString().toDouble()
+            }
+            else this.priceLower = null
         }
+        this.mView.fragment_filter_price_max_editTxt.doAfterTextChanged {
+            if (it.toString().isNotEmpty())
+            {
+                this.priceHigher = it.toString().toDouble()
+            }
+            else this.priceHigher = null
+        }
+
     }
 
     private fun getInfoInsideHouse()
     {
-        this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
-            areaLower = slider.values[0].toDouble()
-            areaHigher = slider.values[1].toDouble()
+        if (this.mView.fragment_filter_area_slider.isPressed)
+        {
+            this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
+                areaLower = slider.values[0].toDouble()
+                areaHigher = slider.values[1].toDouble()
+            }
         }
 
-        this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
-            roomLower = slider.values[0].toInt()
-            roomHigher = slider.values[1].toInt()
+        if (this.mView.fragment_filter_rooms_slider.isPressed)
+        {
+            this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
+                roomLower = slider.values[0].toInt()
+                roomHigher = slider.values[1].toInt()
+            }
         }
 
-        this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
-            bedRoomLower = slider.values[0].toInt()
-            bedRoomHigher = slider.values[1].toInt()
+        if (this.mView.fragment_filter_bedrooms_slider.isPressed)
+        {
+            this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
+                bedRoomLower = slider.values[0].toInt()
+                bedRoomHigher = slider.values[1].toInt()
+            }
         }
 
-        this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
-            bathRoomLower = slider.values[0].toInt()
-            bathRoomHigher = slider.values[1].toInt()
+        if ( this.mView.fragment_filter_bathrooms_slider.isPressed)
+        {
+            this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
+                bathRoomLower = slider.values[0].toInt()
+                bathRoomHigher = slider.values[1].toInt()
+            }
         }
     }
 
@@ -227,7 +253,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun getAddress()
     {
         this.mView.fragment_filter_city_editTxt.doAfterTextChanged {
-            if (it != null) city = it.toString()
+            if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) city = it.toString()
+            else city = null
         }
 
         this.mView.fragment_filter_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener

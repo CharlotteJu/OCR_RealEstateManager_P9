@@ -165,7 +165,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     override fun onClickEditPhoto(position: Int) {
         val photoToEdit = this.photoList[position]
 
-        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image)
+        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image, requireContext())
 
         /*Glide.with(requireContext())
                 .load(photoToEdit.uri)

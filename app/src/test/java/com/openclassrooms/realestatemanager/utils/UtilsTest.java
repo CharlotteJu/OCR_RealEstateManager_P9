@@ -53,24 +53,8 @@ public class UtilsTest
     {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
-        assertEquals("04/09/2020", Utils.getDateFormat(date)); //Think to change with the date of today
+        assertEquals("07/09/2020", Utils.getDateFormat(date)); //Think to change with the date of today
     }
-    /*@Test
-    public void getTodayDateGood_Success()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        String day;
-        String month;
-
-        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) day = "0" + calendar.get(Calendar.DAY_OF_MONTH);
-        else day = "" + calendar.get(Calendar.DAY_OF_MONTH);
-
-        if (calendar.get(Calendar.MONTH)+1 < 10) month = "0" + (calendar.get(Calendar.MONTH)+1);
-        else month = "" + (calendar.get(Calendar.MONTH)+1);
-
-        assertEquals(""+ day + "/" + month + "/" + calendar.get(Calendar.YEAR), Utils.getTodayDateGood());
-    }*/
 
 
    @Test

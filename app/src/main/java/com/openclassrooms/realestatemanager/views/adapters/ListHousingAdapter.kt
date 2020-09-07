@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.views.adapters
 
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +15,13 @@ import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
 import kotlinx.android.synthetic.main.item_housing.view.*
 
-class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete, private val currency : String, private val isInternetAvailable : Boolean)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
+class ListHousingAdapter(private var listHousing : List<CompleteHousing>, private val onItemClickListener: OnItemClickListener, private val onClickDelete : OnClickDelete, private val currency : String, private val isInternetAvailable : Boolean, private val context : Context)  : RecyclerView.Adapter<ListHousingAdapter.ListHousingViewHolder>()
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHousingViewHolder
     {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.item_housing, parent, false)
-        return ListHousingViewHolder(view, this.onItemClickListener, this.onClickDelete, this.currency, this.isInternetAvailable)
+        return ListHousingViewHolder(view, this.onItemClickListener, this.onClickDelete, this.currency, this.isInternetAvailable, context)
     }
 
 
@@ -38,7 +39,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
         this.notifyDataSetChanged()
     }
 
-    class ListHousingViewHolder(itemView: View, private val onItemClickListener: OnItemClickListener, private val onClickDelete: OnClickDelete, private val currency: String, private val isInternetAvailable : Boolean) : RecyclerView.ViewHolder(itemView)
+    class ListHousingViewHolder(itemView: View, private val onItemClickListener: OnItemClickListener, private val onClickDelete: OnClickDelete, private val currency: String, private val isInternetAvailable : Boolean, private val context: Context) : RecyclerView.ViewHolder(itemView)
     {
         fun configureDesign(housing: CompleteHousing)
         {
@@ -56,7 +57,7 @@ class ListHousingAdapter(private var listHousing : List<CompleteHousing>, privat
         {
            if (housing.photoList != null && housing.photoList!!.isNotEmpty())
            {
-               UtilsKotlin.displayPhoto(isInternetAvailable, housing.photoList!![0], itemView, itemView.item_housing_image)
+               UtilsKotlin.displayPhoto(isInternetAvailable, housing.photoList!![0], itemView, itemView.item_housing_image, context)
            }
             else
            {

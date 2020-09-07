@@ -70,7 +70,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun configRecyclerView()
     {
         this.currency = getCurrencyFromSharedPreferences()
-        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency, this.isInternetAvailable)
+        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency, this.isInternetAvailable, requireContext())
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
     }

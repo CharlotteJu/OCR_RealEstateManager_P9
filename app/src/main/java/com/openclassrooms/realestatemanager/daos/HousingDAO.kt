@@ -43,10 +43,10 @@ interface HousingDAO {
         LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference
         LEFT JOIN housing_estate_agent ea ON h.reference == ea.housing_reference
         LEFT JOIN photo ph ON h.reference == ph.housing_reference
-        /* LEFT JOIN (SELECT photo.housing_reference as ref, count(photo.housing_reference) as nbPhoto FROM housing LEFT JOIN photo ON housing.reference == photo.housing_reference) as pho ON h.reference == pho.ref*/
         WHERE
         (:type IS NULL OR h.type = :type)
-        AND (:priceLower IS NULL OR h.price BETWEEN :priceLower AND :priceHigher)
+        AND (:priceLower IS NULL OR h.price >= :priceLower)
+        AND (:priceHigher IS NULL OR h.price <= :priceHigher)
         AND (:areaLower IS NULL OR h.area BETWEEN :areaLower AND :areaHigher)
         AND (:roomLower IS NULL OR h.rooms BETWEEN :roomLower AND :roomHigher)
         AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
@@ -58,10 +58,8 @@ interface HousingDAO {
         AND (:city IS NULL OR a.city LIKE lower(:city))
         AND (:country IS NULL OR a.country = :country)
         AND (:estateAgent IS NULL OR ea.estate_agent_name = :estateAgent)
-        /*AND (:numberPhotos IS NULL OR pho.nbPhoto > :numberPhotos) */
         GROUP BY h.reference
         HAVING (:numberPhotos IS NULL OR cnt >= :numberPhotos)
-        /*AND cnt >= :numberPhotos  TODO : Voir pour listPhoto*/
         """)
     fun getListCompleteHousingFilter(type : String? = null,
                                      priceLower : Double? = 0.0,

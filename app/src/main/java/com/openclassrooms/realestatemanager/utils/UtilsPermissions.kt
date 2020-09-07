@@ -23,7 +23,7 @@ class UtilsPermissions
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
-        fun checkCameraPermission(activity: Activity)
+        private fun checkCameraPermission(activity: Activity)
         {
             if (activity.checkSelfPermission(Manifest.permission.CAMERA)  != PackageManager.PERMISSION_GRANTED)
             {
@@ -34,7 +34,7 @@ class UtilsPermissions
 
 
         @RequiresApi(Build.VERSION_CODES.M)
-        fun checkReadPermission(activity: Activity)
+        private fun checkReadPermission(activity: Activity)
         {
 
            if (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -45,12 +45,31 @@ class UtilsPermissions
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
-        fun checkWritePermission(activity: Activity)
+        private fun checkWritePermission(activity: Activity)
         {
             if (activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             {
                 val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 activity.requestPermissions(permissions, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE)
+            }
+        }
+
+
+        @RequiresApi(Build.VERSION_CODES.M)
+        fun checkPhotosPermission(activity: Activity)
+        {
+            if ((activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    && (activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    && (activity.checkSelfPermission(Manifest.permission.CAMERA)  != PackageManager.PERMISSION_GRANTED))
+            {
+                val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                activity.requestPermissions(permissions, PHOTOS_PERMISSION_CODE)
+            }
+            else
+            {
+                this.checkReadPermission(activity)
+                this.checkCameraPermission(activity)
+                this.checkWritePermission(activity)
             }
         }
 

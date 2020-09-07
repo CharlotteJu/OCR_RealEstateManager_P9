@@ -131,7 +131,6 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                     thread.await()
                 }
             }
-            val debug = 1
             housingRepository.createCompleteHousingInFirestore(completeHousing).await()
         }
 

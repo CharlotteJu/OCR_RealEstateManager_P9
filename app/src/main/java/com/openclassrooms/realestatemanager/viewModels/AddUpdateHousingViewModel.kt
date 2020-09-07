@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.repositories.*
-import com.openclassrooms.realestatemanager.utils.ERROR_GEOCODER_ADDRESS
-import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.utils.UtilsKotlin
+import com.openclassrooms.realestatemanager.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -122,7 +120,10 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             thread.await()
 
             // Launch function on the MainThread !!
-            withContext(Dispatchers.Main) {NotificationWorker.showNotification(context)}
+            withContext(Dispatchers.Main) {
+                val sharedPreferencesNotification = context.getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                val isNotification = sharedPreferencesNotification.getBoolean(NOTIFICATION_TAG, true)
+                if (isNotification) NotificationWorker.showNotification(context)}
         }
 
     }

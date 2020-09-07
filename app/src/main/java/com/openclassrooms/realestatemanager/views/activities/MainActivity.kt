@@ -96,8 +96,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
-
     fun getDetailFragment() : DetailFragment?
     {
         return mDetailFragment

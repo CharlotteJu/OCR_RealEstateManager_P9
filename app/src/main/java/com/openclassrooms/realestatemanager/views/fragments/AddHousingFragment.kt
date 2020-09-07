@@ -1,46 +1,18 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.content.ContentResolver
-import android.content.ContentValues
 import android.content.DialogInterface
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.provider.SyncStateContract.Helpers.insert
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.*
-import com.openclassrooms.realestatemanager.viewModels.AddUpdateHousingViewModel
-import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoDetailAdapter
-import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
-import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
-import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.progress_bar.view.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-import kotlin.collections.ArrayList
-
 
 class AddHousingFragment : BaseEditHousingFragment() {
 
@@ -96,12 +68,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
     override fun onClickEditPhoto(position: Int) {
         val photoToEdit = this.photoList[position]
 
-        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image)
-
-        /*Glide.with(requireContext())
-                .load(photoToEdit.uri)
-                .apply(RequestOptions.centerCropTransform())
-                .into(this.mView.add_housing_fragment_photo_image)*/
+        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image, requireContext())
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 

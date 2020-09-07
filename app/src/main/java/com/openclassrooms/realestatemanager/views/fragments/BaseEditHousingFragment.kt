@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
+import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -30,6 +31,7 @@ import com.openclassrooms.realestatemanager.views.adapters.*
 import kotlinx.android.synthetic.main.dialog_photo.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -74,7 +76,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
         this.isInternetAvailable = Utils.isInternetAvailableGood(context)
         this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this, this.isInternetAvailable)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this, this.isInternetAvailable, requireContext())
 
         this.getEstateAgentList()
         this.getAllInfo()
@@ -312,9 +314,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                UtilsPermissions.checkCameraPermission(requireActivity())
-                UtilsPermissions.checkReadPermission(requireActivity())
-                UtilsPermissions.checkWritePermission(requireActivity())
+                UtilsPermissions.checkPhotosPermission(requireActivity())
                 getAlertDialogPhoto()
             }
             else getAlertDialogPhoto()
@@ -433,17 +433,10 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         val alertDialog : AlertDialog = dialogBuilder.show()
 
         dialogLayout.dialog_photo_gallery_button.setOnClickListener {
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                UtilsPermissions.checkReadPermission(requireActivity())
-            }*/
             this.pickImageFromGallery()
             alertDialog.dismiss()
         }
         dialogLayout.dialog_photo_camera_button.setOnClickListener {
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                UtilsPermissions.checkCameraPermission(requireActivity())
-                UtilsPermissions.checkWritePermission(requireActivity())
-            }*/
             this.openCamera()
             alertDialog.dismiss()
         }
@@ -464,6 +457,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                 }
             } else if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 context?.let {
+                    photoUri = data?.data
                     Glide.with(it)
                             .load(photoUri)
                             .apply(RequestOptions.centerCropTransform())

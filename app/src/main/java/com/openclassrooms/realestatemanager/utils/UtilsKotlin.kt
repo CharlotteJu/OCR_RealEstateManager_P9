@@ -1,27 +1,19 @@
 package com.openclassrooms.realestatemanager.utils
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.location.Address
 import android.location.Geocoder
-import android.os.Build
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Photo
-import kotlinx.android.synthetic.main.item_photo_detail.view.*
+import kotlinx.android.synthetic.main.item_housing.view.*
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class UtilsKotlin
@@ -60,7 +52,7 @@ class UtilsKotlin
 
         }
 
-        fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView)
+        fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView, context: Context)
         {
             if (isInternetAvailable && photo.url_firebase != null)
             {
@@ -71,11 +63,25 @@ class UtilsKotlin
             }
             else
             {
-                Glide.with(itemView)
-                        .load(photo.uri)
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(imageView)
+                if (isFileExists(context, photo.uri.toUri()))
+                {
+                    Glide.with(itemView)
+                            .load(photo.uri)
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(imageView)
+                }
+                else
+                {
+                    imageView.setImageResource(R.drawable.ic_baseline_no_internet)
+                }
+
             }
+        }
+
+        private fun isFileExists(context: Context, uri: Uri) : Boolean
+        {
+            val documentFile = DocumentFile.fromSingleUri(context, uri)
+            return documentFile?.exists() ?: false
         }
 
     }

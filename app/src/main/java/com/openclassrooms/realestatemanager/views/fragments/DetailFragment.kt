@@ -247,7 +247,7 @@ class DetailFragment : BaseFragment() {
            // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
             this.mView.detail_fragment_photo_no_list.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
-            val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable)
+            val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable, requireContext())
             this.snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
             this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
