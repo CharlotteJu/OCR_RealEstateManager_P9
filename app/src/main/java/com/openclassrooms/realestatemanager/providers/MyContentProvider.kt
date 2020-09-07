@@ -64,7 +64,7 @@ class MyContentProvider : ContentProvider() {
         throw IllegalArgumentException("Failed to update uri : $uri")
     }!!
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int { return 0 } //TODO : Return quoi sinon ?
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int { return 0 } 
 
     override fun getType(uri: Uri): String? { return "vnd.android.cursor.item/$authority.$tableName" }
 }
