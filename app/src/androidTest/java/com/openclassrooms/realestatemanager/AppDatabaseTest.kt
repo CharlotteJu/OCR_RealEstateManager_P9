@@ -56,6 +56,7 @@ class AppDatabaseTest
     private var housingEstateAgent = HousingEstateAgent(reference, name)
     private var housingPoi = HousingPoi(reference, typePoi)
 
+
     @get:Rule var rule  = InstantTaskExecutorRule()
 
     @Before
@@ -249,6 +250,7 @@ class AppDatabaseTest
         assertEquals(housingEstateAgentTest!!, (housingEstateAgent))
         assertEquals(housingEstateAgentFromHousingTest!![0], (housingEstateAgent))
         assertEquals(housingEstateAgentFromEstateAgentTest!![0], (housingEstateAgent))
+
     }
 
     @Test //TODO : Changer pour POI
@@ -278,13 +280,6 @@ class AppDatabaseTest
         assertEquals(housingPoiTest!!, housingPoi)
         assertEquals(housingPoiFromHousingTest!![0], housingPoi)
         assertEquals(housingPoiFromPoiTest!![0], housingPoi)
-
-        //UPDATE
-        /*housingPoi.numberOfPoi = 10
-        housingPoiDAO.updateHousingPoi(housingPoi)
-        val housingPoiUpdate = LiveDataTestUtil.getValue(housingPoiDAO.getHousingPoi(reference = reference, type = typePoi))
-        assertNotSame(housingPoiUpdate, housingPoiFromPoiTest)
-        assertEquals(housingPoiUpdate, housingPoi)*/
     }
 
 
