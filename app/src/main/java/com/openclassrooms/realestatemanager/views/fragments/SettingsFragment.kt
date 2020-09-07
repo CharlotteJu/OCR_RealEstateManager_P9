@@ -50,7 +50,7 @@ class SettingsFragment : Fragment() {
 
     private fun getNotificationSwitchButton()
     {
-        this.mView.settings_fragment_notifications_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+        this.mView.settings_fragment_notifications_switch.setOnCheckedChangeListener { _, isChecked ->
             isNotification = isChecked
             this.updateSharedPreferencesNotification(isNotification)
         }

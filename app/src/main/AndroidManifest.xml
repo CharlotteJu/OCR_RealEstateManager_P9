@@ -41,9 +41,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_api_key_project"/>
 
-        <!--  <meta-data
+        <meta-data
               android:name="com.google.android.gms.version"
-              android:value="@integer/google_play_services_version" /> -->
+              android:value="@integer/google_play_services_version" />
 
         <provider
             android:authorities="com.openclassrooms.realestatemanager.providers"
@@ -57,7 +57,6 @@
                   <category android:name="android.intent.category.LAUNCHER" />
               </intent-filter>
           </activity>
-          <activity android:name=".views.activities.SecondActivity" />
       </application>
 
 
