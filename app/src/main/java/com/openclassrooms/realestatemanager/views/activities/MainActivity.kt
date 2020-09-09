@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     /**
      * Useful in TabletMode
-     * To know if [DetailFragment] is showing or hiding according to the main Fragment displaying //TODO : Traduction
+     * To show/hide this [DetailFragment] according to the main Fragment
      */
     private fun configureTabMode()
     {

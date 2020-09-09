@@ -173,7 +173,7 @@
                 android:id="@+id/detail_fragment_entry_txt"
                 android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
-                android:text="@string/housing_add_on"
+                android:text="@string/added_date"
                 android:layout_marginEnd="@dimen/detail_fragment_margin"
                 app:layout_constraintEnd_toStartOf="@id/detail_fragment_date_entry_txt"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_date_entry_txt" />
@@ -190,7 +190,7 @@
                 android:id="@+id/detail_fragment_sale_txt"
                 android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
-                android:text="@string/sold_on"
+                android:text="@string/sold_date"
                 android:layout_marginEnd="@dimen/detail_fragment_margin"
                 app:layout_constraintEnd_toStartOf="@id/detail_fragment_date_sale_txt"
                 app:layout_constraintTop_toTopOf="@id/detail_fragment_date_sale_txt"/>

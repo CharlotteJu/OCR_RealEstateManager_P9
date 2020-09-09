@@ -60,8 +60,8 @@
     <string name="max">MAX</string>
 
     <!-- DetailFragment -->
-    <string name="housing_add_on">Housing add on : </string>
-    <string name="sold_on">Sold on : </string>
+    <string name="added_date">Added date : </string>
+    <string name="sold_date">Sold date : </string>
     <string name="no_photo">No photo</string>
     <string name="type">TYPE</string>
     <string name="nb_rooms">NB ROOMS</string>
@@ -69,7 +69,7 @@
     <string name="bathrooms">BATHROOMS</string>
     <string name="point_of_interest">POINT OF INTEREST</string>
     <string name="estate_agent">ESTATE AGENT</string>
-    <string name="no_housing_selected">No Housing Selected</string>     <!-- TODO : Vérif traduc -->
+    <string name="no_housing_selected">No housing selected</string>
 
     <!-- Settings Fragment -->
     <string name="notifications">NOTIFICATIONS</string>
@@ -103,14 +103,14 @@
     <string name="filter">FILTER</string>
 
     <!-- Toast -->
-    <string name="toast_no_photo">You have not add photo</string>
+    <string name="toast_no_photo">You have to add a photo first !</string>
     <string name="toast_invalid_address">Invalid address</string>
-    <string name="toast_estate_agent_same_name">An Estate Agent has already the same last name</string>
-    <string name="toast_estate_agent_no_name">Please put the last name</string>
-    <string name="toast_internet_no_available">Internet no available</string>
+    <string name="toast_estate_agent_same_name">An Estate Agent has already this last name</string>
+    <string name="toast_estate_agent_no_name">Please enter the last name first</string>
+    <string name="toast_internet_no_available">No connection available</string>
 
     <!-- AlertDialog -->
-    <string name="sure_delete">Do you want delete it ?</string>
+    <string name="sure_delete">Please confirm your deletion</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="my_position">My position</string>
