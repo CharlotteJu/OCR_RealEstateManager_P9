@@ -29,8 +29,13 @@ interface HousingDAO {
     @Query("SELECT * FROM housing WHERE reference = :reference")
     fun getCompleteHousing(reference: String): LiveData<CompleteHousing>
 
+    //FILTER
 
-   @Transaction
+    /**
+     * Used for filter the housing's list
+     * All the parameters can be null
+     */
+    @Transaction
     @Query("""
         SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, 
                         h.state, h.dateEntry, h.dateSale, h.lastUpdate, poi.poi_type, a.country, a.city, 
@@ -50,7 +55,7 @@ interface HousingDAO {
         AND (:bedRoomLower IS NULL OR h.bedrooms BETWEEN :bedRoomLower AND :bedRoomHigher)
         AND (:bathRoomLower IS NULL OR h.bathrooms BETWEEN :bathRoomLower AND :bathRoomHigher)
         AND (:state IS NULL OR h.state = :state)
-        AND (:dateEntry IS NULL OR dateEntry >= :dateEntry)/*DateDiff("day", :dateEntry, dateEntry) >= //date(dateEntry) >= date(:dateEntry))*/
+        AND (:dateEntry IS NULL OR dateEntry >= :dateEntry)
         AND (:dateSale IS NULL OR dateSale >= :dateSale)
         AND (:typePoi IS NULL OR poi.poi_type = :typePoi)
         AND (:city IS NULL OR a.city LIKE lower(:city))
@@ -78,6 +83,7 @@ interface HousingDAO {
                                      typePoi : String? = null,
                                      estateAgent : String? = null,
                                      numberPhotos : Int? = null): LiveData<List<CompleteHousing>>
+
 
 
     //CURSOR

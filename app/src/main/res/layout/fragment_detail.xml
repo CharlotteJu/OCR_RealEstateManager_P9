@@ -64,7 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_no_picture"
-                    android:orientation="horizontal" />
+                    android:orientation="horizontal"
+                    android:contentDescription="@string/this_housing_don_t_have_photos" />
 
             </androidx.cardview.widget.CardView>
 
@@ -78,7 +79,8 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_rcv_photo_card_view"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                android:contentDescription="@string/area" />
 
             <TextView
                 android:id="@+id/detail_fragment_area_txt"
@@ -97,7 +99,8 @@
                 android:src="@drawable/ic_baseline_number_room_24"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_area_ic"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_area_ic"/>
+                app:layout_constraintStart_toStartOf="@id/detail_fragment_area_ic"
+                android:contentDescription="@string/nb_rooms" />
 
             <TextView
                 android:id="@+id/detail_fragment_number_rooms_txt"
@@ -116,7 +119,8 @@
                 android:src="@drawable/ic_baseline_bedroom_24"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_number_rooms_ic"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_number_rooms_ic"/>
+                app:layout_constraintStart_toStartOf="@id/detail_fragment_number_rooms_ic"
+                android:contentDescription="@string/bedrooms" />
 
             <TextView
                 android:id="@+id/detail_fragment_bedrooms_txt"
@@ -135,7 +139,8 @@
                 android:src="@drawable/ic_baseline_bathroom_24"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_bedrooms_ic"
-                app:layout_constraintStart_toStartOf="@id/detail_fragment_bedrooms_ic"/>
+                app:layout_constraintStart_toStartOf="@id/detail_fragment_bedrooms_ic"
+                android:contentDescription="@string/bathrooms" />
 
             <TextView
                 android:id="@+id/detail_fragment_bathrooms_txt"
@@ -211,7 +216,8 @@
                 android:layout_marginTop="@dimen/detail_fragment_separator_margin"
                 android:src="@color/colorPrimary"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"
-                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_1_info_address"/>
+                app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_1_info_address"
+                android:contentDescription="@string/map" />
 
             <TextView
                 android:id="@+id/detail_fragment_address_txt"
@@ -287,7 +293,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_fragment_rcv_poi"
                 android:layout_width="@dimen/detail_fragment_rcv_poi_size"
-                android:layout_height="80dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 tools:listitem="@layout/item_poi"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_poi_title_txt"
@@ -323,7 +329,6 @@
             <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_fragment_rcv_estate_agent"
-
                 android:layout_width="@dimen/detail_fragment_rcv_estate_agent_size"
                 android:layout_height="80dp"
                 android:layout_marginTop="@dimen/detail_fragment_margin"

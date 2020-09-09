@@ -20,7 +20,7 @@ import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
+class ListFragment : BaseFragment(), OnItemClickListener {
 
     private lateinit var mView : View
     private lateinit var mAdapter : ListHousingAdapter
@@ -63,7 +63,7 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun configRecyclerView()
     {
         this.currency = getCurrencyFromSharedPreferences()
-        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency, this.isInternetAvailable, requireContext())
+        this.mAdapter = ListHousingAdapter(mListHousing, this,this.currency, this.isInternetAvailable, requireContext())
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
     }
@@ -95,14 +95,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
        }
     }
 
-    override fun onClickDeleteHousing(position: Int)
-    {
-        val completeHousing = this.mListHousing[position]
-        this.mListHousing.removeAt(position)
-        this.mViewModel.deleteGlobal(completeHousing)
-        this.mAdapter.updateList(mListHousing)
-
-    }
 
 }
 

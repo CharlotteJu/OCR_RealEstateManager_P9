@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.openclassrooms.realestatemanager.repositories.*
 
+/**
+ * Using if we don't use Koin
+ */
 class ViewModelFactory (private val housingRepository: HousingRepository,
                         private val addressRepository: AddressRepository,
                         private val estateAgentRepository: EstateAgentRepository,
@@ -17,10 +20,10 @@ class ViewModelFactory (private val housingRepository: HousingRepository,
     override fun <T : ViewModel?> create(modelClass: Class<T>): T
     {
         when {
-            modelClass.isAssignableFrom(AddEstateTypeViewModel::class.java) ->
-                return modelClass.cast(AddEstateTypeViewModel(estateAgentRepository, poiRepository))!!
+            modelClass.isAssignableFrom(AddEstateAgentViewModel::class.java) ->
+                return modelClass.cast(AddEstateAgentViewModel(estateAgentRepository, poiRepository))!!
             modelClass.isAssignableFrom(AddUpdateHousingViewModel::class.java) ->
-                return modelClass.cast(AddUpdateHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository, estateAgentRepository, placesPoiRepository, poiRepository))!!
+                return modelClass.cast(AddUpdateHousingViewModel(housingRepository, addressRepository, photoRepository, housingEstateAgentRepository, housingPoiRepository, estateAgentRepository, placesPoiRepository))!!
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->
                 return modelClass.cast(DetailViewModel(housingRepository))!!
             modelClass.isAssignableFrom(FilterViewModel::class.java) ->

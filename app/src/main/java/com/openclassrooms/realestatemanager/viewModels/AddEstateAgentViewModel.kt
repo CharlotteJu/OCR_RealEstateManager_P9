@@ -10,9 +10,10 @@ import kotlinx.coroutines.launch
 
 /**
  * View Model to add [EstateAgent] and types of [Poi] --> AddEstateAgentFragment
+ * @param poiRepository not used for the moment, but it can be useful in the future
  */
-class AddEstateTypeViewModel (private val estateAgentRepository: EstateAgentRepository,
-                              private val poiRepository: PoiRepository)
+class AddEstateAgentViewModel (private val estateAgentRepository: EstateAgentRepository,
+                               private val poiRepository: PoiRepository)
                                 : ViewModel()
 {
 
@@ -20,13 +21,9 @@ class AddEstateTypeViewModel (private val estateAgentRepository: EstateAgentRepo
 
     fun getAllEstateAgent() = this.estateAgentRepository.getAllEstateAgent()
 
-    fun getEstateAgent(lastName : String) = this.estateAgentRepository.getEstateAgent(lastName)
-
     //////////////////// CREATE ////////////////////
 
     private suspend fun createEstateAgent(estateAgent: EstateAgent) = this.estateAgentRepository.createEstateAgent(estateAgent)
-
-    private suspend fun createPoi(poi: Poi) = this.poiRepository.createPoi(poi)
 
     fun createGlobalEstateAgent(estateAgent: EstateAgent)
     {
@@ -35,13 +32,9 @@ class AddEstateTypeViewModel (private val estateAgentRepository: EstateAgentRepo
         }
     }
 
-
     //////////////////// UPDATE ////////////////////
 
-
     private suspend fun updateEstateAgent (estateAgent: EstateAgent) = this.estateAgentRepository.updateEstateAgent(estateAgent)
-
-    private suspend fun updatePoi(poi: Poi) = this.poiRepository.updatePoi(poi)
 
     fun updateGlobalEstateAgent(estateAgent: EstateAgent)
     {

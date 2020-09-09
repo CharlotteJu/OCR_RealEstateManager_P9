@@ -7,13 +7,16 @@
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="real">REAL</string>
+    <string name="estate">ESTATE</string>
+    <string name="manager">MANAGER</string>
 
 
     <!-- Spinners -->
@@ -111,6 +114,23 @@
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="my_position">My position</string>
+
+
+    <!-- Content Description Photos -->
+    <string name="add_a_photo_from_the_gallery">Add a photo from the gallery</string>
+    <string name="add_a_photo_from_the_camera">Add a photo from the camera</string>
+    <string name="add_a_photo">Add a photo</string>
+    <string name="final_add_photo">Final add Photo</string>
+    <string name="add_an_estate_agent">Add an estate agent</string>
+    <string name="this_housing_don_t_have_photos">This housing don\'t have photos</string>
+    <string name="map">Map</string>
+    <string name="calendar">calendar</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="photo">Photo</string>
+    <string name="icon">Icon</string>
+    <string name="logo">Logo</string>
+    <string name="area_m2">AREA : M2</string>
 
 
 </resources>

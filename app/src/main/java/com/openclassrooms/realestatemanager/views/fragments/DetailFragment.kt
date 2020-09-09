@@ -77,6 +77,9 @@ class DetailFragment : BaseFragment() {
         return mView
     }
 
+    /**
+     * Useful in TabletMode
+     */
     private fun displayNoHousingSelected()
     {
         if (ref == null)
@@ -87,6 +90,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Useful in TabletMode
+     */
     fun updateRef(ref : String, context: Context)
     {
         this.ref = ref
@@ -240,7 +246,6 @@ class DetailFragment : BaseFragment() {
     {
         if (!housing.photoList.isNullOrEmpty())
         {
-           // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
             this.mView.detail_fragment_photo_no_list.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
             val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable, requireContext())
@@ -254,6 +259,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Get the URL from Google Api StaticMap
+     */
     private fun buildUrlStaticMap(location : String) : String
     {
         val key = getString(R.string.google_api_key_project)

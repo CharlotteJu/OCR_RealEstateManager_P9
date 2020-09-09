@@ -75,5 +75,9 @@
     <dimen name="filter_fragment_spinner_width_big">200dp</dimen>
     <dimen name="filter_fragment_spinner_width_little">80dp</dimen>
 
+    <!-- NAV HEADER -->
+    <dimen name="nav_header_logo_size">80dp</dimen>
+    <dimen name="nav_header_margin">16dp</dimen>
+    <dimen name="nav_header_text_size">20sp</dimen>
 
 </resources>

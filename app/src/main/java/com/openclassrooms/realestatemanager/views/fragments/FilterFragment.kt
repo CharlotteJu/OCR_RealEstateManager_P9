@@ -24,7 +24,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
+class FilterFragment : BaseFragment(), OnItemClickListener {
 
 
     private var type : String? = null
@@ -73,13 +73,6 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         return this.mView
     }
 
-    override fun onResume() {
-        super.onResume()
-        this.mView.fragment_filter_search_fab.setOnClickListener {
-            this.launchSearch()
-        }
-    }
-
     private fun launchSearch()
     {
         if (currency == EURO)
@@ -99,7 +92,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
     {
-        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailableGood(context), requireContext())
+        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this.currency, Utils.isInternetAvailableGood(context), requireContext())
         this.mView.fragment_filter_rcv.layoutManager = LinearLayoutManager(context)
     }
 
@@ -170,39 +163,64 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     }
 
+
+
     private fun getInfoInsideHouse()
     {
-        if (this.mView.fragment_filter_area_slider.isPressed)
-        {
-            this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
+        val minAreaSlider = 50.0f
+        val maxAreaSlider = 1000.0f
+        val minRoomsSlider = 0f
+        val maxRoomsSlider = 20f
+
+        this.mView.fragment_filter_area_slider.values = listOf(minAreaSlider, maxAreaSlider)
+        this.mView.fragment_filter_rooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+        this.mView.fragment_filter_bedrooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+        this.mView.fragment_filter_bathrooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+
+        this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minAreaSlider.toDouble() || higher != maxAreaSlider.toDouble())
+            {
                 areaLower = slider.values[0].toDouble()
                 areaHigher = slider.values[1].toDouble()
             }
         }
 
-        if (this.mView.fragment_filter_rooms_slider.isPressed)
-        {
-            this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
+        this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
                 roomLower = slider.values[0].toInt()
                 roomHigher = slider.values[1].toInt()
             }
         }
 
-        if (this.mView.fragment_filter_bedrooms_slider.isPressed)
-        {
-            this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
+        this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
                 bedRoomLower = slider.values[0].toInt()
                 bedRoomHigher = slider.values[1].toInt()
             }
         }
 
-        if ( this.mView.fragment_filter_bathrooms_slider.isPressed)
-        {
-            this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
+        this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
                 bathRoomLower = slider.values[0].toInt()
                 bathRoomHigher = slider.values[1].toInt()
             }
         }
+
     }
 
     private fun getDates()
@@ -346,10 +364,5 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext()) //TODO : Voir pour split l'écran
         }
     }
-
-    override fun onClickDeleteHousing(position: Int) {
-        TODO("Not yet implemented")
-    }
-
 
 }

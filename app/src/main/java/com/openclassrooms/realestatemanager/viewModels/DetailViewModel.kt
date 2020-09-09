@@ -5,7 +5,7 @@ import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.*
 
 /**
- * View Model to get [Housing], [Address], [Photo], [HousingEstateAgent], [HousingPoi] --> DetailFragment
+ * View Model to get [CompleteHousing] --> DetailFragment
  */
 class DetailViewModel constructor(private val housingRepository: HousingRepository)
                                     : ViewModel()

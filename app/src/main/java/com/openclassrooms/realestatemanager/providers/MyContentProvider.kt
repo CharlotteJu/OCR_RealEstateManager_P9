@@ -10,6 +10,9 @@ import com.openclassrooms.realestatemanager.models.Housing
 import kotlinx.coroutines.runBlocking
 import java.lang.IllegalArgumentException
 
+/**
+ * Class ContentProvider to exchange data [AppDatabase] with another application
+ */
 class MyContentProvider : ContentProvider() {
 
     companion object{
@@ -17,8 +20,6 @@ class MyContentProvider : ContentProvider() {
         val tableName = Housing::class.java.simpleName
         val uri: Uri = Uri.parse("content://$authority/$tableName")
     }
-
-
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? = runBlocking {
 
@@ -37,11 +38,6 @@ class MyContentProvider : ContentProvider() {
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
         return if (context != null)
         {
-            /*val index = ContentUris.parseId(uri)
-            val reference = ContentUris.withAppendedId(uri, index).toString()
-
-            val cursorHousing = AppDatabase.getDatabase(context!!).housingDao().getHousingWithCursor(reference)*/
-
             val cursor = AppDatabase.getDatabase(context!!).housingDao().getAllHousingWithCursor()
             cursor.setNotificationUri(context!!.contentResolver, uri)
             cursor

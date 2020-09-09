@@ -2,15 +2,16 @@ package com.openclassrooms.realestatemanager.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.models.EstateAgent
+import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.repositories.EstateAgentRepository
 import com.openclassrooms.realestatemanager.repositories.HousingRepository
 
+/**
+ * View Model to get [CompleteHousing], [EstateAgent] --> DetailFragment
+ */
 class FilterViewModel (private val housingRepository: HousingRepository,
                        private val estateAgentRepository: EstateAgentRepository) : ViewModel()
 {
-    fun getAllCompleteHousing() : LiveData<List<CompleteHousing>> = this.housingRepository.getAllCompleteHousing()
     fun getEstateAgentList() : LiveData<List<EstateAgent>> = this.estateAgentRepository.getAllEstateAgent()
 
     fun getListFilter(type : String? = null,

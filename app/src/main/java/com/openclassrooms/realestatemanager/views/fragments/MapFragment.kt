@@ -93,7 +93,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         {
             if (housing.address != null)
             {
-                val geocoder : Geocoder = Geocoder(context)
+                val geocoder = Geocoder(context)
                 val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
                 val lat  = listGeocoder[0].latitude
                 val lng = listGeocoder[0].longitude

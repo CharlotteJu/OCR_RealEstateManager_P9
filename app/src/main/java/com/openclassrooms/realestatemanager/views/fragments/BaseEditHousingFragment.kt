@@ -32,6 +32,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Abstract class using by [AddHousingFragment] and [EditHousingFragment]
+ */
 abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 {
     protected lateinit var housing : Housing
@@ -42,7 +45,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected var address : Address? = null
     protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
     private var photoUri : Uri? = null
-
     protected var photoList : MutableList<Photo> = ArrayList()
 
     protected val mViewModel : AddUpdateHousingViewModel by viewModel()

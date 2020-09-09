@@ -45,6 +45,10 @@ class ListEstateAgentAddAdapter(private var listEstateAgent : List<EstateAgent>,
     }
 
 
+    /**
+     * Click Interface to Edit an [EstateAgent]
+     * Useful just in AddEstateAgentFragment
+     */
     interface OnClickEditEstateAgent
     {
         fun onClickEditEstateAgent(position : Int)

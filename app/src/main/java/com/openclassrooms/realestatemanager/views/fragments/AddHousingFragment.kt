@@ -31,6 +31,9 @@ class AddHousingFragment : BaseEditHousingFragment() {
     }
 
 
+    /**
+     * Link with the ViewModel to add a CompleteHousing in RoomDatabase
+     */
     private fun addFinal()
     {
         this.checkAddress()

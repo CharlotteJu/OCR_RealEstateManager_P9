@@ -12,6 +12,7 @@ class RealEstateApplication : Application()
     override fun onCreate() {
         super.onCreate()
         startKoin {
+            //To launch Koin
             androidContext(this@RealEstateApplication)
             modules(appModule)
         }
@@ -20,6 +21,7 @@ class RealEstateApplication : Application()
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
+        //To can use Multidex < API 21
         MultiDex.install(this)
     }
 }

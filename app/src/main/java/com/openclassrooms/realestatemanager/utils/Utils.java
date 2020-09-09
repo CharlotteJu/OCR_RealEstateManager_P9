@@ -37,10 +37,6 @@ public class Utils {
      */
     public static Double convertDollarToEuroDouble(double dollars)
     {
-       /* DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        double result = dollars * 0.812;
-        String resultString = decimalFormat.format(result);
-        return Double.valueOf(resultString);*/
         return (double) Math.round(dollars * 0.812);
     }
 

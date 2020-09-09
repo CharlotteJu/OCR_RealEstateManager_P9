@@ -5,7 +5,7 @@
     android:layout_height="@dimen/nav_header_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark">
-    
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/nav_header_guideline_top"
         android:layout_width="wrap_content"
@@ -30,49 +30,35 @@
 
     <ImageView
         android:id="@+id/nav_header_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/nav_header_logo_size"
+        android:layout_height="@dimen/nav_header_logo_size"
         android:src="@drawable/ic_baseline_logo"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="@dimen/nav_header_margin"
         app:layout_constraintEnd_toStartOf="@id/nav_header_guideline_vertical"
         app:layout_constraintTop_toTopOf="@id/nav_header_guideline_top"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/logo" />
 
     <TextView
         android:id="@+id/nav_header_real_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="REAL"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"
+        style="@style/nav_header_text"
+        android:text="@string/real"
         app:layout_constraintTop_toTopOf="@id/nav_header_image"
         app:layout_constraintBottom_toTopOf="@id/nav_header_estate_txt"
         app:layout_constraintStart_toEndOf="@id/nav_header_guideline_vertical"/>
 
     <TextView
         android:id="@+id/nav_header_estate_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ESTATE"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"
+        style="@style/nav_header_text"
+        android:text="@string/estate"
         app:layout_constraintBottom_toBottomOf="@id/nav_header_image"
         app:layout_constraintStart_toEndOf="@id/nav_header_guideline_vertical"
         app:layout_constraintTop_toTopOf="@id/nav_header_image" />
 
     <TextView
         android:id="@+id/nav_header_manager_txt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MANAGER"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginEnd="16dp"
+        style="@style/nav_header_text"
+        android:text="@string/manager"
         app:layout_constraintTop_toBottomOf="@id/nav_header_estate_txt"
         app:layout_constraintBottom_toBottomOf="@id/nav_header_image"
         app:layout_constraintStart_toEndOf="@id/nav_header_guideline_vertical"/>

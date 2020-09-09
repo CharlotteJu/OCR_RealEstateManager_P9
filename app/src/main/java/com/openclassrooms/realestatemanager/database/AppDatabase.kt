@@ -54,7 +54,7 @@ abstract class AppDatabase : RoomDatabase()
             {
                 this.INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE")
                         .build()
-                return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build()
+                return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").addCallback(PopulateDatabasePoi.prepopulateDatabase()).build()
             }
         }
     }

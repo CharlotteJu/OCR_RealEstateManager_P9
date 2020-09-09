@@ -16,6 +16,9 @@ import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+/**
+ * Communication class with Firebase about [CompleteHousing]
+ */
 class CompleteHousingHelper
 {
     companion object
@@ -25,33 +28,6 @@ class CompleteHousingHelper
         private fun getCollectionFirestore() : CollectionReference
         {
             return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
-        }
-
-        private suspend fun <T> Task<T>.await(): T? {
-            if (isComplete) {
-                val e = exception
-                return if (e == null) {
-                    if (isCanceled) {
-                        throw CancellationException(
-                                "Task $this was cancelled normally.")
-                    } else {
-                        this.result
-                    }
-                } else {
-                    throw e
-                }
-            }
-
-            return suspendCancellableCoroutine { cont ->
-                addOnCompleteListener {
-                    val e = exception
-                    if (e == null) {
-                        if (isCanceled) cont.cancel() else cont.resume(result)
-                    } else {
-                        cont.resumeWithException(e)
-                    }
-                }
-            }
         }
 
         suspend fun getCompleteHousingListFromFirestore() : QuerySnapshot?
@@ -79,20 +55,39 @@ class CompleteHousingHelper
             }
         }
 
-        /*fun getListCompleteHousingFromFirestore() : Query
-        {
-            return this.getCollectionFirestore()
-        }*/
-
-
         fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void>
         {
             return this.getCollectionFirestore().document(completeHousing.housing.ref).set(completeHousing)
         }
 
+        /**
+         * Generated method to use coroutine
+         */
+        private suspend fun <T> Task<T>.await(): T? {
+            if (isComplete) {
+                val e = exception
+                return if (e == null) {
+                    if (isCanceled) {
+                        throw CancellationException(
+                                "Task $this was cancelled normally.")
+                    } else {
+                        this.result
+                    }
+                } else {
+                    throw e
+                }
+            }
 
-
-
-
+            return suspendCancellableCoroutine { cont ->
+                addOnCompleteListener {
+                    val e = exception
+                    if (e == null) {
+                        if (isCanceled) cont.cancel() else cont.resume(result)
+                    } else {
+                        cont.resumeWithException(e)
+                    }
+                }
+            }
+        }
     }
 }

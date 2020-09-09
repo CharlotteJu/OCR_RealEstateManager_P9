@@ -64,6 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mNavigationController = findNavController(R.id.main_activity_navHost)
     }
 
+    /**
+     * Useful in TabletMode
+     * To know if [DetailFragment] is showing or hiding according to the main Fragment displaying //TODO : Traduction
+     */
     private fun configureTabMode()
     {
         this.isTablet = resources.getBoolean(R.bool.isTablet)
@@ -94,11 +98,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    /**
+     * Useful in TabletMode by [ListFragment] and [MapFragment] to update [DetailFragment]
+     */
     fun getDetailFragment() : DetailFragment?
     {
         return mDetailFragment
     }
 
+    /**
+     * Useful in TabletMode to show [DetailFragment]
+     */
     private fun showDetailFragment()
     {
         if (isTablet)
@@ -116,6 +126,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    /**
+     * Useful in TabletMode to hide [DetailFragment]
+     */
     private fun hideDetailFragment()
     {
         if (isTablet)

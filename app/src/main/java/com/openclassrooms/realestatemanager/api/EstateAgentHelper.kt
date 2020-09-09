@@ -13,17 +13,34 @@ import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+/**
+ * Communication class with Firebase about [EstateAgent]
+ */
 class EstateAgentHelper
 {
-    companion object
-    {
+    companion object {
         private const val COLLECTION_NAME = "estateAgent"
 
-        private fun getCollectionFirestore() : CollectionReference
-        {
+        private fun getCollectionFirestore(): CollectionReference {
             return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
         }
 
+        suspend fun getEstateAgentListFromFirestore(): QuerySnapshot? {
+            return try {
+                val firestore = Firebase.firestore
+                firestore.collection(COLLECTION_NAME).get().await()
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+        fun createEstateAgentListInFirestore(estateAgent: EstateAgent): Task<Void> {
+            return this.getCollectionFirestore().document(estateAgent.lastName).set(estateAgent)
+        }
+
+        /**
+         * Generated method to use coroutine
+         */
         private suspend fun <T> Task<T>.await(): T? {
             if (isComplete) {
                 val e = exception
@@ -49,29 +66,7 @@ class EstateAgentHelper
                     }
                 }
             }
+
         }
-
-        suspend fun getEstateAgentListFromFirestore() : QuerySnapshot?
-        {
-            return try
-            {
-                val firestore = Firebase.firestore
-                firestore.collection(COLLECTION_NAME).get().await()
-            }
-            catch (e : Exception)
-            {
-                null
-            }
-        }
-
-        fun createEstateAgentListInFirestore(estateAgent: EstateAgent) : Task<Void>
-        {
-            return this.getCollectionFirestore().document(estateAgent.lastName).set(estateAgent)
-        }
-
-
-
-
-
     }
 }

@@ -23,8 +23,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
                                 private val housingEstateAgentRepository: HousingEstateAgentRepository,
                                 private val housingPoiRepository: HousingPoiRepository,
                                 private val estateAgentRepository: EstateAgentRepository,
-                                private val placesPoiRepository : PlacesPoiRepository,
-                                private val poiRepository: PoiRepository)
+                                private val placesPoiRepository : PlacesPoiRepository)
                                 : ViewModel()
 {
 
@@ -36,6 +35,31 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     //////////////////// CREATE ////////////////////
 
+    /**
+     * Final method to create a CompleteHousing in RoomDatabase
+     */
+    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean )
+    {
+        viewModelScope.launch  (Dispatchers.IO)
+        {
+
+            val thread = viewModelScope.async {
+                createHousing(housing)
+                createGlobalAddress(address, context, housing.ref, isInternetAvailable, key)
+                createAllPhoto(photoList)
+                createAllHousingEstateAgent(estateAgentList)
+            }
+            thread.await()
+
+            // Launch function on the MainThread !!
+            withContext(Dispatchers.Main) {
+                val sharedPreferencesNotification = context.getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                val isNotification = sharedPreferencesNotification.getBoolean(NOTIFICATION_TAG, true)
+                if (isNotification) NotificationWorker.showNotification(context)}
+        }
+
+    }
+
     private suspend fun createHousing(housing : Housing) = this.housingRepository.createHousing(housing)
 
     private suspend fun createAddress(address: Address) = this.addressRepository.createAddress(address)
@@ -46,12 +70,15 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
 
     private suspend fun createHousingPoi(housingPoi: HousingPoi) = this.housingPoiRepository.createHousingPoi(housingPoi)
 
-    private suspend fun getPoi(location : String, radius : Int, key : String) = this.placesPoiRepository.getPoiFromPlaces(location, radius, key)
+    private suspend fun getPoiFromPlaces(location : String, radius : Int, key : String) = this.placesPoiRepository.getPoiFromPlaces(location, radius, key)
 
+    /**
+     * Create HousingPoi according with the Address
+     */
     private suspend fun configurePoi(ref : String, location: String, context: Context, key : String)
     {
         val listTypePoi = UtilsKotlin.getListTypePoi(context)
-        val listPoiPlaces = getPoi(location, 500, key).results
+        val listPoiPlaces = getPoiFromPlaces(location, 500, key).results
 
         for (type in listTypePoi)
         {
@@ -106,29 +133,26 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     }
 
 
-    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean )
+    //////////////////// UPDATE ////////////////////
+
+    /**
+     * Final method to update a CompleteHousing in RoomDatabase
+     */
+    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean)
     {
-       viewModelScope.launch  (Dispatchers.IO)
+        viewModelScope.launch (Dispatchers.IO)
         {
 
-            val thread = viewModelScope.async {
-                createHousing(housing)
-                createGlobalAddress(address, context, housing.ref, isInternetAvailable, key)
-                createAllPhoto(photoList)
-                createAllHousingEstateAgent(estateAgentList)
+            if (housing.ref == completeHousing.housing.ref)
+            {
+                housing.lastUpdate = Utils.getTodayDateGood()
+                updateHousing(housing)
+                updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
+                updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
+                updateAllPhoto(photoList, completeHousing)
             }
-            thread.await()
-
-            // Launch function on the MainThread !!
-            withContext(Dispatchers.Main) {
-                val sharedPreferencesNotification = context.getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
-                val isNotification = sharedPreferencesNotification.getBoolean(NOTIFICATION_TAG, true)
-                if (isNotification) NotificationWorker.showNotification(context)}
         }
-
     }
-
-    //////////////////// UPDATE ////////////////////
 
     private suspend fun updateHousing(housing: Housing) = this.housingRepository.updateHousing(housing)
 
@@ -246,20 +270,4 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
         }
     }
 
-
-    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean)
-    {
-        viewModelScope.launch (Dispatchers.IO)
-        {
-
-            if (housing.ref == completeHousing.housing.ref)
-            {
-                housing.lastUpdate = Utils.getTodayDateGood()
-                updateHousing(housing)
-                updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
-                updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
-                updateAllPhoto(photoList, completeHousing)
-            }
-        }
-    }
 }

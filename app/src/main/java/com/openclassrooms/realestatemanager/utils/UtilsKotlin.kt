@@ -15,11 +15,18 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Class with a companion object
+ * Its method are used many times in the application
+ */
 class UtilsKotlin
 {
 
     companion object
     {
+        /**
+         * Convert an Address String in a LatLng String
+         */
         fun getGeocoderAddress(address: String, context: Context?): String? {
             return try
             {
@@ -34,11 +41,17 @@ class UtilsKotlin
             }
         }
 
+        /**
+         * Return the Poi's list
+         */
         fun getListTypePoi(context: Context) : List<String>
         {
             return context.resources.getStringArray(R.array.type_poi).asList()
         }
 
+        /**
+         * Convert a String Date in a Long Date (TimeStamp)
+         */
         fun convertStringToLongDate(stringDate : String?) : Long?
         {
             return if (stringDate.equals("null") || stringDate == null) null
@@ -51,6 +64,15 @@ class UtilsKotlin
 
         }
 
+        /**
+         * Display a photo with [Glide] in function of :
+         * @param isInternetAvailable : Boolean to know if Internet is Available
+         * If true, and if photo has an url_firebase, use it
+         * @param photo : Photo with uri and url_firebase
+         * @param itemView : View where the uri/url are charged
+         * @param imageView : ImageView exact
+         * @param context
+         */
         fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView, context: Context)
         {
             if (isInternetAvailable && photo.url_firebase != null)
@@ -77,6 +99,9 @@ class UtilsKotlin
             }
         }
 
+        /**
+         * Know if a photo.uri comes from this device
+         */
         private fun isFileExists(context: Context, uri: Uri) : Boolean
         {
             val documentFile = DocumentFile.fromSingleUri(context, uri)

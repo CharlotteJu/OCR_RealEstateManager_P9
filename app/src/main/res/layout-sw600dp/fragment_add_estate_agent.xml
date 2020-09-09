@@ -33,7 +33,9 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_last_name_txt"/>
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_last_name_txt"
+        android:hint="@string/last_name"
+        android:autofillHints="@string/last_name"/>
 
     <TextView
         android:id="@+id/add_estate_agent_first_name_txt"
@@ -50,7 +52,9 @@
         android:layout_height="wrap_content"
         android:inputType="text"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_first_name_txt"/>
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_first_name_txt"
+        android:hint="@string/first_name"
+        android:autofillHints="@string/first_name"/>
 
     <TextView
         android:id="@+id/add_estate_agent_email_txt"
@@ -66,7 +70,9 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_email_txt"/>
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_email_txt"
+        android:hint="@string/email"
+        android:autofillHints="@string/email"/>
 
     <TextView
         android:id="@+id/add_estate_agent_phone_number_txt"
@@ -82,7 +88,9 @@
         android:layout_height="wrap_content"
         android:inputType="phone"
         android:layout_marginBottom="@dimen/add_estate_housing_fragment_text_margin"
-        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_txt"/>
+        app:layout_constraintTop_toBottomOf="@id/add_estate_agent_phone_number_txt"
+        android:hint="@string/phone_number"
+        android:autofillHints="@string/phone_number"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_estate_agent_add_fab"

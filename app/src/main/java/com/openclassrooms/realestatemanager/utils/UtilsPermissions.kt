@@ -6,6 +6,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 
+/**
+ * Class with a companion object
+ * Its check Permission's method are used many times in the application
+ */
 class UtilsPermissions
 {
     companion object

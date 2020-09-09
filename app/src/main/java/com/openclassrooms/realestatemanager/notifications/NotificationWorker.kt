@@ -11,7 +11,9 @@ import com.openclassrooms.realestatemanager.utils.NOTIFICATION_CHANNEL_ID
 import com.openclassrooms.realestatemanager.utils.NOTIFICATION_CHANNEL_NAME
 import com.openclassrooms.realestatemanager.utils.NOTIFICATION_ID
 
-
+/**
+ * Object to send notifications
+ */
 object NotificationWorker
 {
     fun showNotification(context: Context)

@@ -27,8 +27,8 @@ val appModule = module (override = true) {
     single<PoiRepository>{PoiRepository(get())}
     single<PlacesPoiRepository>{PlacesPoiRepository()}
 
-    viewModel{AddEstateTypeViewModel(get(), get())}
-    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get(), get())}
+    viewModel{AddEstateAgentViewModel(get(), get())}
+    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get())}
     viewModel{DetailViewModel(get())}
     viewModel{ListHousingViewModel(get(), get(), get(), get(), get(), get())}
     viewModel { FilterViewModel (get(), get()) }

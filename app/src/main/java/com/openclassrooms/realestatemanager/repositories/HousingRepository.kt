@@ -36,11 +36,6 @@ class HousingRepository(private val housingDao : HousingDAO)
 
     suspend fun getCompleteHousingListFromFirestore() = CompleteHousingHelper.getCompleteHousingListFromFirestore()
 
-    /*fun getCompleteHousingFromFirestore(completeHousing: CompleteHousing) : Task<DocumentSnapshot>
-   {
-       return CompleteHousingHelper.getCompleteHousingFromFirestore(completeHousing)
-   }*/
-
     suspend fun pushPhotoOnFirebaseStorage(photo: Photo) = CompleteHousingHelper.pushPhotoOnFirebaseStorage(photo)
 
 
