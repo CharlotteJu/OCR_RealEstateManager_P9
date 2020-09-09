@@ -17,6 +17,7 @@
     <dimen name="add_housing_fragment_spinner_width_big">200dp</dimen>
     <dimen name="add_housing_fragment_spinner_width_little">80dp</dimen>
     <dimen name="add_housing_fragment_edit_text_height">40dp</dimen>
+    <dimen name="add_housing_fragment_edit_text_description_height">48dp</dimen>
 
     <!-- ADD ESTATE HOUSING FRAGMENT -->
     <dimen name="add_estate_housing_fragment_text_size">20sp</dimen>

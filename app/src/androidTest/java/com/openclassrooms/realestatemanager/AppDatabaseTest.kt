@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil
+import com.openclassrooms.realestatemanager.utils.TYPE_POI
 import junit.framework.TestCase.*
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith
@@ -252,7 +253,7 @@ class AppDatabaseTest
 
     }
 
-    @Test //TODO : Changer pour POI
+    @Test
     @Throws(Exception::class)
     fun test7_createHousingPoiAndGetIt() = runBlocking {
 
@@ -281,5 +282,40 @@ class AppDatabaseTest
         assertEquals(housingPoiFromPoiTest!![0], housingPoi)
     }
 
+
+    @Test
+    @Throws(Exception::class)
+    fun test8_FilterListHousing() = runBlocking {
+        //ADD housing in the Database
+        housingDAO.createHousing(housing)
+
+        //FILTER
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(type = "TYPE"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(priceLower = 50000.0))!![0].housing)
+        assertEquals(0, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(priceHigher = 50000.0))!!.size)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(areaLower = 50.0))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(roomHigher = 12))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(bedRoomLower = 1))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(bathRoomHigher = 10))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(state = "STATE"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(dateEntry = 20200624))!![0].housing)
+        assertEquals(0, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(dateSale = 20200624))!!.size)
+
+        //ADD other tables
+        poiDAO.createPoi(poi)
+        housingPoiDAO.createHousingPoi(housingPoi)
+        addressDAO.createAddress(address)
+        estateAgentDAO.createEstateAgent(estateAgent)
+        housingEstateAgentDAO.createHousingEstateAgent(housingEstateAgent)
+        photoDAO.createPhoto(photo)
+
+
+        //FILTER in link with other tables
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(typePoi = typePoi))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(city = "Boulogne-Billancourt"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(country = "FR"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(estateAgent = estateAgent.lastName))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(numberPhotos = null))!![0].housing)
+    }
 
 }

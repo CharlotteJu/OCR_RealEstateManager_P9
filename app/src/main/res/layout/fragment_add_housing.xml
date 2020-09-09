@@ -231,7 +231,7 @@
             <EditText
                 android:id="@+id/add_housing_fragment_description_editTxt"
                 android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="@dimen/add_housing_fragment_edit_text_height"
+                android:layout_height="@dimen/add_housing_fragment_edit_text_description_height"
                 android:inputType="textMultiLine"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
@@ -359,6 +359,7 @@
         android:layout_margin="@dimen/add_housing_fragment_text_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
      <include
         layout="@layout/progress_bar"/>

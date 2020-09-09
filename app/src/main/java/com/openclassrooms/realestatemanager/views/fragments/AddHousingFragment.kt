@@ -21,6 +21,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
                               savedInstanceState: Bundle?): View?
     {
         super.onCreateView(inflater, container, savedInstanceState)
+        this.isLoadingEdit = false
         this.mView.progress_bar_layout.visibility = View.GONE
         this.configureSpinners()
         this.mView.add_housing_fragment_final_button.setOnClickListener{
@@ -37,6 +38,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
     private fun addFinal()
     {
         this.checkAddress()
+        housing.dateEntry = Utils.getTodayDateGood()
 
         context?.let {
             housing.lastUpdate = Utils.getTodayDateGood()
@@ -44,6 +46,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
         }
 
     }
+
 
     override fun onClickDeleteEstateAgent(position: Int) {
 

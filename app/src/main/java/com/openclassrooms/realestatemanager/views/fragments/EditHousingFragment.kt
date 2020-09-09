@@ -41,6 +41,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.progress_bar_layout.visibility = View.VISIBLE
 
         this.configureSpinnersEdit()
+        this.isLoadingEdit = true
         this.getHousing()
 
         this.mView.add_housing_fragment_final_button.setImageResource(R.drawable.ic_baseline_save_24)
