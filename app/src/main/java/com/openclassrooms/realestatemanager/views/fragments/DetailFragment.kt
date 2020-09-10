@@ -194,7 +194,7 @@ class DetailFragment : BaseFragment() {
 
     private fun showDescription()
     {
-        if (housing.housing.description != null)
+        if (housing.housing.description != null && housing.housing.description != STRING_EMPTY)
         {
             this.mView.detail_fragment_description_txt.text = housing.housing.description
         }

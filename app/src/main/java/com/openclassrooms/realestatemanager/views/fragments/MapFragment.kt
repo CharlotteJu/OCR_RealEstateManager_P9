@@ -119,12 +119,10 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 this.mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
 
                     override fun onMarkerClick(p0: Marker?): Boolean {
-                        if (p0 != null)
-                        {
+                        return if (p0 != null) {
                             p0.showInfoWindow()
-                            return true
-                        }
-                        else return false
+                            true
+                        } else false
                     }
                 })
 
@@ -132,16 +130,16 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
 
                     if (it.tag != null)
                     {
-                        if (!this.getIsTabletFromSharedPreferences())
+                        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+                        {
+                            val detailFragment = (activity as MainActivity).getDetailFragment()
+                            detailFragment?.updateRef(it.tag.toString(), requireContext())
+                        }
+                        else
                         {
                             val bundle = Bundle ()
                             bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
                             findNavController().navigate(R.id.detailFragment, bundle)
-                        }
-                        else
-                        {
-                            val detailFragment = (activity as MainActivity).getDetailFragment()
-                            detailFragment?.updateRef(it.tag.toString(), requireContext())
                         }
                     }
                 }

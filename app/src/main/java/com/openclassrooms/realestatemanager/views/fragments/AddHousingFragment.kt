@@ -133,8 +133,6 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_number_bathrooms_spinner.prompt = getString(R.string.spinners_bathrooms)
         this.mView.add_housing_fragment_country_spinner.adapter = configureSpinnerAdapter(R.array.country_spinner)
         this.mView.add_housing_fragment_country_spinner.prompt = getString(R.string.spinners_country)
-        //TODO : NameSpinner && Prompt ne fonctionne pas
-
     }
 
 }

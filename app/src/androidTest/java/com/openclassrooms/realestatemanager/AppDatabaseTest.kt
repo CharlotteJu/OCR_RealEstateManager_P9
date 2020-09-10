@@ -10,7 +10,6 @@ import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.utils.LiveDataTestUtil
-import com.openclassrooms.realestatemanager.utils.TYPE_POI
 import junit.framework.TestCase.*
 import kotlinx.coroutines.runBlocking
 import org.junit.runner.RunWith

@@ -3,8 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.openclassrooms.realestatemanager">
 
-    <!-- <dist:module dist:instant="true" /> -->
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -13,18 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-
-    <!-- TODO : Ou mettre ça ?
-
-    Recommended for Android 9 (API level 28) and lower.
-     Required for Android 10 (API level 29).
-    <service
-        android:name="MyNavigationService"
-        android:foregroundServiceType="location" ... >
-     Any inner elements would go here.
-    </service>-->
-
-    <!-- TODO-Q : allowBackUp : remettre à true ? -->
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -48,7 +34,7 @@
         <provider
             android:authorities="com.openclassrooms.realestatemanager.providers"
             android:name=".providers.MyContentProvider"
-            android:exported="true"/>
+            android:exported="false"/>
 
           <activity android:name=".views.activities.MainActivity">
               <intent-filter>

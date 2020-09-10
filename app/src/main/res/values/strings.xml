@@ -22,7 +22,6 @@
     <!-- Spinners -->
     <string name="spinners_select_one">--SELECT--</string>
     <string name="spinners_type">TYPE</string>
-    <string name="spinners_currency">CURRENCY</string>
     <string name="spinners_rooms">ROOMS</string>
     <string name="spinners_bedrooms">BEDROOMS</string>
     <string name="spinners_bathrooms">BATHROOMS</string>
@@ -41,8 +40,6 @@
     <string name="city">CITY</string>
     <string name="description">DESCRIPTION</string>
     <string name="not_specify">Not specify</string>
-    <string name="gallery">GALLERY</string>
-    <string name="camera">CAMERA</string>
     <string name="photos">PHOTOS</string>
 
     <!-- Add Estate Housing Fragment -->
@@ -62,7 +59,6 @@
     <!-- DetailFragment -->
     <string name="added_date">Added date : </string>
     <string name="sold_date">Sold date : </string>
-    <string name="no_photo">No photo</string>
     <string name="type">TYPE</string>
     <string name="nb_rooms">NB ROOMS</string>
     <string name="bedrooms">BEDROOMS</string>

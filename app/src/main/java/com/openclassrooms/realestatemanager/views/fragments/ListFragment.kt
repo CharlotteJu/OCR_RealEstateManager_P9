@@ -15,7 +15,6 @@ import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.ListHousingViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
-import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -82,19 +81,18 @@ class ListFragment : BaseFragment(), OnItemClickListener {
 
     override fun onItemClick(position : Int)
     {
-       if (!this.getIsTabletFromSharedPreferences())
-       {
-           val bundle  = Bundle()
-           bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
-           findNavController().navigate(R.id.detailFragment, bundle)
-       }
+        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+        {
+            val detailFragment = (activity as MainActivity).getDetailFragment()
+            detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
+        }
         else
-       {
-           val detailFragment = (activity as MainActivity).getDetailFragment()
-           detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
-       }
+        {
+            val bundle  = Bundle()
+            bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
+            findNavController().navigate(R.id.detailFragment, bundle)
+        }
     }
-
 
 }
 

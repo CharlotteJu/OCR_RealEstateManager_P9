@@ -289,11 +289,10 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_3_desc_poi"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_type_txt"/>
 
-            <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_fragment_rcv_poi"
                 android:layout_width="@dimen/detail_fragment_rcv_poi_size"
-                android:layout_height="120dp"
+                android:layout_height="@dimen/detail_fragment_rcv_poi_height"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 tools:listitem="@layout/item_poi"
                 app:layout_constraintStart_toStartOf="@id/detail_fragment_poi_title_txt"
@@ -326,11 +325,10 @@
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"
                 app:layout_constraintTop_toBottomOf="@id/detail_fragment_separation_4_poi_estate"/>
 
-            <!-- TODO : CHANGER LE HEIGHT EN WRAP CONTENT -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_fragment_rcv_estate_agent"
                 android:layout_width="@dimen/detail_fragment_rcv_estate_agent_size"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/detail_fragment_rcv_estate_agent_height"
                 android:layout_marginTop="@dimen/detail_fragment_margin"
                 tools:listitem="@layout/item_estate_agent"
                 app:layout_constraintEnd_toEndOf="@id/detail_fragment_price_txt"

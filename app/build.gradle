@@ -25,13 +25,13 @@ android {
                         "room.expandProjection":"true"]
             }
         }
-        
+
         // API Key
         resValue "string", "google_api_key_project", (project.findProperty("GOOGLE_API_KEY") ?: "")
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

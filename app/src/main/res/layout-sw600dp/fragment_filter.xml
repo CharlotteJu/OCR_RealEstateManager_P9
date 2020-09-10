@@ -12,7 +12,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_weight="50"
+        android:layout_weight="58"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,6 +48,7 @@
                 android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
                 android:hint="@string/min"
+                android:autofillHints="@string/min"
                 android:inputType="numberDecimal"
                 android:layout_marginEnd="@dimen/filter_fragment_margin"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
@@ -60,6 +61,7 @@
                 android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
                 android:hint="@string/max"
+                android:autofillHints="@string/max"
                 android:inputType="numberDecimal"
                 android:layout_marginStart="@dimen/filter_fragment_margin"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
@@ -319,7 +321,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_filter_rcv"
-        android:layout_weight="50"
+        android:layout_weight="42"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_housing"

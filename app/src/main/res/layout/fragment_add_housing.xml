@@ -274,17 +274,25 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 android:contentDescription="@string/add_an_estate_agent" />
 
-            <!-- TODO : CHANGER HEIGHT -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/add_housing_fragment_estate_agent_rcv"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/add_housing_fragment_estate_card_view"
                 android:layout_width="@dimen/constraint_width_0"
-                android:layout_height="120dp"
-                tools:listitem="@layout/item_estate_agent"
+                android:layout_height="@dimen/add_housing_fragment_rcv_estate_agent"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
+                app:cardCornerRadius="@dimen/add_housing_fragment_card_view_radius"
+                app:cardElevation="@dimen/add_housing_fragment_card_view_radius"
+                android:padding="@dimen/add_housing_fragment_card_view_padding"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_estate_agent_name_spinner"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_estate_agent_name_spinner">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/add_housing_fragment_estate_agent_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_estate_agent" />
+
+            </androidx.cardview.widget.CardView>
 
             <!-- PHOTO -->
 
@@ -295,7 +303,7 @@
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_estate_agent_rcv"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_estate_card_view"/>
 
             <ImageView
                 android:id="@+id/add_housing_fragment_photo_image"
@@ -334,15 +342,24 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 android:contentDescription="@string/final_add_photo" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/add_housing_fragment_photo_rcv"
-                android:layout_width="0dp"
-                android:layout_height="200dp"
-                tools:listitem="@layout/item_photo_add"
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="@dimen/add_housing_fragment_rcv_photo"
+                android:padding="@dimen/add_housing_fragment_card_view_padding"
+                app:cardCornerRadius="@dimen/add_housing_fragment_card_view_radius"
+                app:cardElevation="@dimen/add_housing_fragment_card_view_radius"
                 android:layout_marginTop="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
-                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_image"/>
+                app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_photo_image">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/add_housing_fragment_photo_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/item_photo_add"/>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

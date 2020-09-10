@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
@@ -17,10 +19,10 @@ import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.FilterViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
-import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_filter.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.ext.scope
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -69,10 +71,9 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
             this.launchSearch()
         }
 
-
         return this.mView
     }
-
+    
     private fun launchSearch()
     {
         if (currency == EURO)
@@ -162,8 +163,6 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
         }
 
     }
-
-
 
     private fun getInfoInsideHouse()
     {
@@ -264,8 +263,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
     private fun getAddress()
     {
         this.mView.fragment_filter_city_editTxt.doAfterTextChanged {
-            if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) city = it.toString()
-            else city = null
+            city = if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) it.toString() //TODO : Verif si pas ET
+            else null
         }
 
         this.mView.fragment_filter_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
@@ -350,19 +349,22 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int)
+    {
+        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+        {
+            val detailFragment = (activity as MainActivity).getDetailFragment()
+            detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext())
 
-        if (!this.getIsTabletFromSharedPreferences())
+        }
+        else
         {
             val bundle  = Bundle()
             bundle.putString(BUNDLE_REFERENCE, this.listFilter[position].housing.ref)
             findNavController().navigate(R.id.detailFragment, bundle)
         }
-        else
-        {
-            val detailFragment = (activity as MainActivity).getDetailFragment()
-            detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext()) //TODO : Voir pour split l'écran
-        }
     }
+
+
 
 }

@@ -18,5 +18,4 @@ abstract class BaseFragment : Fragment()
         return resources.getBoolean(R.bool.isTablet)
     }
 
-
 }
