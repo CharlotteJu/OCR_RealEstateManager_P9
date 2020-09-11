@@ -6,6 +6,10 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+/**
+ * Generated class to deserialize data from API Places
+ * Link with @GoogleApi
+ */
 public class PlacesPoiPOJO {
 
     @SerializedName("html_attributions")

@@ -1,15 +1,11 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,6 +77,9 @@ class DetailFragment : BaseFragment() {
         return mView
     }
 
+    /**
+     * Useful in TabletMode
+     */
     private fun displayNoHousingSelected()
     {
         if (ref == null)
@@ -91,6 +90,9 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Useful in TabletMode
+     */
     fun updateRef(ref : String, context: Context)
     {
         this.ref = ref
@@ -192,7 +194,7 @@ class DetailFragment : BaseFragment() {
 
     private fun showDescription()
     {
-        if (housing.housing.description != null)
+        if (housing.housing.description != null && housing.housing.description != STRING_EMPTY)
         {
             this.mView.detail_fragment_description_txt.text = housing.housing.description
         }
@@ -244,10 +246,9 @@ class DetailFragment : BaseFragment() {
     {
         if (!housing.photoList.isNullOrEmpty())
         {
-           // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) UtilsPermissions.checkReadPermission(requireActivity())
             this.mView.detail_fragment_photo_no_list.visibility = View.GONE
             val photoList = housing.photoList!!.toList()
-            val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable)
+            val adapter = ListPhotoDetailAdapter(photoList, this.isInternetAvailable, requireContext())
             this.snapHelper.attachToRecyclerView(this.mView.detail_fragment_rcv_photo)
             this.mView.detail_fragment_rcv_photo.adapter = adapter
             this.mView.detail_fragment_rcv_photo.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -258,12 +259,14 @@ class DetailFragment : BaseFragment() {
         }
     }
 
+    /**
+     * Get the URL from Google Api StaticMap
+     */
     private fun buildUrlStaticMap(location : String) : String
     {
         val key = getString(R.string.google_api_key_project)
-
-        return "https://maps.googleapis.com/maps/api/staticmap?&center=$location&zoom=$ZOOM_STATIC_MAP&size=$SIZE_STATIC_MAP&markers=color:red|$location&key=$key"
-
+        return "https://maps.googleapis.com/maps/api/staticmap?&center=$location" +
+                "&zoom=$ZOOM_STATIC_MAP&size=$SIZE_STATIC_MAP&markers=color:red|$location&key=$key"
     }
 
 }

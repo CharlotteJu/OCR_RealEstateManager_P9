@@ -16,7 +16,6 @@ import org.junit.runner.RunWith
 import java.io.IOException
 import java.lang.Exception
 import org.junit.*
-import org.junit.runners.JUnit4
 
 
 @RunWith(AndroidJUnit4::class)
@@ -55,6 +54,7 @@ class AppDatabaseTest
     private var poi = Poi(typePoi, "IC")
     private var housingEstateAgent = HousingEstateAgent(reference, name)
     private var housingPoi = HousingPoi(reference, typePoi)
+
 
     @get:Rule var rule  = InstantTaskExecutorRule()
 
@@ -249,9 +249,10 @@ class AppDatabaseTest
         assertEquals(housingEstateAgentTest!!, (housingEstateAgent))
         assertEquals(housingEstateAgentFromHousingTest!![0], (housingEstateAgent))
         assertEquals(housingEstateAgentFromEstateAgentTest!![0], (housingEstateAgent))
+
     }
 
-    @Test //TODO : Changer pour POI
+    @Test
     @Throws(Exception::class)
     fun test7_createHousingPoiAndGetIt() = runBlocking {
 
@@ -278,14 +279,42 @@ class AppDatabaseTest
         assertEquals(housingPoiTest!!, housingPoi)
         assertEquals(housingPoiFromHousingTest!![0], housingPoi)
         assertEquals(housingPoiFromPoiTest!![0], housingPoi)
-
-        //UPDATE
-        /*housingPoi.numberOfPoi = 10
-        housingPoiDAO.updateHousingPoi(housingPoi)
-        val housingPoiUpdate = LiveDataTestUtil.getValue(housingPoiDAO.getHousingPoi(reference = reference, type = typePoi))
-        assertNotSame(housingPoiUpdate, housingPoiFromPoiTest)
-        assertEquals(housingPoiUpdate, housingPoi)*/
     }
 
+
+    @Test
+    @Throws(Exception::class)
+    fun test8_FilterListHousing() = runBlocking {
+        //ADD housing in the Database
+        housingDAO.createHousing(housing)
+
+        //FILTER
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(type = "TYPE"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(priceLower = 50000.0))!![0].housing)
+        assertEquals(0, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(priceHigher = 50000.0))!!.size)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(areaLower = 50.0))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(roomHigher = 12))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(bedRoomLower = 1))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(bathRoomHigher = 10))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(state = "STATE"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(dateEntry = 20200624))!![0].housing)
+        assertEquals(0, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(dateSale = 20200624))!!.size)
+
+        //ADD other tables
+        poiDAO.createPoi(poi)
+        housingPoiDAO.createHousingPoi(housingPoi)
+        addressDAO.createAddress(address)
+        estateAgentDAO.createEstateAgent(estateAgent)
+        housingEstateAgentDAO.createHousingEstateAgent(housingEstateAgent)
+        photoDAO.createPhoto(photo)
+
+
+        //FILTER in link with other tables
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(typePoi = typePoi))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(city = "Boulogne-Billancourt"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(country = "FR"))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(estateAgent = estateAgent.lastName))!![0].housing)
+        assertEquals(housing, LiveDataTestUtil.getValue(housingDAO.getListCompleteHousingFilter(numberPhotos = null))!![0].housing)
+    }
 
 }

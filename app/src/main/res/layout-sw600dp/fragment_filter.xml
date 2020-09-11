@@ -12,7 +12,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
-        android:layout_weight="50"
+        android:layout_weight="58"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,17 +43,31 @@
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_txt"/>
 
 
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/fragment_filter_price_slider"
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/fragment_filter_price_min_editTxt"
+                android:layout_width="@dimen/constraint_width_0"
                 android:layout_height="wrap_content"
-                android:valueFrom="100000.0"
-                android:valueTo="1000000000.0"
-                android:stepSize="50000.0"
-                app:values="@array/price_range_slider"
+                android:hint="@string/min"
+                android:autofillHints="@string/min"
+                android:inputType="numberDecimal"
+                android:layout_marginEnd="@dimen/filter_fragment_margin"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
+                app:layout_constraintEnd_toStartOf="@id/fragment_filter_price_max_editTxt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_price_txt"/>
+
+            <EditText
+                android:id="@+id/fragment_filter_price_max_editTxt"
+                android:layout_width="@dimen/constraint_width_0"
+                android:layout_height="wrap_content"
+                android:hint="@string/max"
+                android:autofillHints="@string/max"
+                android:inputType="numberDecimal"
+                android:layout_marginStart="@dimen/filter_fragment_margin"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
-                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"/>
+                app:layout_constraintStart_toEndOf="@id/fragment_filter_price_min_editTxt"
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_price_txt"
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_price_txt"/>
 
             <!-- INFOS -->
 
@@ -71,7 +85,6 @@
                 android:valueFrom="50.0"
                 android:valueTo="1000.0"
                 android:stepSize="10.0"
-                app:values="@array/area_range_slider"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/fragment_filter_area_txt"/>
@@ -89,7 +102,6 @@
                 android:layout_height="wrap_content"
                 android:valueFrom="0.0"
                 android:valueTo="20.0"
-                app:values="@array/rooms_range_slider"
                 android:stepSize="1.0"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
@@ -109,7 +121,6 @@
                 android:valueFrom="0.0"
                 android:valueTo="20.0"
                 android:stepSize="1.0"
-                app:values="@array/rooms_range_slider"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/fragment_filter_bedrooms_txt"/>
@@ -128,7 +139,6 @@
                 android:valueFrom="0.0"
                 android:valueTo="20.0"
                 android:stepSize="1.0"
-                app:values="@array/rooms_range_slider"
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/fragment_filter_bathrooms_txt"/>
@@ -176,7 +186,8 @@
                 android:layout_marginEnd="@dimen/filter_fragment_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_entry_txt"
-                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_entry_txt"/>
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_entry_txt"
+                android:contentDescription="@string/calendar" />
 
             <TextView
                 android:id="@+id/fragment_filter_date_sale_txt"
@@ -204,7 +215,8 @@
                 android:layout_marginEnd="@dimen/filter_fragment_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/fragment_filter_date_sale_txt"
-                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_sale_txt"/>
+                app:layout_constraintTop_toTopOf="@id/fragment_filter_date_sale_txt"
+                android:contentDescription="@string/calendar" />
 
             <!-- ADDRESS -->
 
@@ -222,7 +234,9 @@
                 app:layout_constraintStart_toStartOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintEnd_toEndOf="@id/fragment_filter_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/fragment_filter_city_txt"
-                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_city_txt"/>
+                app:layout_constraintBottom_toBottomOf="@id/fragment_filter_city_txt"
+                android:hint="@string/city"
+                android:autofillHints="@string/city"/>
 
             <TextView
                 android:id="@+id/fragment_filter_country_txt"
@@ -307,7 +321,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fragment_filter_rcv"
-        android:layout_weight="50"
+        android:layout_weight="42"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_housing"

@@ -1,7 +1,8 @@
 package com.openclassrooms.realestatemanager.views.adapters
 
-import android.view.View
-
+/**
+ * Click Interface for ListFragment
+ */
 interface OnItemClickListener
 {
     fun onItemClick(position : Int)

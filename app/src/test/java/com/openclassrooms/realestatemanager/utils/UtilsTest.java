@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
@@ -25,12 +23,12 @@ import static org.mockito.Mockito.when;
 public class UtilsTest
 {
     @Test
-    public void convertDollarToEuroDouble_Success()
-    {
+    public void convertDollarToEuroDouble_Success() {
         assertEquals(0.00, Utils.convertDollarToEuroDouble(0), 0.01);
         assertEquals(81, Utils.convertDollarToEuroDouble(100), 0.01);
         assertEquals(-81, Utils.convertDollarToEuroDouble(-100), 0.01);
     }
+
     @Test
     public void convertEuroToDollarDouble_Success()
     {
@@ -38,6 +36,7 @@ public class UtilsTest
         assertEquals(100, Utils.convertEuroToDollarDouble(81), 0.01);
         assertEquals(-100, Utils.convertEuroToDollarDouble(-81), 0.01);
     }
+
     @Test
     public void getPriceString_Success()
     {
@@ -48,30 +47,15 @@ public class UtilsTest
         assertEquals("0.0€", Utils.getPriceString(euro, 0));
 
     }
+
     @Test
     public void getDateFormat_Success()
     {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
-        assertEquals("04/09/2020", Utils.getDateFormat(date)); //Think to change with the date of today
+        //Think to change with the date of today
+        assertEquals("07/09/2020", Utils.getDateFormat(date));
     }
-    /*@Test
-    public void getTodayDateGood_Success()
-    {
-        Calendar calendar = Calendar.getInstance();
-
-        String day;
-        String month;
-
-        if (calendar.get(Calendar.DAY_OF_MONTH) < 10) day = "0" + calendar.get(Calendar.DAY_OF_MONTH);
-        else day = "" + calendar.get(Calendar.DAY_OF_MONTH);
-
-        if (calendar.get(Calendar.MONTH)+1 < 10) month = "0" + (calendar.get(Calendar.MONTH)+1);
-        else month = "" + (calendar.get(Calendar.MONTH)+1);
-
-        assertEquals(""+ day + "/" + month + "/" + calendar.get(Calendar.YEAR), Utils.getTodayDateGood());
-    }*/
-
 
    @Test
     public void isInternetAvailableGood_Success()

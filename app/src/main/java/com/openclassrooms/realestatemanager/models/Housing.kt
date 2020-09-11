@@ -26,17 +26,6 @@ data class Housing constructor (@PrimaryKey @ColumnInfo(name = "reference") var 
     }
 
     override fun hashCode(): Int {
-        /*var result = ref.hashCode()
-        result = 31 * result + type.hashCode()
-        result = 31 * result + price.hashCode()
-        result = 31 * result + area.hashCode()
-        result = 31 * result + (rooms ?: 0)
-        result = 31 * result + (bedrooms ?: 0)
-        result = 31 * result + (bathrooms ?: 0)
-        result = 31 * result + state.hashCode()
-        result = 31 * result + dateEntry.hashCode()
-        result = 31 * result + (dateSale?.hashCode() ?: 0)
-        result = 31 * result + (description?.hashCode() ?: 0)*/
         return ref.hashCode()
     }
 

@@ -1,12 +1,9 @@
 package com.openclassrooms.realestatemanager.database
 
 import android.content.Context
-import android.os.strictmode.InstanceCountViolation
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.openclassrooms.realestatemanager.daos.*
 import com.openclassrooms.realestatemanager.models.*
 
@@ -23,7 +20,7 @@ import com.openclassrooms.realestatemanager.models.*
             version = 1 ,
             exportSchema = false)
 
-public abstract class AppDatabase : RoomDatabase()
+abstract class AppDatabase : RoomDatabase()
 {
     abstract fun housingDao() : HousingDAO
     abstract fun addressDao() : AddressDAO
@@ -46,7 +43,7 @@ public abstract class AppDatabase : RoomDatabase()
          */
         fun getDatabase(context:Context) : AppDatabase
         {
-            var temp = this.INSTANCE
+            val temp = this.INSTANCE
 
             if (temp != null)
             {
@@ -57,9 +54,7 @@ public abstract class AppDatabase : RoomDatabase()
             {
                 this.INSTANCE = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE")
                         .build()
-                return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build()
-                //return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").addCallback(FakePopulateDatabase.prepopulateDatabase()).build()
-                //eturn Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").build() // If bug when we change a model
+                return Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "DATABASE").addCallback(PopulateDatabasePoi.prepopulateDatabase()).build()
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +15,11 @@ import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.ListHousingViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
-import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.view.*
-import kotlinx.android.synthetic.main.progress_bar.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
+class ListFragment : BaseFragment(), OnItemClickListener {
 
     private lateinit var mView : View
     private lateinit var mAdapter : ListHousingAdapter
@@ -31,11 +28,6 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private var mListEstateAgent : MutableList<EstateAgent> = arrayListOf()
     private lateinit var currency: String
     private var isInternetAvailable : Boolean = false
-
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onResume() {
         super.onResume()
@@ -70,16 +62,14 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun configRecyclerView()
     {
         this.currency = getCurrencyFromSharedPreferences()
-        this.mAdapter = ListHousingAdapter(mListHousing, this, this, this.currency, this.isInternetAvailable)
+        this.mAdapter = ListHousingAdapter(mListHousing, this,this.currency, this.isInternetAvailable, requireContext())
         this.mView.list_fragment_rcv.adapter = mAdapter
         this.mView.list_fragment_rcv.layoutManager = LinearLayoutManager(context)
     }
 
     private fun syncCompleteHousingWithFirestore()
     {
-        context?.let {
-            this.mViewModel.syncCompleteHousingWithFirebase(mListHousing, it)
-        }
+        this.mViewModel.syncCompleteHousingWithFirebase(mListHousing)
     }
 
     private fun syncEstateAgentWithFirestore()
@@ -91,26 +81,17 @@ class ListFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     override fun onItemClick(position : Int)
     {
-       if (!this.getIsTabletFromSharedPreferences())
-       {
-           val bundle  = Bundle()
-           bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
-           findNavController().navigate(R.id.detailFragment, bundle)
-       }
+        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+        {
+            val detailFragment = (activity as MainActivity).getDetailFragment()
+            detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
+        }
         else
-       {
-           val detailFragment = (activity as MainActivity).getDetailFragment()
-           detailFragment?.updateRef(this.mListHousing[position].housing.ref, requireContext())
-       }
-    }
-
-    override fun onClickDeleteHousing(position: Int)
-    {
-        val completeHousing = this.mListHousing[position]
-        this.mListHousing.removeAt(position)
-        this.mViewModel.deleteGlobal(completeHousing)
-        this.mAdapter.updateList(mListHousing)
-
+        {
+            val bundle  = Bundle()
+            bundle.putString(BUNDLE_REFERENCE, this.mListHousing[position].housing.ref)
+            findNavController().navigate(R.id.detailFragment, bundle)
+        }
     }
 
 }

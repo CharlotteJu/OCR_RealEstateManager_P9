@@ -33,10 +33,6 @@
         <item name="android:layout_height">@dimen/add_housing_fragment_spinner_height</item>
     </style>
 
-    <style name="add_housing_spinner_little" parent="add_housing_spinner">
-        <item name="android:layout_width">@dimen/add_housing_fragment_spinner_width_little</item>
-        <item name="android:layout_height">@dimen/add_housing_fragment_spinner_height</item>
-    </style>
 
     <style name="add_housing_title">
         <item name="android:layout_width">@dimen/constraint_width_0</item>
@@ -89,14 +85,19 @@
         <item name="android:layout_width">@dimen/filter_fragment_spinner_width_big</item>
     </style>
 
-    <style name="filter_fragment_spinner_little" parent="filter_fragment_spinner">
-        <item name="android:layout_width">@dimen/filter_fragment_spinner_width_little</item>
-    </style>
-
-
     <style name="filter_fragment_editText">
         <item name="android:layout_width">@dimen/constraint_width_0</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- NAV HEADER -->
+    <style name="nav_header_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/nav_header_margin</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/nav_header_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 

@@ -1,11 +1,8 @@
 package com.openclassrooms.realestatemanager.notifications
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -13,8 +10,10 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.utils.NOTIFICATION_CHANNEL_ID
 import com.openclassrooms.realestatemanager.utils.NOTIFICATION_CHANNEL_NAME
 import com.openclassrooms.realestatemanager.utils.NOTIFICATION_ID
-import com.openclassrooms.realestatemanager.views.activities.MainActivity
 
+/**
+ * Object to send notifications
+ */
 object NotificationWorker
 {
     fun showNotification(context: Context)

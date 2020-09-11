@@ -5,13 +5,11 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import androidx.room.Room
-import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import kotlinx.coroutines.runBlocking
-import org.junit.AfterClass
 import org.junit.Before
 
 import org.junit.Assert.*
@@ -48,7 +46,7 @@ class MyContentProviderTest {
     {
         val cursor = contentResolver.query(ContentUris.withAppendedId(MyContentProvider.uri, userId), null, null, null, null)
         assertNotNull(cursor)
-        assertEquals(cursor!!.count, 0)
+        assertEquals(cursor!!.count, 0) // Think to clear BDD before
         cursor.close()
     }
 
@@ -63,18 +61,6 @@ class MyContentProviderTest {
         cursor.close()
     }
 
-   /* @Test //TODO : Ne marche pas - Ne veut pas accéder aux getColumnIndex
-    fun c_updateHousingAndCheckIt()= runBlocking{
-
-        contentResolver.update(MyContentProvider.uri, updateHousing(), null, null)
-        val cursor = contentResolver.query(ContentUris.withAppendedId(MyContentProvider.uri, userId), null, null, null, null)
-        assertNotNull(cursor)
-        assertEquals(cursor!!.count, 1)
-        assertEquals(cursor.getString(cursor.getColumnIndexOrThrow("type")), "Loft")
-        deleteHousingFromBDD(cursor.getString(cursor.getColumnIndexOrThrow("reference")))
-        cursor.close()
-    }*/
-
     private fun insertHousing() : ContentValues
     {
         val housing = ContentValues()
@@ -84,27 +70,8 @@ class MyContentProviderTest {
         housing.put("price", 1000000.0)
         housing.put("area", 123.4)
         housing.put("state", "On sale")
-        housing.put("dateEntry", "02/07/2020")
+        housing.put("dateEntry", "02072020")
 
         return housing
-    }
-
-    private fun updateHousing() : ContentValues
-    {
-        val housing = ContentValues()
-
-        housing.put("reference", "REFERENCE")
-        housing.put("type", "Loft")
-        housing.put("price", 1000000.0)
-        housing.put("area", 123.4)
-        housing.put("state", "On sale")
-        housing.put("dateEntry", "02/07/2020")
-
-        return housing
-    }
-
-    private fun deleteHousingFromBDD(reference : String)
-    {
-        appDatabase.query(SimpleSQLiteQuery("DELETE FROM housing WHERE reference =$reference"))
     }
 }

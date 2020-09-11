@@ -8,25 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.google.android.libraries.places.api.Places
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
-import com.openclassrooms.realestatemanager.models.Housing
-import com.openclassrooms.realestatemanager.models.HousingEstateAgent
 import com.openclassrooms.realestatemanager.models.Photo
-import com.openclassrooms.realestatemanager.utils.BUNDLE_REFERENCE
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.UtilsKotlin
-import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAdapter
-import com.openclassrooms.realestatemanager.views.adapters.ListPhotoAddAdapter
 import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_add_housing.view.add_housing_fragment_zipCode_editTxt
 import kotlinx.android.synthetic.main.progress_bar.view.*
@@ -51,6 +41,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.progress_bar_layout.visibility = View.VISIBLE
 
         this.configureSpinnersEdit()
+        this.isLoadingEdit = true
         this.getHousing()
 
         this.mView.add_housing_fragment_final_button.setImageResource(R.drawable.ic_baseline_save_24)
@@ -61,6 +52,9 @@ class EditHousingFragment : BaseEditHousingFragment() {
         return mView
     }
 
+    /**
+     * Link with the ViewModel to update a CompleteHousing in RoomDatabase
+     */
     private fun updateFinal()
     {
         this.checkAddress()
@@ -70,6 +64,9 @@ class EditHousingFragment : BaseEditHousingFragment() {
         }
     }
 
+    /**
+     * Get the housing to Edit
+     */
     private fun getHousing()
     {
         this.mViewModel.getCompleteHousing(housingReference).observe(this.viewLifecycleOwner, Observer {
@@ -91,8 +88,8 @@ class EditHousingFragment : BaseEditHousingFragment() {
         housingToCompare.housing.type.let { this.mView.add_housing_fragment_type_spinner.setSelection(mAdapterType!!.getPosition(it))}
         housingToCompare.housing.state.let { this.mView.add_housing_fragment_state_spinner.setSelection(mAdapterState!!.getPosition(it)) }
         housingToCompare.housing.rooms?.let { this.mView.add_housing_fragment_number_rooms_spinner.setSelection(mAdapterRooms!!.getPosition(it.toString())) }
-        housingToCompare.housing.bedrooms?.let { this.mView.add_housing_fragment_number_rooms_spinner.setSelection(mAdapterBedRooms!!.getPosition(it.toString())) }
-        housingToCompare.housing.bathrooms?.let { this.mView.add_housing_fragment_number_rooms_spinner.setSelection(mAdapterBathRooms!!.getPosition(it.toString())) }
+        housingToCompare.housing.bedrooms?.let { this.mView.add_housing_fragment_number_bedrooms_spinner.setSelection(mAdapterBedRooms!!.getPosition(it.toString())) }
+        housingToCompare.housing.bathrooms?.let { this.mView.add_housing_fragment_number_bathrooms_spinner.setSelection(mAdapterBathRooms!!.getPosition(it.toString())) }
 
         if (housingToCompare.address != null)
         {
@@ -165,12 +162,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
     override fun onClickEditPhoto(position: Int) {
         val photoToEdit = this.photoList[position]
 
-        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image)
-
-        /*Glide.with(requireContext())
-                .load(photoToEdit.uri)
-                .apply(RequestOptions.centerCropTransform())
-                .into(this.mView.add_housing_fragment_photo_image)*/
+        UtilsKotlin.displayPhoto(isInternetAvailable, photoToEdit, mView, mView.add_housing_fragment_photo_image, requireContext())
 
         photoToEdit.description?.let { this.mView.add_housing_fragment_image_description_editTxt.setText(it) }
 
@@ -213,8 +205,4 @@ class EditHousingFragment : BaseEditHousingFragment() {
         val alertDialog = builder.create()
         alertDialog.show()
     }
-
-
-
-
 }

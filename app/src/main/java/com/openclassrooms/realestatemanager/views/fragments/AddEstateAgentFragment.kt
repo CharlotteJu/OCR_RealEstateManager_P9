@@ -14,7 +14,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.EstateAgent
 import com.openclassrooms.realestatemanager.utils.STRING_EMPTY
 import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.viewModels.AddEstateTypeViewModel
+import com.openclassrooms.realestatemanager.viewModels.AddEstateAgentViewModel
 import com.openclassrooms.realestatemanager.views.adapters.ListEstateAgentAddAdapter
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickEdit
 import kotlinx.android.synthetic.main.fragment_add_estate_agent.view.*
@@ -26,7 +26,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
 
     private lateinit var mView: View
     private lateinit var mAdapter: ListEstateAgentAddAdapter
-    private val mViewModel : AddEstateTypeViewModel by viewModel()
+    private val mViewModel : AddEstateAgentViewModel by viewModel()
 
     private var lastName : String? = null
     private var firstName : String? = null
@@ -48,6 +48,18 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         return this.mView
     }
 
+    private fun getEstateAgentList()
+    {
+        this.mViewModel.getAllEstateAgent().observe(this.viewLifecycleOwner, androidx.lifecycle.Observer {
+            listEstateAgent = it as MutableList<EstateAgent>
+            mAdapter.updateList(listEstateAgent)
+        })
+    }
+
+    /**
+     * Link with the ViewModel to add an EstateAgent in RoomDatabase
+     * Check if an EstateAgent does'nt have the same lastName because it's the PK of model
+     */
     private fun addEstateAgent()
     {
         if (this.isLastNameNotNull())
@@ -62,14 +74,9 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         }
     }
 
-    private fun getEstateAgentList()
-    {
-        this.mViewModel.getAllEstateAgent().observe(this.viewLifecycleOwner, androidx.lifecycle.Observer {
-            listEstateAgent = it as MutableList<EstateAgent>
-            mAdapter.updateList(listEstateAgent)
-        })
-    }
-
+    /**
+     * Check if the lastName is not null because it's the PK of the model
+     */
     private fun isLastNameNotNull() : Boolean
     {
         return if (lastName != null && lastName != STRING_EMPTY) true
@@ -89,19 +96,23 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         this.mView.add_estate_agent_phone_number_edit_txt.doAfterTextChanged { this.phoneNumber = it.toString() }
     }
 
-    private fun configureRecyclerView()
-    {
-        this.mAdapter = ListEstateAgentAddAdapter(this.listEstateAgent, this, this)
-        this.mView.add_estate_agent_rcv.adapter = mAdapter
-        this.mView.add_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
-    }
 
+    /**
+     * Reset Views when we Add or Update an EstateAgent
+     */
     private fun resetViews()
     {
         this.mView.add_estate_agent_last_name_edit_txt.setText(STRING_EMPTY)
         this.mView.add_estate_agent_first_name_edit_txt.setText(STRING_EMPTY)
         this.mView.add_estate_agent_email_edit_txt.setText(STRING_EMPTY)
         this.mView.add_estate_agent_phone_number_edit_txt.setText(STRING_EMPTY)
+    }
+
+    private fun configureRecyclerView()
+    {
+        this.mAdapter = ListEstateAgentAddAdapter(this.listEstateAgent, this, this)
+        this.mView.add_estate_agent_rcv.adapter = mAdapter
+        this.mView.add_estate_agent_rcv.layoutManager = LinearLayoutManager(context)
     }
 
 
@@ -146,7 +157,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
                     val estateAgent = EstateAgent(lastName!!, firstName, email, phoneNumber, Utils.getTodayDateGood())
                     this.mViewModel.updateGlobalEstateAgent(estateAgent)
                     this.resetViews()
-                    this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_photo_camera_48)
+                    this.mView.add_estate_agent_add_fab.setImageResource(R.drawable.ic_baseline_add_48)
                 }
                 else Toast.makeText(context, getString(R.string.toast_estate_agent_same_name), Toast.LENGTH_LONG).show()
             }

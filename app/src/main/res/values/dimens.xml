@@ -17,6 +17,11 @@
     <dimen name="add_housing_fragment_spinner_width_big">200dp</dimen>
     <dimen name="add_housing_fragment_spinner_width_little">80dp</dimen>
     <dimen name="add_housing_fragment_edit_text_height">40dp</dimen>
+    <dimen name="add_housing_fragment_edit_text_description_height">48dp</dimen>
+    <dimen name="add_housing_fragment_rcv_estate_agent">120dp</dimen>
+    <dimen name="add_housing_fragment_rcv_photo">200dp</dimen>
+    <dimen name="add_housing_fragment_card_view_radius">4dp</dimen>
+    <dimen name="add_housing_fragment_card_view_padding">8dp</dimen>
 
     <!-- ADD ESTATE HOUSING FRAGMENT -->
     <dimen name="add_estate_housing_fragment_text_size">20sp</dimen>
@@ -62,6 +67,8 @@
     <dimen name="detail_fragment_rcv_photo_size">320dp</dimen>
     <dimen name="detail_fragment_map_image_size">260dp</dimen>
     <dimen name="detail_fragment_no_housing_txt_size">64sp</dimen>
+    <dimen name="detail_fragment_rcv_poi_height">120dp</dimen>
+    <dimen name="detail_fragment_rcv_estate_agent_height">80dp</dimen>
 
     <!-- SETTINGS FRAGMENT -->
     <dimen name="settings_fragment_text_size">16sp</dimen>
@@ -75,5 +82,9 @@
     <dimen name="filter_fragment_spinner_width_big">200dp</dimen>
     <dimen name="filter_fragment_spinner_width_little">80dp</dimen>
 
+    <!-- NAV HEADER -->
+    <dimen name="nav_header_logo_size">80dp</dimen>
+    <dimen name="nav_header_margin">16dp</dimen>
+    <dimen name="nav_header_text_size">20sp</dimen>
 
 </resources>

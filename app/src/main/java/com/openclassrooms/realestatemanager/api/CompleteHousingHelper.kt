@@ -11,12 +11,14 @@ import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.utils.FIREBASE_STORAGE_REF
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
+/**
+ * Communication class with Firebase about [CompleteHousing]
+ */
 class CompleteHousingHelper
 {
     companion object
@@ -28,6 +30,39 @@ class CompleteHousingHelper
             return FirebaseFirestore.getInstance().collection(COLLECTION_NAME)
         }
 
+        suspend fun getCompleteHousingListFromFirestore() : QuerySnapshot?
+        {
+            return try
+            {
+                val firestore = Firebase.firestore
+                firestore.collection(COLLECTION_NAME).get().await()
+            }
+            catch (e : Exception)
+            {
+                null
+            }
+        }
+
+        suspend fun pushPhotoOnFirebaseStorage(photo: Photo) : UploadTask.TaskSnapshot?
+        {
+            return try
+            {
+                val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
+                return ref.child(photo.uri).putFile(photo.uri.toUri()).await()
+            }
+            catch (e : Exception)
+            {
+                null
+            }
+        }
+
+        fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void> {
+            return this.getCollectionFirestore().document(completeHousing.housing.ref).set(completeHousing)
+        }
+
+        /**
+         * Generated method to use coroutine
+         */
         private suspend fun <T> Task<T>.await(): T? {
             if (isComplete) {
                 val e = exception
@@ -54,46 +89,5 @@ class CompleteHousingHelper
                 }
             }
         }
-
-        suspend fun getCompleteHousingListFromFirestore() : QuerySnapshot?
-        {
-            return try
-            {
-                val firestore = Firebase.firestore
-                firestore.collection(COLLECTION_NAME).get().await()
-            }
-            catch (e : Exception)
-            {
-                null
-            }
-        }
-
-        suspend fun pushPhotoOnFirebaseStorage(photo: Photo) : UploadTask.TaskSnapshot?
-        {
-            return try {
-                val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
-                return ref.child(photo.uri).putFile(photo.uri.toUri()).await()
-            }
-            catch (e : Exception)
-            {
-                null
-            }
-        }
-
-        /*fun getListCompleteHousingFromFirestore() : Query
-        {
-            return this.getCollectionFirestore()
-        }*/
-
-
-        fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void>
-        {
-            return this.getCollectionFirestore().document(completeHousing.housing.ref).set(completeHousing)
-        }
-
-
-
-
-
     }
 }

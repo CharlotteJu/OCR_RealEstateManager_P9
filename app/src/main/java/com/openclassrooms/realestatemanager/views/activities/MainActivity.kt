@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager.views.activities
 
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -40,9 +40,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureNavigationView()
         this.configureNavigationController()
         this.configureTabMode()
-
-        if (isTablet) showDetailFragment()
     }
+
+
 
     private fun configureToolbar()
     {
@@ -66,22 +66,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mNavigationController = findNavController(R.id.main_activity_navHost)
     }
 
+    /**
+     * Useful in TabletMode
+     * To show/hide this [DetailFragment] according to the main Fragment and orientation
+     */
     private fun configureTabMode()
     {
         this.isTablet = resources.getBoolean(R.bool.isTablet)
-        mNavigationController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id)
-            {
-                R.id.listFragment -> showDetailFragment()
-                R.id.mapFragment -> showDetailFragment()
-                R.id.addEstateAgentFragment -> hideDetailFragment()
-                R.id.addHousingFragment -> hideDetailFragment()
-                R.id.editHousingFragment -> hideDetailFragment()
-                R.id.settingsFragment -> hideDetailFragment()
-                R.id.filterFragment -> hideDetailFragment()
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && isTablet)
+        {
+            mNavigationController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id)
+                {
+                    R.id.listFragment -> showDetailFragment(50f)
+                    R.id.mapFragment -> showDetailFragment(50f)
+                    R.id.addEstateAgentFragment -> hideDetailFragment()
+                    R.id.addHousingFragment -> hideDetailFragment()
+                    R.id.editHousingFragment -> hideDetailFragment()
+                    R.id.settingsFragment -> hideDetailFragment()
+                    R.id.filterFragment -> showDetailFragment(25f)
+                }
             }
         }
+        else
+        {
+            hideDetailFragment()
+        }
+
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -96,43 +110,46 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
-
+    /**
+     * Useful in TabletMode by [ListFragment] and [MapFragment] to update [DetailFragment]
+     */
     fun getDetailFragment() : DetailFragment?
     {
         return mDetailFragment
     }
 
-    private fun showDetailFragment()
+    fun isLandMode() : Boolean
     {
-        if (isTablet)
-        {
-            if (findViewById<View>(R.id.tabMode_detail_fragment_container) != null)
-            {
-                mDetailFragment = DetailFragment()
-                val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
-                param.weight = 50f
-                supportFragmentManager.beginTransaction().replace(R.id.tabMode_detail_fragment_container, mDetailFragment!!).commit()
-                mView.tabMode_detail_fragment_container.layoutParams = param
+        val orientation = resources.configuration.orientation
+        return orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
 
-            }
+    /**
+     * Useful in TabletMode to show [DetailFragment]
+     */
+    private fun showDetailFragment(size : Float)
+    {
+        if (findViewById<View>(R.id.tabMode_detail_fragment_container) != null)
+        {
+            mDetailFragment = DetailFragment()
+            val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
+            param.weight = size
+            supportFragmentManager.beginTransaction().replace(R.id.tabMode_detail_fragment_container, mDetailFragment!!).commit()
+            mView.tabMode_detail_fragment_container.layoutParams = param
         }
 
     }
 
+    /**
+     * Useful in TabletMode to hide [DetailFragment]
+     */
     private fun hideDetailFragment()
     {
-        if (isTablet)
+        if (mView.tabMode_detail_fragment_container != null)
         {
-            if (supportFragmentManager.findFragmentById(R.id.listFragment) == null && supportFragmentManager.findFragmentById(R.id.map) == null && mDetailFragment != null)
-            {
-                if (mView.tabMode_detail_fragment_container != null)
-                {
-                    val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
-                    param.weight = 0f
-                    mView.tabMode_detail_fragment_container.layoutParams = param
-                }
-            }
+            val param = mView.tabMode_detail_fragment_container.layoutParams as LinearLayout.LayoutParams
+            param.weight = 0f
+            mView.tabMode_detail_fragment_container.layoutParams = param
         }
     }
 

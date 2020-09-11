@@ -14,7 +14,8 @@
         android:layout_marginEnd="@dimen/detail_fragment_separator_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/photo" />
 
     <TextView
         android:id="@+id/item_photo_detail_description"

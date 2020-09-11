@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.models
 
-import android.content.ContentValues
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -24,18 +23,4 @@ data class Address constructor (@PrimaryKey @ColumnInfo(name = "id") var id : St
         return "$street, $city, $country "
     }
 
-    companion object {
-        fun fromContentValues(contentValues: ContentValues) : Address
-        {
-            val address = Address()
-            if (contentValues.containsKey("id")) address.id = contentValues.getAsString("id")
-            if (contentValues.containsKey("street")) address.street = contentValues.getAsString("street")
-            if (contentValues.containsKey("zip_code")) address.zipCode = contentValues.getAsInteger("zip_code")
-            if (contentValues.containsKey("city")) address.city = contentValues.getAsString("city")
-            if (contentValues.containsKey("country")) address.country = contentValues.getAsString("country")
-            if (contentValues.containsKey("housing_reference")) address.housingReference = contentValues.getAsString("housing_reference")
-
-            return address
-        }
-    }
 }

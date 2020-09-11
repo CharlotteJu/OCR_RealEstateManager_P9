@@ -2,36 +2,31 @@ package com.openclassrooms.realestatemanager.views.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.sqlite.db.SupportSQLiteQuery
-import com.google.android.material.slider.RangeSlider
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.FilterViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
 import com.openclassrooms.realestatemanager.views.adapters.ListHousingAdapter
-import com.openclassrooms.realestatemanager.views.adapters.OnClickDelete
 import com.openclassrooms.realestatemanager.views.adapters.OnItemClickListener
-import kotlinx.android.synthetic.main.fragment_add_housing.view.*
 import kotlinx.android.synthetic.main.fragment_filter.view.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.ext.scope
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
+class FilterFragment : BaseFragment(), OnItemClickListener {
 
 
     private var type : String? = null
@@ -76,26 +71,22 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
             this.launchSearch()
         }
 
-
         return this.mView
     }
 
     private fun launchSearch()
     {
-        if (currency == EURO && priceLower != null && priceHigher != null)
+        if (currency == EURO)
         {
-            priceLower = Utils.convertDollarToEuroDouble(priceLower!!)
-            priceHigher = Utils.convertDollarToEuroDouble(priceHigher!!)
+            if (priceLower != null) priceLower = Utils.convertDollarToEuroDouble(priceLower!!)
+            if (priceHigher != null) priceHigher = Utils.convertDollarToEuroDouble(priceHigher!!)
         }
-
-        this.mViewModel.getAllCompleteHousing().observe(viewLifecycleOwner, Observer {
-            listFilter = it as ArrayList<CompleteHousing>
-        })
 
         this.mViewModel.getListFilter(type, priceLower, priceHigher, areaLower, areaHigher,
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
+                    val debug = numberPhotos
                    listFilter = it as ArrayList<CompleteHousing>
                     configRecyclerView(it)
                 })
@@ -103,7 +94,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)
     {
-        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this, this.currency, Utils.isInternetAvailableGood(context))
+        this.mView.fragment_filter_rcv.adapter = ListHousingAdapter(housingList, this, this.currency, Utils.isInternetAvailableGood(context), requireContext())
         this.mView.fragment_filter_rcv.layoutManager = LinearLayoutManager(context)
     }
 
@@ -157,33 +148,79 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
 
     private fun getPrice()
     {
-        this.mView.fragment_filter_price_slider.addOnChangeListener { slider, _, _ ->
-            priceLower = slider.values[0].toDouble()
-            priceHigher = slider.values[1].toDouble()
+        this.mView.fragment_filter_price_min_editTxt.doAfterTextChanged {
+            if (it.toString().isNotEmpty())
+            {
+                this.priceLower = it.toString().toDouble()
+            }
+            else this.priceLower = null
         }
+        this.mView.fragment_filter_price_max_editTxt.doAfterTextChanged {
+            if (it.toString().isNotEmpty())
+            {
+                this.priceHigher = it.toString().toDouble()
+            }
+            else this.priceHigher = null
+        }
+
     }
 
     private fun getInfoInsideHouse()
     {
+        val minAreaSlider = 50.0f
+        val maxAreaSlider = 1000.0f
+        val minRoomsSlider = 0f
+        val maxRoomsSlider = 20f
+
+        this.mView.fragment_filter_area_slider.values = listOf(minAreaSlider, maxAreaSlider)
+        this.mView.fragment_filter_rooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+        this.mView.fragment_filter_bedrooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+        this.mView.fragment_filter_bathrooms_slider.values = listOf(minRoomsSlider, maxRoomsSlider)
+
         this.mView.fragment_filter_area_slider.addOnChangeListener { slider, _, _ ->
-            areaLower = slider.values[0].toDouble()
-            areaHigher = slider.values[1].toDouble()
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minAreaSlider.toDouble() || higher != maxAreaSlider.toDouble())
+            {
+                areaLower = slider.values[0].toDouble()
+                areaHigher = slider.values[1].toDouble()
+            }
         }
 
         this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
-            roomLower = slider.values[0].toInt()
-            roomHigher = slider.values[1].toInt()
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
+                roomLower = slider.values[0].toInt()
+                roomHigher = slider.values[1].toInt()
+            }
         }
 
         this.mView.fragment_filter_bedrooms_slider.addOnChangeListener { slider, _, _ ->
-            bedRoomLower = slider.values[0].toInt()
-            bedRoomHigher = slider.values[1].toInt()
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
+                bedRoomLower = slider.values[0].toInt()
+                bedRoomHigher = slider.values[1].toInt()
+            }
         }
 
         this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
-            bathRoomLower = slider.values[0].toInt()
-            bathRoomHigher = slider.values[1].toInt()
+            val lower = slider.values[0].toDouble()
+            val higher = slider.values[1].toDouble()
+
+            if (lower != minRoomsSlider.toDouble() || higher != maxRoomsSlider.toDouble())
+            {
+                bathRoomLower = slider.values[0].toInt()
+                bathRoomHigher = slider.values[1].toInt()
+            }
         }
+
     }
 
     private fun getDates()
@@ -227,7 +264,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
     private fun getAddress()
     {
         this.mView.fragment_filter_city_editTxt.doAfterTextChanged {
-            if (it != null) city = it.toString()
+            city = if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) it.toString() //TODO : Verif si pas ET
+            else null
         }
 
         this.mView.fragment_filter_country_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener
@@ -312,24 +350,22 @@ class FilterFragment : BaseFragment(), OnItemClickListener, OnClickDelete {
         also {charSequence -> charSequence.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)}}
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int)
+    {
+        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+        {
+            val detailFragment = (activity as MainActivity).getDetailFragment()
+            detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext())
 
-        if (!this.getIsTabletFromSharedPreferences())
+        }
+        else
         {
             val bundle  = Bundle()
             bundle.putString(BUNDLE_REFERENCE, this.listFilter[position].housing.ref)
             findNavController().navigate(R.id.detailFragment, bundle)
         }
-        else
-        {
-            val detailFragment = (activity as MainActivity).getDetailFragment()
-            detailFragment?.updateRef(this.listFilter[position].housing.ref, requireContext()) //TODO : Voir pour split l'écran
-        }
     }
 
-    override fun onClickDeleteHousing(position: Int) {
-        TODO("Not yet implemented")
-    }
 
 
 }

@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.views.fragments
 
-import android.Manifest
-import android.app.Activity
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,18 +10,12 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
-
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -39,19 +31,11 @@ import com.openclassrooms.realestatemanager.models.CompleteHousing
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.viewModels.DetailViewModel
 import com.openclassrooms.realestatemanager.views.activities.MainActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_map_complete.view.*
-import kotlinx.android.synthetic.main.info_window_map.view.*
+
 
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MapFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MapFragment : BaseFragment(), OnMapReadyCallback {
 
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
@@ -89,16 +73,13 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         return view
     }
 
-    override fun onMapReady(p0: GoogleMap?)
-    {
+    override fun onMapReady(p0: GoogleMap?) {
         if (p0 != null) mMap = p0
-        if (mCurrentLocation != null)
-        {
+        if (mCurrentLocation != null) {
             mMap.apply {
                 val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
                 addMarker(MarkerOptions().position(marker))
                 moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-
             }
         }
     }
@@ -109,7 +90,7 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         {
             if (housing.address != null)
             {
-                val geocoder : Geocoder = Geocoder(context)
+                val geocoder = Geocoder(context)
                 val listGeocoder  = geocoder.getFromLocationName(housing.address.toString(), 1)
                 val lat  = listGeocoder[0].latitude
                 val lng = listGeocoder[0].longitude
@@ -132,32 +113,27 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 val finalMarker = mMap.addMarker(tempMarker)
                 finalMarker.tag = housing.housing.ref
 
-                this.mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-
-                    override fun onMarkerClick(p0: Marker?): Boolean {
-                        if (p0 != null)
-                        {
-                            p0.showInfoWindow()
-                            return true
-                        }
-                        else return false
-                    }
-                })
+                this.mMap.setOnMarkerClickListener { p0 ->
+                    if (p0 != null) {
+                        p0.showInfoWindow()
+                        true
+                    } else false
+                }
 
                 this.mMap.setOnInfoWindowClickListener {
 
                     if (it.tag != null)
                     {
-                        if (!this.getIsTabletFromSharedPreferences())
+                        if (this.getIsTabletFromSharedPreferences() && (activity as MainActivity).isLandMode())
+                        {
+                            val detailFragment = (activity as MainActivity).getDetailFragment()
+                            detailFragment?.updateRef(it.tag.toString(), requireContext())
+                        }
+                        else
                         {
                             val bundle = Bundle ()
                             bundle.putString(BUNDLE_REFERENCE, it.tag.toString())
                             findNavController().navigate(R.id.detailFragment, bundle)
-                        }
-                        else
-                        {
-                            val detailFragment = (activity as MainActivity).getDetailFragment()
-                            detailFragment?.updateRef(it.tag.toString(), requireContext())
                         }
                     }
                 }

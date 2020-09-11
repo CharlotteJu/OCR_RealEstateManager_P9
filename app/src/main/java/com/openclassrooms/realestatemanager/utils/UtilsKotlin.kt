@@ -1,34 +1,32 @@
 package com.openclassrooms.realestatemanager.utils
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.DatePickerDialog
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
-import android.location.Address
 import android.location.Geocoder
-import android.os.Build
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.net.toUri
+import androidx.documentfile.provider.DocumentFile
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.Photo
-import kotlinx.android.synthetic.main.item_photo_detail.view.*
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
+/**
+ * Class with a companion object
+ * Its method are used many times in the application
+ */
 class UtilsKotlin
 {
 
     companion object
     {
+        /**
+         * Convert an Address String in a LatLng String
+         */
         fun getGeocoderAddress(address: String, context: Context?): String? {
             return try
             {
@@ -43,11 +41,17 @@ class UtilsKotlin
             }
         }
 
+        /**
+         * Return the Poi's list
+         */
         fun getListTypePoi(context: Context) : List<String>
         {
             return context.resources.getStringArray(R.array.type_poi).asList()
         }
 
+        /**
+         * Convert a String Date in a Long Date (TimeStamp)
+         */
         fun convertStringToLongDate(stringDate : String?) : Long?
         {
             return if (stringDate.equals("null") || stringDate == null) null
@@ -60,7 +64,16 @@ class UtilsKotlin
 
         }
 
-        fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView)
+        /**
+         * Display a photo with [Glide] in function of :
+         * @param isInternetAvailable : Boolean to know if Internet is Available
+         * If true, and if photo has an url_firebase, use it
+         * @param photo : Photo with uri and url_firebase
+         * @param itemView : View where the uri/url are charged
+         * @param imageView : ImageView exact
+         * @param context
+         */
+        fun displayPhoto(isInternetAvailable : Boolean, photo : Photo, itemView :View, imageView: ImageView, context: Context)
         {
             if (isInternetAvailable && photo.url_firebase != null)
             {
@@ -71,11 +84,28 @@ class UtilsKotlin
             }
             else
             {
-                Glide.with(itemView)
-                        .load(photo.uri)
-                        .apply(RequestOptions.centerCropTransform())
-                        .into(imageView)
+                if (isFileExists(context, photo.uri.toUri()))
+                {
+                    Glide.with(itemView)
+                            .load(photo.uri)
+                            .apply(RequestOptions.centerCropTransform())
+                            .into(imageView)
+                }
+                else
+                {
+                    imageView.setImageResource(R.drawable.ic_baseline_no_internet)
+                }
+
             }
+        }
+
+        /**
+         * Know if a photo.uri comes from this device
+         */
+        private fun isFileExists(context: Context, uri: Uri) : Boolean
+        {
+            val documentFile = DocumentFile.fromSingleUri(context, uri)
+            return documentFile?.exists() ?: false
         }
 
     }

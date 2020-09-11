@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +32,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * Abstract class using by [AddHousingFragment] and [EditHousingFragment]
+ */
 abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 {
     protected lateinit var housing : Housing
@@ -43,15 +45,14 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     protected var address : Address? = null
     protected var estateAgentList : MutableList<HousingEstateAgent> = ArrayList()
     private var photoUri : Uri? = null
-
     protected var photoList : MutableList<Photo> = ArrayList()
 
     protected val mViewModel : AddUpdateHousingViewModel by viewModel()
     protected lateinit var mView : View
     protected lateinit var mApiKey : String
     private lateinit var placesClient : PlacesClient
-
     protected var isInternetAvailable : Boolean = false
+    protected var isLoadingEdit = false
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -74,7 +75,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         mView = inflater.inflate(R.layout.fragment_add_housing, container, false)
         this.isInternetAvailable = Utils.isInternetAvailableGood(context)
         this.mAdapterEstateAgentRcv = ListEstateAgentAdapter(estateAgentList, this)
-        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this, this.isInternetAvailable)
+        this.mAdapterPhotoAddRcv = ListPhotoAddAdapter(photoList, this, this.isInternetAvailable, requireContext())
 
         this.getEstateAgentList()
         this.getAllInfo()
@@ -122,13 +123,12 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.getDescription()
         this.getPhotos()
         this.getEstateAgents()
-        this.getDateOfToday()
     }
 
     private fun getPrice()
     {
         this.mView.add_housing_fragment_price_editTxt.doAfterTextChanged {
-            if (it.toString().isNotEmpty())
+            if (it.toString().isNotEmpty() && it!!.toString() != STRING_EMPTY)
             {
                 if (currency== DOLLAR) this.housing.price = it.toString().toDouble()
                 else
@@ -146,7 +146,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
     private fun getInfoInsideHouse()
     {
         this.mView.add_housing_fragment_area_editTxt.doAfterTextChanged {
-            if(it.toString().isNotEmpty())
+            if(it.toString().isNotEmpty() && it!!.toString() != STRING_EMPTY)
             {
                 housing.area = it.toString().toDouble()
 
@@ -219,10 +219,11 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                     {
                         housing.state = item
                         enableFinalButton()
-                        if (item == getString(R.string.sold_out))
+                        if (item == getString(R.string.sold_out) && !isLoadingEdit)
                         {
                             getDatePickerDialog()
                         }
+                        isLoadingEdit = false
                     }
                 }
             }
@@ -312,9 +313,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             {
-                UtilsPermissions.checkCameraPermission(requireActivity())
-                UtilsPermissions.checkReadPermission(requireActivity())
-                UtilsPermissions.checkWritePermission(requireActivity())
+                UtilsPermissions.checkPhotosPermission(requireActivity())
                 getAlertDialogPhoto()
             }
             else getAlertDialogPhoto()
@@ -376,9 +375,7 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         this.mView.add_housing_fragment_photo_rcv.layoutManager = LinearLayoutManager(context)
     }
 
-    /**
-     * Just for ADD
-     */
+
     private fun enableFinalButton()
     {
         if (housing.type != STRING_EMPTY && housing.price != DOUBLE_00 && housing.area != DOUBLE_00 && housing.state!= STRING_EMPTY )
@@ -386,15 +383,13 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
             this.mView.add_housing_fragment_final_button.visibility = View.VISIBLE
             this.mView.add_housing_fragment_final_button.isEnabled = true
         }
+        else
+        {
+            this.mView.add_housing_fragment_final_button.visibility = View.GONE
+            this.mView.add_housing_fragment_final_button.isEnabled = false
+        }
     }
 
-    /**
-     * Just for ADD
-     */
-    private fun getDateOfToday()
-    {
-        housing.dateEntry = Utils.getTodayDateGood()
-    }
 
     protected fun configureSpinnerAdapter(res : Int) : ArrayAdapter<CharSequence>?
     {
@@ -433,17 +428,10 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
         val alertDialog : AlertDialog = dialogBuilder.show()
 
         dialogLayout.dialog_photo_gallery_button.setOnClickListener {
-           /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                UtilsPermissions.checkReadPermission(requireActivity())
-            }*/
             this.pickImageFromGallery()
             alertDialog.dismiss()
         }
         dialogLayout.dialog_photo_camera_button.setOnClickListener {
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                UtilsPermissions.checkCameraPermission(requireActivity())
-                UtilsPermissions.checkWritePermission(requireActivity())
-            }*/
             this.openCamera()
             alertDialog.dismiss()
         }

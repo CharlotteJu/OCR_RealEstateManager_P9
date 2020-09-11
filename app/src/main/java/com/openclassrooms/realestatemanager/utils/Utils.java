@@ -1,29 +1,19 @@
 package com.openclassrooms.realestatemanager.utils;
 
-import android.app.Activity;
-import android.app.DatePickerDialog;
+
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.widget.DatePicker;
-
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
 import static com.openclassrooms.realestatemanager.utils.ConstKt.DOLLAR;
-import static com.openclassrooms.realestatemanager.utils.ConstKt.ERROR_GEOCODER_ADDRESS;
+
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -42,16 +32,12 @@ public class Utils {
     }*/
 
     /**
-     * Conversion d'un prix dans le type Double (Dollars vers Euros) //T
+     * Conversion d'un prix dans le type Double (Dollars vers Euros)
      * @param dollars
      * @return
      */
     public static Double convertDollarToEuroDouble(double dollars)
     {
-       /* DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        double result = dollars * 0.812;
-        String resultString = decimalFormat.format(result);
-        return Double.valueOf(resultString);*/
         return (double) Math.round(dollars * 0.812);
     }
 
@@ -115,7 +101,8 @@ public class Utils {
      * @param context
      * @return
      */
-    /*public static Boolean isInternetAvailable(Context context){
+    /*public static Boolean isInternetAvailable(Context context)
+    {
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
     }*/
@@ -123,13 +110,10 @@ public class Utils {
     public static Boolean isInternetAvailableGood(Context context)
     {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M)
-        {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
-        }
-        else
-        {
+        } else {
             NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
             return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
         }

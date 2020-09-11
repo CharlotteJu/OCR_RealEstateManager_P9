@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/item_poi_icone"
@@ -15,14 +16,15 @@
         android:layout_marginStart="@dimen/item_poi_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/icon" />
 
     <TextView
         android:id="@+id/item_poi_description"
         android:layout_width="@dimen/constraint_width_0"
         android:layout_height="wrap_content"
         android:textSize="@dimen/item_poi_text_description_size"
-        android:text="description"
+        tools:text="description"
         android:layout_marginStart="@dimen/item_poi_margin"
         app:layout_constraintTop_toTopOf="@id/item_poi_icone"
         app:layout_constraintBottom_toBottomOf="@id/item_poi_icone"

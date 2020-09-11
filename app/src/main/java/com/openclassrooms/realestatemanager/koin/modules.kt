@@ -1,12 +1,10 @@
 package com.openclassrooms.realestatemanager.koin
 
-import com.openclassrooms.realestatemanager.daos.HousingDAO
 import com.openclassrooms.realestatemanager.database.AppDatabase
 import com.openclassrooms.realestatemanager.repositories.*
 import com.openclassrooms.realestatemanager.viewModels.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import kotlin.math.sign
 
 val appModule = module (override = true) {
 
@@ -29,8 +27,8 @@ val appModule = module (override = true) {
     single<PoiRepository>{PoiRepository(get())}
     single<PlacesPoiRepository>{PlacesPoiRepository()}
 
-    viewModel{AddEstateTypeViewModel(get(), get())}
-    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get(), get())}
+    viewModel{AddEstateAgentViewModel(get(), get())}
+    viewModel{AddUpdateHousingViewModel(get(), get(), get(), get(), get(), get(), get())}
     viewModel{DetailViewModel(get())}
     viewModel{ListHousingViewModel(get(), get(), get(), get(), get(), get())}
     viewModel { FilterViewModel (get(), get()) }
