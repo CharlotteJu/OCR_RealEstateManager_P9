@@ -23,8 +23,8 @@ interface GoogleApi
 
 
     @GET("place/nearbysearch/json?")
-    suspend fun getPoiCoroutine (@Query ("location") location : String,
-                                        @Query ("radius") radius : Int,
-                                        @Query ("key") key : String) : PlacesPoiPOJO
+    suspend fun getPoiFromPlaces (@Query ("location") location : String,
+                                  @Query ("radius") radius : Int,
+                                  @Query ("key") key : String) : PlacesPoiPOJO
 
 }

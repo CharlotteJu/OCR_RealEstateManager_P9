@@ -38,9 +38,9 @@ interface HousingDAO {
     @Transaction
     @Query("""
         SELECT DISTINCT(h.reference), h.type, h.area, h.price, h.rooms, h.bedrooms, h.bathrooms, 
-                        h.state, h.dateEntry, h.dateSale, h.lastUpdate, poi.poi_type, a.country, a.city, 
-                        ea.estate_agent_name, a.housing_reference, poi.housing_reference,
-                        ea.housing_reference, count(ph.housing_reference) cnt
+                        h.state, h.dateEntry, h.dateSale, h.lastUpdate, poi.poi_type, a.country,
+                        a.city, ea.estate_agent_name, a.housing_reference, poi.housing_reference,
+                        ea.housing_reference, COUNT(ph.housing_reference) cnt
         FROM housing h
         LEFT JOIN address a ON h.reference == a.housing_reference
         LEFT JOIN housing_poi poi ON h.reference == poi.housing_reference
@@ -61,30 +61,21 @@ interface HousingDAO {
         AND (:city IS NULL OR a.city LIKE lower(:city))
         AND (:country IS NULL OR a.country = :country)
         AND (:estateAgent IS NULL OR ea.estate_agent_name = :estateAgent)
-        GROUP BY h.reference
+        GROUP BY ph.housing_reference
         HAVING (:numberPhotos IS NULL OR cnt >= :numberPhotos)
         """)
-    fun getListCompleteHousingFilter(type : String? = null,
-                                     priceLower : Double? = 0.0,
+    fun getListCompleteHousingFilter(type : String? = null, priceLower : Double? = 0.0,
                                      priceHigher : Double? = Double.MAX_VALUE,
                                      areaLower : Double? = 0.0,
                                      areaHigher : Double? = Double.MAX_VALUE,
-                                     roomLower : Int? = 0,
-                                     roomHigher : Int? = Int.MAX_VALUE,
-                                     bedRoomLower : Int? = 0,
-                                     bedRoomHigher : Int? = Int.MAX_VALUE,
-                                     bathRoomLower : Int? = 0,
-                                     bathRoomHigher : Int? = Int.MAX_VALUE,
-                                     state : String? = null,
-                                     dateEntry : Long? = null,
-                                     dateSale : Long? = null,
-                                     city : String? = null,
-                                     country : String? = null,
-                                     typePoi : String? = null,
-                                     estateAgent : String? = null,
-                                     numberPhotos : Int? = null): LiveData<List<CompleteHousing>>
-
-
+                                     roomLower : Int? = 0, roomHigher : Int? = Int.MAX_VALUE,
+                                     bedRoomLower : Int? = 0, bedRoomHigher : Int? = Int.MAX_VALUE,
+                                     bathRoomLower : Int? = 0, bathRoomHigher : Int? = Int.MAX_VALUE,
+                                     state : String? = null, dateEntry : Long? = null,
+                                     dateSale : Long? = null, city : String? = null,
+                                     country : String? = null, typePoi : String? = null,
+                                     estateAgent : String? = null, numberPhotos : Int? = null)
+                                     : LiveData<List<CompleteHousing>>
 
     //CURSOR
 

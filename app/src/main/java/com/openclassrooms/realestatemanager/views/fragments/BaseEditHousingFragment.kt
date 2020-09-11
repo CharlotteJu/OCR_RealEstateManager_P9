@@ -452,7 +452,6 @@ abstract class BaseEditHousingFragment : BaseFragment(), OnItemClickEdit
                 }
             } else if (requestCode == IMAGE_PICK_CAMERA_CODE) {
                 context?.let {
-                    photoUri = data?.data
                     Glide.with(it)
                             .load(photoUri)
                             .apply(RequestOptions.centerCropTransform())

@@ -18,6 +18,7 @@
             android:layout_width="@dimen/item_housing_image_width_size"
             android:layout_height="@dimen/item_housing_image_height_size"
             android:src="@color/colorPrimary"
+            android:layout_marginStart="@dimen/item_housing_marginStart"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:contentDescription="@string/photo" />

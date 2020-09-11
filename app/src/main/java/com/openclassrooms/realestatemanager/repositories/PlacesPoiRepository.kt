@@ -13,7 +13,7 @@ class PlacesPoiRepository
 
         val placesApi = GoogleApi.retrofit.create(GoogleApi::class.java)
 
-        return placesApi.getPoiCoroutine(location, radius, key)
+        return placesApi.getPoiFromPlaces(location, radius, key)
     }
 
 

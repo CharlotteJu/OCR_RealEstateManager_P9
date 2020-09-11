@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: "kotlin-kapt"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
 
 android {
     useLibrary 'android.test.mock'
@@ -116,6 +117,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
+
+    //Crashlytic
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:17.2.1'
 
 
     testImplementation 'junit:junit:4.13'

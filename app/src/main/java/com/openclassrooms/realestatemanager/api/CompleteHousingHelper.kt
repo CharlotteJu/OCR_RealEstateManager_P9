@@ -45,7 +45,8 @@ class CompleteHousingHelper
 
         suspend fun pushPhotoOnFirebaseStorage(photo: Photo) : UploadTask.TaskSnapshot?
         {
-            return try {
+            return try
+            {
                 val ref = FirebaseStorage.getInstance().getReference(FIREBASE_STORAGE_REF)
                 return ref.child(photo.uri).putFile(photo.uri.toUri()).await()
             }
@@ -55,8 +56,7 @@ class CompleteHousingHelper
             }
         }
 
-        fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void>
-        {
+        fun createCompleteHousingInFirestore(completeHousing: CompleteHousing) : Task<Void> {
             return this.getCollectionFirestore().document(completeHousing.housing.ref).set(completeHousing)
         }
 

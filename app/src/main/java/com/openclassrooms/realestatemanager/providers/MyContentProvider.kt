@@ -21,6 +21,17 @@ class MyContentProvider : ContentProvider() {
         val uri: Uri = Uri.parse("content://$authority/$tableName")
     }
 
+    override fun query(uri: Uri, projection: Array<out String>?, selection: String?,
+                       selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
+        return if (context != null)
+        {
+            val cursor = AppDatabase.getDatabase(context!!).housingDao().getAllHousingWithCursor()
+            cursor.setNotificationUri(context!!.contentResolver, uri)
+            cursor
+        }
+        else null
+    }
+
     override fun insert(uri: Uri, values: ContentValues?): Uri? = runBlocking {
 
        if (context != null)
@@ -33,16 +44,6 @@ class MyContentProvider : ContentProvider() {
            }
        }
        throw IllegalArgumentException("Failed to insert uri : $uri")
-    }
-
-    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor? {
-        return if (context != null)
-        {
-            val cursor = AppDatabase.getDatabase(context!!).housingDao().getAllHousingWithCursor()
-            cursor.setNotificationUri(context!!.contentResolver, uri)
-            cursor
-        }
-        else null
     }
 
     override fun onCreate(): Boolean {

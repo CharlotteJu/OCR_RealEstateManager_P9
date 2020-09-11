@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.views.activities
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -39,9 +40,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         this.configureNavigationView()
         this.configureNavigationController()
         this.configureTabMode()
-
-        //if (isTablet) showDetailFragment(50f)
     }
+
+
 
     private fun configureToolbar()
     {
@@ -94,6 +95,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
     }
+
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

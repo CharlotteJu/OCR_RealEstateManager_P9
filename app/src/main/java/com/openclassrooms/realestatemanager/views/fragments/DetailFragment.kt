@@ -265,9 +265,8 @@ class DetailFragment : BaseFragment() {
     private fun buildUrlStaticMap(location : String) : String
     {
         val key = getString(R.string.google_api_key_project)
-
-        return "https://maps.googleapis.com/maps/api/staticmap?&center=$location&zoom=$ZOOM_STATIC_MAP&size=$SIZE_STATIC_MAP&markers=color:red|$location&key=$key"
-
+        return "https://maps.googleapis.com/maps/api/staticmap?&center=$location" +
+                "&zoom=$ZOOM_STATIC_MAP&size=$SIZE_STATIC_MAP&markers=color:red|$location&key=$key"
     }
 
 }

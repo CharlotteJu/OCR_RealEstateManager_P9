@@ -73,16 +73,13 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
         return view
     }
 
-    override fun onMapReady(p0: GoogleMap?)
-    {
+    override fun onMapReady(p0: GoogleMap?) {
         if (p0 != null) mMap = p0
-        if (mCurrentLocation != null)
-        {
+        if (mCurrentLocation != null) {
             mMap.apply {
                 val marker = LatLng(mCurrentLocation!!.latitude, mCurrentLocation!!.longitude)
                 addMarker(MarkerOptions().position(marker))
                 moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 15f))
-
             }
         }
     }
@@ -116,15 +113,12 @@ class MapFragment : BaseFragment(), OnMapReadyCallback {
                 val finalMarker = mMap.addMarker(tempMarker)
                 finalMarker.tag = housing.housing.ref
 
-                this.mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-
-                    override fun onMarkerClick(p0: Marker?): Boolean {
-                        return if (p0 != null) {
-                            p0.showInfoWindow()
-                            true
-                        } else false
-                    }
-                })
+                this.mMap.setOnMarkerClickListener { p0 ->
+                    if (p0 != null) {
+                        p0.showInfoWindow()
+                        true
+                    } else false
+                }
 
                 this.mMap.setOnInfoWindowClickListener {
 

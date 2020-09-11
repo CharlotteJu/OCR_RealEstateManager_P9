@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 public class UtilsTest
 {
     @Test
-    public void convertDollarToEuroDouble_Success()
-    {
+    public void convertDollarToEuroDouble_Success() {
         assertEquals(0.00, Utils.convertDollarToEuroDouble(0), 0.01);
         assertEquals(81, Utils.convertDollarToEuroDouble(100), 0.01);
         assertEquals(-81, Utils.convertDollarToEuroDouble(-100), 0.01);
     }
+
     @Test
     public void convertEuroToDollarDouble_Success()
     {
@@ -36,6 +36,7 @@ public class UtilsTest
         assertEquals(100, Utils.convertEuroToDollarDouble(81), 0.01);
         assertEquals(-100, Utils.convertEuroToDollarDouble(-81), 0.01);
     }
+
     @Test
     public void getPriceString_Success()
     {
@@ -46,14 +47,15 @@ public class UtilsTest
         assertEquals("0.0€", Utils.getPriceString(euro, 0));
 
     }
+
     @Test
     public void getDateFormat_Success()
     {
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
-        assertEquals("07/09/2020", Utils.getDateFormat(date)); //Think to change with the date of today
+        //Think to change with the date of today
+        assertEquals("07/09/2020", Utils.getDateFormat(date));
     }
-
 
    @Test
     public void isInternetAvailableGood_Success()

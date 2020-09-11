@@ -67,5 +67,4 @@ class HousingRepository(private val housingDao : HousingDAO)
                bathRoomLower, bathRoomHigher, state, dateEntry,
                dateSale, city, country, typePoi, estateAgent, numberPhotos)
     }
-
 }

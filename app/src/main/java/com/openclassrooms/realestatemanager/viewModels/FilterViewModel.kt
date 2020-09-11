@@ -41,5 +41,4 @@ class FilterViewModel (private val housingRepository: HousingRepository,
                 dateSale, city, country, typePoi, numberPhotos, estateAgent)
     }
 
-
 }
