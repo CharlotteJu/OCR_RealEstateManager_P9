@@ -101,24 +101,21 @@ public class Utils {
      * @param context
      * @return
      */
-    public static Boolean isInternetAvailable(Context context)
+    /*public static Boolean isInternetAvailable(Context context)
     {
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
-    }
+    }*/
 
     public static Boolean isInternetAvailableGood(Context context)
     {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             return networkInfo != null && networkInfo.isConnectedOrConnecting();
         } else {
-            NetworkCapabilities capabilities = connectivityManager
-                    .getNetworkCapabilities(connectivityManager.getActiveNetwork());
-            return capabilities != null &&
-                    capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+            NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
         }
     }
 
