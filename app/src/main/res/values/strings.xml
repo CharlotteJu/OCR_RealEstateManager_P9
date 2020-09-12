@@ -41,6 +41,10 @@
     <string name="description">DESCRIPTION</string>
     <string name="not_specify">Not specify</string>
     <string name="photos">PHOTOS</string>
+    <string name="type_star">TYPE *</string>
+    <string name="area_star">AREA *</string>
+    <string name="price_star">PRICE *</string>
+    <string name="state_star">STATE *</string>
 
     <!-- Add Estate Housing Fragment -->
     <string name="last_name">LAST NAME</string>
@@ -126,7 +130,8 @@
     <string name="photo">Photo</string>
     <string name="icon">Icon</string>
     <string name="logo">Logo</string>
-    <string name="area_m2">AREA : M2</string>
+    <string name="area_m2_mandatory">AREA : M2 (mandatory)</string>
+    <string name="price_mandatory">PRICE (mandatory)</string>
 
 
 </resources>

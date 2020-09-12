@@ -26,7 +26,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
         this.configureSpinners()
         this.mView.add_housing_fragment_final_button.setOnClickListener{
             this.addFinal()
-            this.findNavController().navigate(R.id.listFragment)
+            //this.findNavController().navigate(R.id.listFragment)
         }
         return mView
     }
@@ -42,7 +42,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
 
         context?.let {
             housing.lastUpdate = Utils.getTodayDateGood()
-            this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
+            this.mViewModel.createGlobalHousing(housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable, this.findNavController())
         }
 
     }

@@ -66,14 +66,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 for (eFirestore in listFirestore) {
                     if (listRoom.isNullOrEmpty()  || !listRoom.contains(eFirestore)) {
                         createEstateAgentInRoom(eFirestore)
-                    } /*else {
-                        val index = listRoom.indexOf(eFirestore)
-                        if (listRoom[index].lastUpdateEstate > eFirestore.lastUpdateEstate) {
-                            createEstateAgentInFirebase(listRoom[index])
-                        } else if (listRoom[index].lastUpdateEstate < eFirestore.lastUpdateEstate) {
-                            createEstateAgentInRoom(eFirestore)
-                        }
-                    }*/
+                    }
                 }
 
             }
@@ -116,14 +109,7 @@ class ListHousingViewModel(private val housingRepository: HousingRepository,
                 for (hFirestore in listFirestore) {
                     if (listRoom.isNullOrEmpty()  || !listRoom.contains(hFirestore)) {
                         createCompleteHousingOnRoom(hFirestore)
-                    } /*else {
-                        val index = listRoom.indexOf(hFirestore)
-                        if (listRoom[index].housing.lastUpdate > hFirestore.housing.lastUpdate) {
-                            createCompleteHousingOnFirestore(listRoom[index])
-                        } else if (listRoom[index].housing.lastUpdate < hFirestore.housing.lastUpdate) {
-                            createCompleteHousingOnRoom(hFirestore)
-                        }
-                    }*/
+                    }
                 }
 
             }
