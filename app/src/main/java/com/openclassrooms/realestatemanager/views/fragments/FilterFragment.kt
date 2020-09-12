@@ -86,9 +86,28 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
                 roomLower, roomHigher, bedRoomLower, bedRoomHigher, bathRoomLower, bathRoomHigher,
                 state, dateEntry, dateSale, city, country, typePoi, numberPhotos, estateAgent)
                 .observe(viewLifecycleOwner, Observer {
-                   listFilter = it as ArrayList<CompleteHousing>
-                    configRecyclerView(it)
+                    if (numberPhotos != null)
+                    {
+                        filterNbPhotos(it)
+                    }
+                    else
+                    {
+                        listFilter = it as ArrayList<CompleteHousing>
+                    }
+                    configRecyclerView(listFilter)
                 })
+    }
+
+    private fun filterNbPhotos(list : List<CompleteHousing>)
+    {
+        listFilter.clear()
+        for (housing in list)
+        {
+            if (housing.photoList != null && housing.photoList!!.size >= this.numberPhotos!!)
+            {
+                listFilter.add(housing)
+            }
+        }
     }
 
     private fun configRecyclerView(housingList : List<CompleteHousing>)

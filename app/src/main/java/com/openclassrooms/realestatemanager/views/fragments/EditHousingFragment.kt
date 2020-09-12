@@ -47,7 +47,6 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.mView.add_housing_fragment_final_button.setImageResource(R.drawable.ic_baseline_save_24)
         this.mView.add_housing_fragment_final_button.setOnClickListener {
             this.updateFinal()
-            this.findNavController().navigate(R.id.listFragment)
         }
         return mView
     }
@@ -60,7 +59,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
         this.checkAddress()
         context?.let {
             housing.lastUpdate = Utils.getTodayDateGood()
-            this.mViewModel.updateGlobalHousing(housingToCompare, housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable)
+            this.mViewModel.updateGlobalHousing(housingToCompare, housing, address, photoList, estateAgentList, it, mApiKey, isInternetAvailable, this.findNavController())
         }
     }
 

@@ -22,7 +22,7 @@
             <TextView
                 android:id="@+id/add_housing_fragment_type_title"
                 style="@style/add_housing_title"
-                android:text="@string/spinners_type"
+                android:text="@string/type_star"
                 android:layout_marginStart="@dimen/add_housing_fragment_text_margin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -42,7 +42,7 @@
             <TextView
                 android:id="@+id/add_housing_fragment_price_title"
                 style="@style/add_housing_title"
-                android:text="@string/price"
+                android:text="@string/price_star"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_type_title"/>
 
@@ -54,15 +54,15 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_price_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_price_title"
-                android:hint="@string/price"
-                android:autofillHints="@string/price"/>
+                android:hint="@string/price_mandatory"
+                android:autofillHints="@string/price_mandatory"/>
 
             <!-- STATE -->
 
             <TextView
                 android:id="@+id/add_housing_fragment_state_title"
                 style="@style/add_housing_title"
-                android:text="@string/spinners_state"
+                android:text="@string/state_star"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_price_title"/>
 
@@ -79,7 +79,7 @@
             <TextView
                 android:id="@+id/add_housing_fragment_area_title"
                 style="@style/add_housing_title"
-                android:text="@string/area"
+                android:text="@string/area_star"
                 app:layout_constraintStart_toStartOf="@id/add_housing_fragment_type_title"
                 app:layout_constraintTop_toBottomOf="@id/add_housing_fragment_state_title"/>
 
@@ -91,8 +91,8 @@
                 app:layout_constraintEnd_toEndOf="@id/add_housing_fragment_type_spinner"
                 app:layout_constraintTop_toTopOf="@id/add_housing_fragment_area_title"
                 app:layout_constraintBottom_toBottomOf="@id/add_housing_fragment_area_title"
-                android:hint="@string/area_m2"
-                android:autofillHints="@string/area_m2"/>
+                android:hint="@string/area_m2_mandatory"
+                android:autofillHints="@string/area_m2_mandatory"/>
 
             <!-- NUMBER ROOMS -->
 
@@ -376,7 +376,6 @@
         android:layout_margin="@dimen/add_housing_fragment_text_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
 
      <include
         layout="@layout/progress_bar"/>

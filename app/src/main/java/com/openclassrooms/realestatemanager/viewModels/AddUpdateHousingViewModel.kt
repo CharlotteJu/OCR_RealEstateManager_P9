@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.models.*
 import com.openclassrooms.realestatemanager.notifications.NotificationWorker
 import com.openclassrooms.realestatemanager.repositories.*
@@ -38,7 +40,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     /**
      * Final method to create a CompleteHousing in RoomDatabase
      */
-    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean )
+    fun createGlobalHousing (housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean, navController: NavController)
     {
         viewModelScope.launch  (Dispatchers.IO)
         {
@@ -55,7 +57,9 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
             withContext(Dispatchers.Main) {
                 val sharedPreferencesNotification = context.getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
                 val isNotification = sharedPreferencesNotification.getBoolean(NOTIFICATION_TAG, true)
-                if (isNotification) NotificationWorker.showNotification(context)}
+                if (isNotification) NotificationWorker.showNotification(context)
+                navController.navigate(R.id.listFragment)
+            }
         }
 
     }
@@ -138,18 +142,24 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
     /**
      * Final method to update a CompleteHousing in RoomDatabase
      */
-    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean)
+    fun updateGlobalHousing (completeHousing: CompleteHousing, housing: Housing, address: Address?, photoList: List<Photo>?, estateAgentList: List<HousingEstateAgent>?, context: Context, key : String, isInternetAvailable : Boolean, navController: NavController)
     {
         viewModelScope.launch (Dispatchers.IO)
         {
 
-            if (housing.ref == completeHousing.housing.ref)
-            {
-                housing.lastUpdate = Utils.getTodayDateGood()
-                updateHousing(housing)
-                updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
-                updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
-                updateAllPhoto(photoList, completeHousing)
+            val thread =  viewModelScope.async {
+                if (housing.ref == completeHousing.housing.ref) {
+                    housing.lastUpdate = Utils.getTodayDateGood()
+                    updateHousing(housing)
+                    updateGlobalAddress(address, completeHousing, context, housing.ref, isInternetAvailable, key)
+                    updateAllEstateHousingEstateAgent(estateAgentList, completeHousing)
+                    updateAllPhoto(photoList, completeHousing)
+                }
+            }
+            thread.await()
+
+            withContext(Dispatchers.Main) {
+                navController.navigate(R.id.listFragment)
             }
         }
     }
