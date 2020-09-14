@@ -37,6 +37,7 @@ class AddHousingFragment : BaseEditHousingFragment() {
      */
     private fun addFinal()
     {
+        this.closeKeyboard(requireContext(), mView)
         this.checkAddress()
         housing.dateEntry = Utils.getTodayDateGood()
 

@@ -266,7 +266,7 @@ class AddUpdateHousingViewModel(private val housingRepository: HousingRepository
         }
         else if (photoList == null && completeHousing.photoList != null)
         {
-            for (photo in completeHousing.photoList!!) //TODO-Q : Pourquoi besoin de l'assert ici et pas en dessous ?
+            for (photo in completeHousing.photoList!!)
             {
                 deletePhoto(photo)
             }

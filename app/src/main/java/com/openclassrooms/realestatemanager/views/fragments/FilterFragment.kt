@@ -76,6 +76,8 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
 
     private fun launchSearch()
     {
+        this.closeKeyboard(requireContext(), mView)
+
         if (currency == EURO)
         {
             if (priceLower != null) priceLower = Utils.convertDollarToEuroDouble(priceLower!!)
@@ -204,6 +206,11 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
                 areaLower = slider.values[0].toDouble()
                 areaHigher = slider.values[1].toDouble()
             }
+            else
+            {
+                areaLower = null
+                areaHigher = null
+            }
         }
 
         this.mView.fragment_filter_rooms_slider.addOnChangeListener { slider, _, _ ->
@@ -214,6 +221,11 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
             {
                 roomLower = slider.values[0].toInt()
                 roomHigher = slider.values[1].toInt()
+            }
+            else
+            {
+                roomLower = null
+                roomHigher = null
             }
         }
 
@@ -226,6 +238,11 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
                 bedRoomLower = slider.values[0].toInt()
                 bedRoomHigher = slider.values[1].toInt()
             }
+            else
+            {
+                bedRoomLower = null
+                bedRoomHigher = null
+            }
         }
 
         this.mView.fragment_filter_bathrooms_slider.addOnChangeListener { slider, _, _ ->
@@ -236,6 +253,11 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
             {
                 bathRoomLower = slider.values[0].toInt()
                 bathRoomHigher = slider.values[1].toInt()
+            }
+            else
+            {
+                bathRoomLower = null
+                bathRoomLower = null
             }
         }
 
@@ -282,7 +304,7 @@ class FilterFragment : BaseFragment(), OnItemClickListener {
     private fun getAddress()
     {
         this.mView.fragment_filter_city_editTxt.doAfterTextChanged {
-            city = if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) it.toString() //TODO : Verif si pas ET
+            city = if (it.toString().isNotEmpty() || it.toString() != STRING_EMPTY) it.toString()
             else null
         }
 
