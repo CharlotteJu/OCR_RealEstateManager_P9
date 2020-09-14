@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.collections.ArrayList
 
 
-class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAdapter.OnClickEditEstateAgent {
+class AddEstateAgentFragment : BaseFragment(), OnItemClickEdit, ListEstateAgentAddAdapter.OnClickEditEstateAgent {
 
     private lateinit var mView: View
     private lateinit var mAdapter: ListEstateAgentAddAdapter
@@ -43,7 +43,9 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
         this.getInfo()
         this.configureRecyclerView()
 
-        this.mView.add_estate_agent_add_fab.setOnClickListener { this.addEstateAgent()}
+        this.mView.add_estate_agent_add_fab.setOnClickListener {
+            this.addEstateAgent()
+        }
 
         return this.mView
     }
@@ -102,6 +104,7 @@ class AddEstateAgentFragment : Fragment(), OnItemClickEdit, ListEstateAgentAddAd
      */
     private fun resetViews()
     {
+        this.closeKeyboard(requireContext(), mView)
         this.mView.add_estate_agent_last_name_edit_txt.setText(STRING_EMPTY)
         this.mView.add_estate_agent_first_name_edit_txt.setText(STRING_EMPTY)
         this.mView.add_estate_agent_email_edit_txt.setText(STRING_EMPTY)

@@ -46,14 +46,17 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun getSharedPreferences() {
+    private fun getSharedPreferences()
+    {
         val sharedPreferencesCurrency = requireContext().
-        getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                    getSharedPreferences(CURRENCY_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         currency = sharedPreferencesCurrency.getString(CURRENCY_TAG, DOLLAR).toString()
+
         if (currency== DOLLAR) this.mView.settings_fragment_dollar_radio_button.isChecked = true
         else this.mView.settings_fragment_euro_radio_button.isChecked = true
+
         val sharedPreferencesNotification = requireContext().
-        getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
+                    getSharedPreferences(NOTIFICATION_SHARED_PREFERENCES, Context.MODE_PRIVATE)
         isNotification = sharedPreferencesNotification.getBoolean(NOTIFICATION_TAG, true)
         this.mView.settings_fragment_notifications_switch.isChecked = isNotification
     }

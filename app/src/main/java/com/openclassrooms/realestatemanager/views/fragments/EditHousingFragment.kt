@@ -56,6 +56,7 @@ class EditHousingFragment : BaseEditHousingFragment() {
      */
     private fun updateFinal()
     {
+        this.closeKeyboard(requireContext(), mView)
         this.checkAddress()
         context?.let {
             housing.lastUpdate = Utils.getTodayDateGood()
