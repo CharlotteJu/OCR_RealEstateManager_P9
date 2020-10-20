@@ -27,9 +27,9 @@ public class Utils {
      * @param dollars
      * @return
      */
-    /*public static int convertDollarToEuro(int dollars){
+    public static int convertDollarToEuro(int dollars){
         return (int) Math.round(dollars * 0.812);
-    }*/
+    }
 
     /**
      * Conversion d'un prix dans le type Double (Dollars vers Euros)
@@ -47,9 +47,9 @@ public class Utils {
      * @param euros
      * @return
      */
-    /*public static int convertEuroToDollar(int euros){
+    public static int convertEuroToDollar(int euros){
         return (int) Math.round(euros / 0.812);
-    }*/
+    }
 
     /**
      *  Conversion d'un prix dans le type Double (Euros vers Dollars)
@@ -74,15 +74,18 @@ public class Utils {
         }
     }
 
+
+
+
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
-    /*public static String getTodayDate(){
+    public static String getTodayDate(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         return dateFormat.format(new Date());
-    }*/
+    }
 
     public static Long getTodayDateGood()
     {
@@ -95,17 +98,20 @@ public class Utils {
         return dateFormat.format(date);
     }
 
+
+
+
     /**
      * Vérification de la connexion réseau
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @param context
      * @return
      */
-    /*public static Boolean isInternetAvailable(Context context)
+    public static Boolean isInternetAvailable(Context context)
     {
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         return wifi.isWifiEnabled();
-    }*/
+    }
 
     public static Boolean isInternetAvailableGood(Context context)
     {

@@ -54,7 +54,7 @@ public class UtilsTest
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         //Think to change with the date of today
-        assertEquals("07/09/2020", Utils.getDateFormat(date));
+        assertEquals("16/09/2020", Utils.getDateFormat(date));
     }
 
    @Test
