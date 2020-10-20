@@ -7,3 +7,6 @@
 /captures
 .externalNativeBuild
 gradle.properties
+/ResultTests
+KeyPath 3
+KeyPath 3.jks
